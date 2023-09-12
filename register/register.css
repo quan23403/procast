@@ -1,0 +1,106 @@
+@import url("https://fonts.googleapis.com/css2?fmaily=Poppins:wght@300;400;500;600;700;800;900&display=swap");
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 95vh;
+    background: url('../images/spi.jpeg') no-repeat;
+    background-size: auto;
+    background-position: auto;
+}
+
+.register {
+    width: 420px;
+    background: transparent;
+    color: #504c4c;
+    border-radius: 10px;
+    padding: 50px 40px;
+}
+
+.register h1 {
+    font-size: 36px;
+    text-align: center;
+}
+
+.register .input-box {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    background: transparent;
+    margin: 20px 0;
+}
+
+.input-box input {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    border: 2px solid rgba(6, 6, 6, 0.1);
+    border-radius: 40px;
+    font-size: 16px;
+    color: black;
+    padding: 20px 45px 20px 20px;
+}
+
+.input-box input::placeholder {
+    color: rgb(145, 137, 137);
+}
+
+.input-box i {
+    position: absolute;
+    right: 20px;
+    top: 47%;
+    transform: translateY(-50%);
+    font-size: 20px;
+}
+
+
+.input-box input::ant-picker-suffix {
+    display: flex;
+    flex: none;
+    align-self: center;
+    margin-inline-start: 4px;
+    color: rgba(0, 0, 0, 0.25);
+    line-height: 1;
+    pointer-events: none;
+}
+
+
+.register .btn {
+    width: 100%;
+    height: 45px;
+    background: black;
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+    cursor: pointer;
+    font-size: 16px;
+    color: #fff;
+    font-weight: 500;
+}
+
+.register .get-help {
+    font-size: 14.5px;
+    text-align: center;
+    margin: 20px 0 15px;
+}
+
+.get-help a {
+    color: black;
+    text-decoration: none;
+    font-weight: 400;
+}
+
+.get-help a:hover {
+    text-decoration: underline;
+}
