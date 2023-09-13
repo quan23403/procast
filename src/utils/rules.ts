@@ -1,5 +1,5 @@
 import type { RegisterOptions, UseFormGetValues } from 'react-hook-form'
-type Rules = { [key in 'email' | 'password' | 'confirm_password']?: RegisterOptions }
+type Rules = { [key in 'email' | 'password' | 'confirm_password' | 'username']?: RegisterOptions }
 export const getRules = (getValues?: UseFormGetValues<any>): Rules => ({
   email: {
     required: {
@@ -33,6 +33,16 @@ export const getRules = (getValues?: UseFormGetValues<any>): Rules => ({
       message: 'number of characters: 6-160'
     }
   },
+  username: {
+    required: {
+      value: true,
+      message: 'username required'
+    },
+    maxLength: {
+      value: 160,
+      message: 'number of characters: 0-160'
+    }
+  },
   confirm_password: {
     required: {
       value: true,
@@ -48,7 +58,7 @@ export const getRules = (getValues?: UseFormGetValues<any>): Rules => ({
     },
     validate:
       typeof getValues === 'function'
-        ? (value) => value === getValues('password') || 'password don not match'
+        ? (value) => value === getValues('password') || 'password do not match'
         : undefined
   }
 })
