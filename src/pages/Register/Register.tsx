@@ -4,6 +4,9 @@ import { getRules } from '~/utils/rules'
 import DatePicker from 'react-datepicker'
 import { useState } from 'react'
 import 'react-datepicker/dist/react-datepicker.css'
+import { useMutation } from '@tanstack/react-query'
+import { resgisterAccount } from '~/apis/auth.api'
+import { omit } from 'lodash'
 interface FormData {
   email: string
   password: string
@@ -18,14 +21,22 @@ export default function Register() {
     formState: { errors }
   } = useForm<FormData>()
   const rules = getRules(getValues)
-  const onSubmit = handleSubmit((data) => {
-    console.log(data)
-  })
-  // const [startDate, setStartDate] = useState(new Date())
+
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
   const handleDateChange = (date: Date | null) => {
     setSelectedDate(date)
   }
+  const registerAccountMutation = useMutation({
+    mutationFn: (body: Omit<FormData, 'confirm_password'>) => resgisterAccount(body)
+  })
+  const onSubmit = handleSubmit((data) => {
+    const body = omit(data, ['confirm_passwod'])
+    registerAccountMutation.mutate(body, {
+      onSuccess: (data) => {
+        console.log(data)
+      }
+    })
+  })
   return (
     <div>
       <div className='flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0'>
