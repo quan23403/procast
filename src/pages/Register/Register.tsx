@@ -30,7 +30,7 @@ export default function Register() {
     mutationFn: (body: Omit<FormData, 'confirm_password'>) => resgisterAccount(body)
   })
   const onSubmit = handleSubmit((data) => {
-    const body = omit(data, ['confirm_passwod'])
+    const body = omit(data, ['confirm_password'])
     registerAccountMutation.mutate(body, {
       onSuccess: (data) => {
         console.log(data)
