@@ -1,15 +1,19 @@
 import { useMutation } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { login } from '~/apis/auth.api'
+import { AppConxtext } from '~/contexts/app.context'
 import { ResponseApi } from '~/types/utils.type'
 import { getRules } from '~/utils/rules'
 import { isAxiosUnprocessableEntity } from '~/utils/utils'
+import { useContext } from 'react'
 interface FormData {
   email: string
   password: string
 }
 export default function Login() {
+  const { setIsAuthenticated } = useContext(AppConxtext)
+  const navigate = useNavigate()
   const {
     register,
     handleSubmit,
@@ -21,10 +25,12 @@ export default function Login() {
   const loginMutation = useMutation({
     mutationFn: (body: FormData) => login(body)
   })
-  const onSubmit = handleSubmit((data) => {
+  const onSubmit = handleSubmit((data: FormData) => {
     console.log(data)
     loginMutation.mutate(data, {
       onSuccess: (data) => {
+        setIsAuthenticated(true)
+        navigate('/')
         console.log(data)
       },
       onError: (error) => {
@@ -57,14 +63,6 @@ export default function Login() {
                 <label htmlFor='email' className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'>
                   Your account
                 </label>
-                {/* <input
-                  type='email'
-                  name='email'
-                  id='email'
-                  className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-                  placeholder='youremail@gmail.com'
-                  required
-                /> */}
                 <input
                   type='email'
                   id='email'
@@ -78,15 +76,6 @@ export default function Login() {
                 <label htmlFor='password' className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'>
                   Password
                 </label>
-                {/* <input
-                  type='password'
-                  name='password'
-                  id='password'
-                  placeholder='••••••••'
-                  className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-                  autoComplete='on'
-                  required
-                /> */}
                 <input
                   type='password'
                   id='password'
