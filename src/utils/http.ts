@@ -1,11 +1,12 @@
 import axios, { AxiosError, type AxiosInstance } from 'axios'
 import HttpStatusCode from '~/constants/httpStatusCode.enum'
 import { toast } from 'react-toastify'
-import { clearAccessTokenFromLS, clearAccessTokenToLS, saveAccessTokenToLS } from './auth'
+import { clearAccessTokenFromLS, getAccessTokenFromLS, saveAccessTokenToLS } from './auth'
 class Http {
   instance: AxiosInstance
   private accessToken: string
   constructor() {
+    this.accessToken = getAccessTokenFromLS()
     this.instance = axios.create({
       baseURL: '',
       timeout: 10000,
@@ -17,7 +18,9 @@ class Http {
     this.instance.interceptors.request.use(
       (config) => {
         if (this.accessToken) {
-          config.headers.authorization = this.accessToken
+          config.headers.Authorization = this.accessToken
+          console.log(config)
+          return config
         }
         return config
       },

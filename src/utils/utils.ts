@@ -5,6 +5,6 @@ export function isAxiosError<T>(error: unknown): error is AxiosError<T> {
   return axios.isAxiosError(error)
 }
 
-export function isAxiosUnprocessableEntity(error: unknown) {
+export function isAxiosUnprocessableEntity<FormError>(error: unknown): error is AxiosError<FormError> {
   return isAxiosError(error) && error.response?.status === HttpStatusCode.UnprocessableEntity
 }

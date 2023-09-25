@@ -4,3 +4,5 @@ export const resgisterAccount = (body: { email: string; username: string; dateOf
   http.post<AuthResponse>('/register', body)
 
 export const login = (body: { email: string; password: string }) => http.post<AuthResponse>('/login', body)
+
+export const logout = () => http.post('/logout')

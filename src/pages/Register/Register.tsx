@@ -1,5 +1,5 @@
 import { Controller, useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { getRules } from '~/utils/rules'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
@@ -8,6 +8,9 @@ import { resgisterAccount } from '~/apis/auth.api'
 import { omit } from 'lodash'
 import { isAxiosUnprocessableEntity } from '~/utils/utils'
 import { ResponseApi } from '~/types/utils.type'
+import { useContext } from 'react'
+import { AppConxtext } from '~/contexts/app.context'
+import Button from '~/components/Button'
 interface FormData {
   email: string
   username: string
@@ -16,6 +19,8 @@ interface FormData {
   confirm_password: string
 }
 export default function Register() {
+  const { setIsAuthenticated } = useContext(AppConxtext)
+  const navigate = useNavigate()
   const {
     register,
     handleSubmit,
@@ -34,6 +39,8 @@ export default function Register() {
     const body = omit(data, ['confirm_password'])
     registerAccountMutation.mutate(body, {
       onSuccess: (data) => {
+        setIsAuthenticated(true)
+        navigate('/')
         console.log(data)
       },
       onError: (error) => {
@@ -101,7 +108,7 @@ export default function Register() {
                     dateFormat='dd/MM/yyyy'
                     name='datepicker'
                     placeholderText='Date of birth'
-                    className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                    className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 w-full focus:border-primary-600 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
                     required
                   />
                 )}
@@ -154,12 +161,14 @@ export default function Register() {
                   Forgot password?
                 </a>
                 </div>     */}
-              <button
+              <Button
                 type='submit'
-                className='w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800'
+                className='w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 flex justify-center items-center '
+                isLoading={registerAccountMutation.isLoading}
+                disabled={registerAccountMutation.isLoading}
               >
                 Sign up
-              </button>
+              </Button>
               <p className='text-sm font-light text-gray-500 dark:text-gray-400'>
                 Already have an account? ?{' '}
                 <Link className='font-medium text-primary-600 hover:underline dark:text-primary-500' to='/login'>
