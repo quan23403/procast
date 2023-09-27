@@ -1,11 +1,12 @@
 import React from 'react';
 import CourseClass from './CourseClass';
+import './Schedule.css'; 
+import 'react-datepicker/dist/react-datepicker.min.css';
 
 export default function Calendar(props: { startDate: string | number | Date; endDate: string | number | Date; events: CourseClass[]; }) {
   // get start and end date
   const startDate = new Date(props.startDate);
   const endDate = new Date(props.endDate);
-  console.log(`${startDate.toDateString()} và ${endDate.toDateString()}`);
   const isStartMon = startDate.getDay() === 1;
   const isEndSun = endDate.getDay() === 0;
   
@@ -18,7 +19,6 @@ export default function Calendar(props: { startDate: string | number | Date; end
     endCalendar.setDate(endDate.getDate() + (7 - endDate.getDay()));
 
   const totalDays = (endCalendar.getTime() - startCalendar.getTime()) / (3600 * 1000 * 24) + 1 ;
-  console.log(`${startCalendar.toDateString()} và ${endCalendar.toDateString()} ra ${totalDays}`);
 
   // events list
   const events: CourseClass[] = props.events;
