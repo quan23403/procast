@@ -1,7 +1,10 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { useFloating, FloatingPortal } from '@floating-ui/react-dom-interactions'
+import { useMutation } from '@tanstack/react-query'
+import { logout } from '~/apis/auth.api'
+import { AppConxtext } from '~/contexts/app.context'
 export default function MainHeader() {
-  const { open, setOpen } = useState(true)
+  const [open, setOpen] = useState(true)
   const { x, y, reference, floating, strategy } = useFloating({
     open,
     onOpenChange: setOpen
@@ -13,6 +16,16 @@ export default function MainHeader() {
   const hidePopover = () => {
     setOpen(false)
     console.log(open)
+  }
+  const { setIsAuthenticated } = useContext(AppConxtext)
+  const logoutMutation = useMutation({
+    mutationFn: logout,
+    onSuccess: () => {
+      setIsAuthenticated(false)
+    }
+  })
+  const handleLogout = () => {
+    logoutMutation.mutate()
   }
   return (
     <div>
@@ -28,21 +41,12 @@ export default function MainHeader() {
             onMouseEnter={showPopover}
             onMouseLeave={hidePopover}
           >
-            <button
-              type='button'
-              className='flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600'
-              id='user-menu-button'
-              aria-expanded='false'
-              data-dropdown-toggle='user-dropdown'
-              data-dropdown-placement='bottom'
-            >
-              <span className='sr-only'>Open user menu</span>
-              <img
-                className='w-8 h-8 rounded-full'
-                src='https://scontent.fhan2-4.fna.fbcdn.net/v/t39.30808-6/284423813_524356292703123_8076039949760181028_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=a2f6c7&_nc_ohc=C6Y3chScY3AAX8ygwZn&_nc_ht=scontent.fhan2-4.fna&oh=00_AfDNrond-Dtr9oTbP3f34QBrtjLLHrioICRYeYpEOIZjPA&oe=651410B0'
-                alt='user photo'
-              />
-            </button>
+            <img
+              className='w-8 h-8 rounded-full'
+              src='https://scontent.fhan2-4.fna.fbcdn.net/v/t39.30808-6/284423813_524356292703123_8076039949760181028_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=a2f6c7&_nc_ohc=C6Y3chScY3AAX8ygwZn&_nc_ht=scontent.fhan2-4.fna&oh=00_AfDNrond-Dtr9oTbP3f34QBrtjLLHrioICRYeYpEOIZjPA&oe=651410B0'
+              alt='user photo'
+            />
+            {/* </button> */}
             <FloatingPortal>
               {/* Dropdown menu */}
               {open && (
@@ -55,17 +59,56 @@ export default function MainHeader() {
                     width: 'max-content'
                   }}
                 >
-                  Hello
+                  <div
+                    className='z-50 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600'
+                    // id='user-dropdown'
+                  >
+                    <div className='px-4 py-3 '>
+                      <span className='block text-sm text-gray-900 dark:text-white'>Loc Nguyen</span>
+                      <span className='block text-sm  text-gray-500 truncate dark:text-gray-400'>
+                        loclieulinh318@gmail.com
+                      </span>
+                    </div>
+                    <ul className='py-2' aria-labelledby='user-menu-button '>
+                      <li>
+                        <a
+                          href='#'
+                          className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white'
+                        >
+                          Đổi mật khẩu
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href='#'
+                          className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white'
+                        >
+                          Sửa hồ sơ
+                        </a>
+                      </li>
+                      <li>
+                        <button
+                          className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white'
+                          onClick={handleLogout}
+                        >
+                          Sign out
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
               )}
             </FloatingPortal>
             <div
-              className='z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600'
-              id='user-dropdown'
+              className='z-50 hidden
+               my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600'
+              // id='user-dropdown'
             >
               <div className='px-4 py-3 '>
-                <span className='block text-sm text-gray-900 dark:text-white'>Bonnie Green</span>
-                <span className='block text-sm  text-gray-500 truncate dark:text-gray-400'>name@flowbite.com</span>
+                <span className='block text-sm text-gray-900 dark:text-white'>Loc Nguyen</span>
+                <span className='block text-sm  text-gray-500 truncate dark:text-gray-400'>
+                  loclieulinh318@gmail.com
+                </span>
               </div>
               <ul className='py-2' aria-labelledby='user-menu-button '>
                 <li>
@@ -102,30 +145,6 @@ export default function MainHeader() {
                 </li>
               </ul>
             </div>
-            <button
-              data-collapse-toggle='navbar-user'
-              type='button'
-              className='inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600'
-              aria-controls='navbar-user'
-              aria-expanded='false'
-            >
-              <span className='sr-only'>Open main menu</span>
-              <svg
-                className='w-5 h-5'
-                aria-hidden='true'
-                xmlns='http://www.w3.org/2000/svg'
-                fill='none'
-                viewBox='0 0 17 14'
-              >
-                <path
-                  stroke='currentColor'
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  strokeWidth={2}
-                  d='M1 1h15M1 7h15M1 13h15'
-                />
-              </svg>
-            </button>
           </div>
           <div className='items-center justify-between hidden w-full md:flex md:w-auto md:order-1' id='navbar-user'>
             <ul className='flex flex-col font-normal p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-800 dark:border-gray-700'>

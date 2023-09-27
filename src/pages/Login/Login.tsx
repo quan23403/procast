@@ -13,7 +13,7 @@ interface FormData {
   password: string
 }
 export default function Login() {
-  const { setIsAuthenticated } = useContext(AppConxtext)
+  const { setIsAuthenticated, setProfile } = useContext(AppConxtext)
   const navigate = useNavigate()
   const {
     register,
@@ -31,6 +31,7 @@ export default function Login() {
     loginMutation.mutate(data, {
       onSuccess: (data) => {
         setIsAuthenticated(true)
+        setProfile(data.data.data.user)
         navigate('/')
         console.log(data)
       },

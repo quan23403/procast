@@ -19,7 +19,7 @@ interface FormData {
   confirm_password: string
 }
 export default function Register() {
-  const { setIsAuthenticated } = useContext(AppConxtext)
+  const { setIsAuthenticated, setProfile } = useContext(AppConxtext)
   const navigate = useNavigate()
   const {
     register,
@@ -40,6 +40,7 @@ export default function Register() {
     registerAccountMutation.mutate(body, {
       onSuccess: (data) => {
         setIsAuthenticated(true)
+        setProfile(data.data.data.user)
         navigate('/')
         console.log(data)
       },

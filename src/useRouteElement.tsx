@@ -7,6 +7,7 @@ import RegisterLayout from './layouts/RegisterLayout'
 // import { useContext } from 'react'
 // import { AppConxtext } from './contexts/app.context'
 import MainLayout from './layouts/MainLayout'
+import path from './constants/path'
 const isAuthenticated = true
 function ProtectedRoute() {
   // const { isAuthenticated } = useContext(AppConxtext)
@@ -25,28 +26,10 @@ export default function useRouteElements() {
     // },
     {
       path: '',
-      element: <ProtectedRoute />,
-      children: [
-        {
-          path: '/list',
-          element: (
-            <MainLayout>
-              <SalaryList />
-            </MainLayout>
-          )
-        }
-        // {
-        //   path: '/salary',
-        //   element: <SalaryList />
-        // }
-      ]
-    },
-    {
-      path: '',
       element: <RejectedRoute />,
       children: [
         {
-          path: '/login',
+          path: path.login,
           element: (
             <RegisterLayout>
               <Login />
@@ -54,12 +37,30 @@ export default function useRouteElements() {
           )
         },
         {
-          path: '/register',
+          path: path.register,
           element: (
             <RegisterLayout>
               <Register />
             </RegisterLayout>
           )
+        }
+      ]
+    },
+    {
+      path: '',
+      element: <ProtectedRoute />,
+      children: [
+        {
+          path: path.salary,
+          element: (
+            <MainLayout>
+              <SalaryList />
+            </MainLayout>
+          )
+        },
+        {
+          path: path.home,
+          element: <MainLayout></MainLayout>
         }
       ]
     }
