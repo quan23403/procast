@@ -1,0 +1,47 @@
+.schedule {
+  align-items: center;
+}
+
+table {
+  border-collapse: collapse;
+  width: 70%;
+}
+
+table,
+th,
+td {
+  border: 1px solid #ccc;
+}
+
+th {
+  text-align: center;
+  padding: 5px;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+td {
+  position: relative;
+  cursor: pointer;
+  width: 10%;
+  height: 128px;
+}
+
+.date {
+  position: absolute;
+  text-align: right;
+  top: 0;
+  right: 8px;
+}
+
+.in-range {
+  background-color: #f6ffde;
+  color: #000;
+}
+
+.out-of-range {
+  background-color: #eee;
+  color: #434343;
+}
