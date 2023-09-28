@@ -59,7 +59,7 @@ export default function Register() {
   })
   return (
     <div>
-      <div className='flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 bg-slate-900'>
+      <div className='flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 bg-slate-900 min-h-screen'>
         <a href='#' className='flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white'>
           <img className='w-8 h-8 mr-2' src='https://cdn-icons-png.flaticon.com/128/1290/1290874.png' alt='logo' />
           Fake Tiw

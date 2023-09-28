@@ -4,7 +4,7 @@ import { useMutation } from '@tanstack/react-query'
 import { logout } from '~/apis/auth.api'
 import { AppConxtext } from '~/contexts/app.context'
 export default function MainHeader() {
-  const [open, setOpen] = useState(true)
+  const [open, setOpen] = useState(false)
   const { x, y, reference, floating, strategy } = useFloating({
     open,
     onOpenChange: setOpen

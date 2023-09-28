@@ -29,36 +29,37 @@ export default function SalaryList() {
             Xóa
           </button>
         </div>
-        <div className='overflow-x-auto'>
-          <table className=' text-center table-auto w-full min-w-max'>
+
+        <div className='  shadow-md sm:rounded-lg overflow-x-auto'>
+          <table className=' text-center table-auto w-full border-2  overflow-auto '>
             <thead>
               <tr>
-                <th className='px-5  border-slate-300 border-2' rowSpan={2}>
+                <th className='px-5 border border-slate-300 border-2 ' rowSpan={2}>
                   #
                 </th>
-                <th className='px-5  border-slate-300 border-2' rowSpan={2}>
+                <th className='px-5 border border-slate-300 border-2 ' rowSpan={2}>
                   Công cụ
                 </th>
-                <th className='px-5  border-slate-300 border-2' rowSpan={2}>
+                <th className='px-5 border border-slate-300 border-2' rowSpan={2}>
                   Họ và tên
                 </th>
 
-                <th className='px-5  border-slate-300 border-2' rowSpan={2}>
+                <th className='px-5 border border-slate-300 border-2' rowSpan={2}>
                   Bộ phận
                 </th>
-                <th className='px-5  border-slate-300 border-2' rowSpan={2}>
+                <th className='px-5 border border-slate-300 border-2' rowSpan={2}>
                   Giới tính
                 </th>
-                <th className='px-5  border-slate-300 border-2' colSpan={3}>
+                <th className='px-5 border border-slate-300 border-2' colSpan={3}>
                   TA bổ trợ nhóm Basic
                 </th>
-                <th className='px-5  border-slate-300 border-2' colSpan={3}>
+                <th className='px-5 border border-slate-300 border-2' colSpan={3}>
                   TA bổ trợ nhóm Advanced
                 </th>
-                <th className='px-5  border-slate-300 border-2' colSpan={3}>
+                <th className='px-5 border border-slate-300 border-2' colSpan={3}>
                   TA bổ trợ nhóm BTCS
                 </th>
-                <th className='px-5 border-slate-300 border-2' colSpan={3}>
+                <th className='px-5 border border-slate-300 border-2' colSpan={3}>
                   TA bổ trợ không có học viên
                 </th>
               </tr>
@@ -79,9 +80,9 @@ export default function SalaryList() {
             </thead>
             <tbody>
               <tr>
-                <td className=' border-slate-300 border-2'>1</td>
-                <td className=' border-slate-300 border-2'>Không biết</td>
-                <td className=' border-slate-300 border-2'>Tống Đức Minh</td>
+                <td className=' border-slate-300 border-2 sticky'>1</td>
+                <td className=' border-slate-300 border-2 sticky'>Không biết</td>
+                <td className=' border-slate-300 border-2 sticky'>Tống Đức Minh</td>
                 <td className=' border-slate-300 border-2'>TA full-time</td>
                 <td className=' border-slate-300 border-2'>Nữ</td>
                 <td className=' border-slate-300 border-2'>2</td>
