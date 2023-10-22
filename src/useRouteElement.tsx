@@ -8,6 +8,7 @@ import RegisterLayout from './layouts/RegisterLayout'
 // import { AppConxtext } from './contexts/app.context'
 import MainLayout from './layouts/MainLayout'
 import path from './constants/path'
+import Schedule from './pages/Schedule/Schedule'
 const isAuthenticated = true
 function ProtectedRoute() {
   // const { isAuthenticated } = useContext(AppConxtext)
@@ -55,6 +56,14 @@ export default function useRouteElements() {
           element: (
             <MainLayout>
               <SalaryList />
+            </MainLayout>
+          )
+        },
+        {
+          path: path.schedule,
+          element: (
+            <MainLayout>
+              <Schedule />
             </MainLayout>
           )
         },

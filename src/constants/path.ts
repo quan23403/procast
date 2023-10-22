@@ -4,6 +4,7 @@ const path = {
   login: '/login',
   register: '/register',
   logout: '/logout',
-  salary: '/salary'
+  salary: '/salary',
+  schedule: '/schedule'
 }
 export default path
