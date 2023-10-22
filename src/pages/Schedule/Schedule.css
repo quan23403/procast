@@ -1,10 +1,10 @@
 .schedule {
-    align-items: center;
+  align-items: center;
 }
 
 table {
-    border-collapse: collapse;
-    width: 100%;
+  border-collapse: collapse;
+  width: 100%;
 }
 
 table,
@@ -14,36 +14,36 @@ td {
 }
 
 th {
-    text-align: center;
-    padding: 5px;
+  text-align: center;
+  padding: 5px;
 }
 
 th {
-    background-color: #f2f2f2;
+  background-color: #f2f2f2;
 }
 
 td {
-    position: relative;
-    cursor: pointer;
-    width: 10%;
-    height: 128px;
+  position: relative;
+  cursor: pointer;
+  width: 10%;
+  height: 128px;
 }
 
 .date {
-    position: absolute;
-    text-align: right;
-    top: 0;
-    right: 8px;
+  position: absolute;
+  text-align: right;
+  top: 0;
+  right: 8px;
 }
 
 .in-range {
-    background-color: #f6ffde;
-    color: #000;
+  background-color: #f6ffde;
+  color: #000;
 }
 
 .out-of-range {
-    background-color: #eee;
-    color: #434343;
+  background-color: #eee;
+  color: #434343;
 }
 
 .out-of-range .date {
