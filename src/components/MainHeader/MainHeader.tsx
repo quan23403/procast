@@ -11,11 +11,9 @@ export default function MainHeader() {
   })
   const showPopover = () => {
     setOpen(true)
-    console.log(open)
   }
   const hidePopover = () => {
     setOpen(false)
-    console.log(open)
   }
   const { setIsAuthenticated } = useContext(AppConxtext)
   const logoutMutation = useMutation({
@@ -29,7 +27,7 @@ export default function MainHeader() {
   }
   return (
     <div>
-      <nav className='bg-white border-gray-200 dark:bg-gray-800'>
+      <nav className='bg-gray-800 border-gray-200 '>
         <div className='max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4'>
           <a href='https://flowbite.com/' className='flex items-center'>
             <img src='https://cdn-icons-png.flaticon.com/128/1290/1290874.png' className='h-8 mr-3' alt='Tiw Logo' />
@@ -43,12 +41,11 @@ export default function MainHeader() {
           >
             <img
               className='w-8 h-8 rounded-full'
-              src='https://scontent.fhan2-4.fna.fbcdn.net/v/t39.30808-6/284423813_524356292703123_8076039949760181028_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=a2f6c7&_nc_ohc=C6Y3chScY3AAX8ygwZn&_nc_ht=scontent.fhan2-4.fna&oh=00_AfDNrond-Dtr9oTbP3f34QBrtjLLHrioICRYeYpEOIZjPA&oe=651410B0'
+              src='https://theieltsworkshop.com/wp-content/uploads/2023/06/logo-tiw-04.png'
               alt='user photo'
             />
             {/* </button> */}
             <FloatingPortal>
-              {/* Dropdown menu */}
               {open && (
                 <div
                   ref={floating}
@@ -102,7 +99,6 @@ export default function MainHeader() {
             <div
               className='z-50 hidden
                my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600'
-              // id='user-dropdown'
             >
               <div className='px-4 py-3 '>
                 <span className='block text-sm text-gray-900 dark:text-white'>Loc Nguyen</span>

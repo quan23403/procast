@@ -1,0 +1,141 @@
+{
+  "salary": {
+    "data": {
+      "message": "successful",
+      "salaryList": [
+        {
+          "userId": "1",
+          "userName": "minhtd1510",
+          "fullName": "Tống Đức Minh",
+          "gender": "Nam",
+          "jobPosition": "TA full-time",
+          "salary": [
+            {
+              "course_type": "TA Bổ trợ nhóm Basic",
+              "work_dates": 1,
+              "price_each": 200000,
+              "amount": 200000
+            },
+            {
+              "course_type": "TA bổ trợ nhóm Advanced",
+              "work_dates": 2,
+              "price_each": 150000,
+              "amount": 300000
+            },
+            {
+              "course_type": "TA bổ trợ không có học viên",
+              "work_dates": 1,
+              "price_each": 50000,
+              "amount": 100000
+            },
+            {
+              "course_type": "TA thư viện OFFLINE",
+              "work_dates": 3,
+              "price_each": 50000,
+              "amount": 150000
+            }
+          ]
+        },
+        {
+          "userId": "2",
+          "userName": "thanhhoa",
+          "fullName": "Nguyễn Cao Thanh",
+          "gender": "Nam",
+          "jobPosition": "TA part-time",
+          "salary": [
+            {
+              "course_type": "Type A",
+              "work_dates": 20,
+              "price_each": 20,
+              "amount": 2000
+            },
+            {
+              "course_type": "Type B",
+              "work_dates": 22,
+              "price_each": 120,
+              "amount": 2640
+            },
+            {
+              "course_type": "Type B",
+              "work_dates": 22,
+              "price_each": 120,
+              "amount": 2640
+            },
+            {
+              "course_type": "Type B",
+              "work_dates": 22,
+              "price_each": 120,
+              "amount": 2640
+            }
+          ]
+        },
+        {
+          "userId": "3",
+          "userName": "loclieulinh318",
+          "fullName": "Nguyễn Tuấn Lộc",
+          "gender": "Nam",
+          "jobPosition": "TA part-time",
+          "salary": [
+            {
+              "course_type": "Type A",
+              "work_dates": 20,
+              "price_each": 100,
+              "amount": 2000
+            },
+            {
+              "course_type": "Type B",
+              "work_dates": 22,
+              "price_each": 120,
+              "amount": 2640
+            },
+            {
+              "course_type": "Type B",
+              "work_dates": 22,
+              "price_each": 120,
+              "amount": 2640
+            },
+            {
+              "course_type": "Type B",
+              "work_dates": 22,
+              "price_each": 120,
+              "amount": 2640
+            }
+          ]
+        },
+        {
+          "userId": "4",
+          "userName": "quan2304",
+          "fullName": "Hoàng Minh Quân",
+          "gender": "Nam",
+          "jobPosition": "TA part-time",
+          "salary": [
+            {
+              "course_type": "Type A",
+              "work_dates": 20,
+              "price_each": 120,
+              "amount": 2000
+            },
+            {
+              "course_type": "Type B",
+              "work_dates": 22,
+              "price_each": 120,
+              "amount": 2640
+            },
+            {
+              "course_type": "Type B",
+              "work_dates": 22,
+              "price_each": 120,
+              "amount": 2640
+            },
+            {
+              "course_type": "Type B",
+              "work_dates": 22,
+              "price_each": 120,
+              "amount": 2640
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
