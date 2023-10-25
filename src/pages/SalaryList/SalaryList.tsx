@@ -1,16 +1,23 @@
 import { useQuery } from '@tanstack/react-query'
 import { isUndefined, omitBy } from 'lodash'
+
 import { Fragment, useState } from 'react'
+import { Controller, useForm } from 'react-hook-form'
+import { createSearchParams, useNavigate } from 'react-router-dom'
 import salaryApi from '~/apis/salary.api'
 import CrudModal from '~/components/CrudModal'
+import path from '~/constants/path'
 import useQueryParams from '~/hooks/useQueryParams'
 import { PersonSalary, salaryListConfig } from '~/types/salary.type'
 import { formatCurrency } from '~/utils/utils'
 
 export default function SalaryList() {
   const initialPersonalSalary: PersonSalary | null = null
+
   const [isModalOpen, setModalOpen] = useState<boolean>(false)
+
   const [selectedRowData, setSelectedRowData] = useState<PersonSalary | null>(initialPersonalSalary)
+
   const openModal = (rowData: PersonSalary) => {
     setSelectedRowData(rowData)
     setModalOpen(true)
@@ -30,29 +37,66 @@ export default function SalaryList() {
     },
     isUndefined
   )
+  const { handleSubmit, control, reset } = useForm()
+  const navigate = useNavigate()
+  const onSubmit = handleSubmit((data) => {
+    navigate({
+      pathname: path.salary,
+      search: createSearchParams({
+        ...queryConfig,
+        name: data.text,
+        date: data.month
+      }).toString()
+    })
+  })
+  const handleClear = () => {
+    reset({
+      text: '',
+      month: ''
+    }) // This will reset the form's input fields.
+    navigate({
+      pathname: path.salary
+    })
+  }
+
   const { data } = useQuery({
     queryKey: ['salary', queryConfig],
     queryFn: () => {
+      console.log(queryConfig)
       return salaryApi.getSalary(queryConfig)
     }
   })
-  console.log(queryConfig)
+
   return (
     <div>
-      <div className='max-w-screen-xl flex justify-start py-3 px-3 '>
-        <input
-          type='text'
-          placeholder='Từ khóa'
-          className='mr-4 w-400 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+      <form className='max-w-screen-xl flex justify-start py-3 px-3 ' onSubmit={onSubmit}>
+        <Controller
+          name='text'
+          control={control}
+          render={({ field }) => (
+            <input
+              type='text'
+              placeholder='Từ khóa'
+              className='mr-4 w-400 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+              {...field}
+            />
+          )}
         />
-        <input
-          type='month'
-          placeholder='Tháng/Năm'
-          className='mr-4 w-200 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+        <Controller
+          name='month'
+          control={control}
+          render={({ field }) => (
+            <input
+              type='month'
+              placeholder='Tháng/Năm'
+              className='mr-4 w-200 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+              {...field}
+            />
+          )}
         />
         {/* <button className=' border-solid	bg-yellow-300 w-12 mr-4 rounded-lg'>Tìm</button> */}
         <button
-          type='button'
+          type='submit'
           className='focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-1 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-1 dark:focus:ring-yellow-900'
         >
           Tìm
@@ -62,10 +106,11 @@ export default function SalaryList() {
         <button
           type='button'
           className='focus:outline-none text-white bg-red-600 hover:bg-red-800 focus:ring-1 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900'
+          onClick={handleClear}
         >
           Xóa
         </button>
-      </div>
+      </form>
 
       <div className='  shadow-md sm:rounded-lg overflow-x-auto'>
         <table className=' text-center table-auto w-full border-2  overflow-auto '>
