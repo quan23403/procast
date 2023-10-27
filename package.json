@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "lint:fix": "eslint --fix src --ext ts,tsx",
     "prettier": "prettier --check \"src/**/(*.tsx|*.ts|*.css|*.scss)\"",
-    "prettier:fix": "prettier --write \"src/**/(*.tsx|*.ts|*.css|*.scss)\""
+    "prettier:fix": "prettier --write \"src/**/(*.tsx|*.ts|*.css|*.scss)\"",
+    "start-json-server": "json-server --watch db.json --port 3001"
   },
   "dependencies": {
     "@floating-ui/react": "^0.25.4",
@@ -48,8 +49,10 @@
     "eslint-plugin-prettier": "^5.0.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
+    "json-server": "^0.17.4",
     "postcss": "^8.4.29",
     "prettier": "^3.0.3",
+    "prettier-plugin-tailwindcss": "^0.5.5",
     "tailwindcss": "^3.3.3",
     "typescript": "^5.0.2",
     "vite": "^4.4.5"
