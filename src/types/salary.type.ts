@@ -1,6 +1,6 @@
 interface Salary {
   course_type: string
-  course_type_id: number
+  // course_type_id: number
   work_dates: number
   price_each: number
   amount: number

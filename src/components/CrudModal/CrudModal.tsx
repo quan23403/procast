@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query'
 import { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import salaryApi from '~/apis/salary.api'
-import { PersonSalary, salaryList } from '~/types/salary.type'
+import { PersonSalary } from '~/types/salary.type'
 
 interface Props {
   isOpen: boolean
@@ -30,10 +30,14 @@ export default function CrudModal({ isOpen, onClose, item }: Props) {
       onSuccess: (data) => {
         console.log(data)
         onClose()
+      },
+      onError: (error) => {
+        console.log(error)
+        onClose()
       }
     })
   }
-  const modalRoot = document.getElementById('root') as HTMLElement
+  const modalRoot = document.getElementById('modal-root') as HTMLElement
   return isOpen
     ? ReactDOM.createPortal(
         <div className='modal-overlay'>
