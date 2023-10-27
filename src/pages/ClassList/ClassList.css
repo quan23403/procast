@@ -1,0 +1,31 @@
+.page-control {
+    display: flex;
+    align-items: center;
+}
+.title {
+    font-size: 18px;
+    font-weight: 500;
+}
+.yellow-btn {
+    margin : 0px 20px;
+    background-color: #f0db2d;
+    padding: 10px 25px;
+    border-radius: 3px;
+    
+}
+.purple-btn {
+    margin : 0px 20px;
+    background-color: purple;
+    border-radius: 3px;
+    padding: 10px 25px;
+    color: white;
+}
+.search-element {
+    border-radius: 3px;
+    border: 1px solid #e5e5e5;
+}
+.page-search {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}

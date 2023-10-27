@@ -10,6 +10,7 @@ import MainLayout from './layouts/MainLayout'
 import path from './constants/path'
 import Schedule from './pages/Schedule/Schedule'
 import Attendance from './pages/Attendance/Attendance'
+import ClassList from './pages/ClassList'
 const isAuthenticated = true
 function ProtectedRoute() {
   // const { isAuthenticated } = useContext(AppConxtext)
@@ -73,6 +74,14 @@ export default function useRouteElements() {
           element: (
             <MainLayout>
               <Attendance/>
+            </MainLayout>
+          )
+        },
+        {
+          path: '/classlist',
+          element: (
+            <MainLayout>
+              <ClassList/>
             </MainLayout>
           )
         }
