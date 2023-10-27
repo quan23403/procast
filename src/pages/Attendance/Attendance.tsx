@@ -1,5 +1,60 @@
 import './Attendance.css'
+import ClassCheckin from './ClassCheckin'
+import HWCheck from './HWCheck'
+
+export interface Student {
+    id: number;
+    name: string;
+    dob: string;
+    note?: string;
+    checkin: {
+        class: string;
+        status: string;
+    }[];
+    hw: {
+        class: string;
+        status: string;
+    }[]
+};
+
 export default function Attendance() {
+    const classesList: {id: number, name:string}[] = [
+        {
+            id: 1,
+            name: 'B1'
+        },
+        {
+            id: 2,
+            name: 'B2'
+        },
+        {
+            id: 3,
+            name: 'B3'
+        }, {
+            id: 4,
+            name: 'B4'
+        }, {
+            id: 5,
+            name: 'B5'
+        }, {
+            id: 6,
+            name: 'B6'
+        },
+        {
+            id: 7,
+            name: 'B7'
+        }, {
+            id: 8,
+            name: 'B8'
+        }, {
+            id: 9,
+            name: 'B9'
+        }, {
+            id: 10,
+            name: 'B10'
+        }
+    ]
+    const studentList: Student[] = [];
     return (
         <div>
             <div className="main-content">
@@ -39,51 +94,11 @@ export default function Attendance() {
                 </div>
                 <div className="tag-content">
                     <div className="page-content">
-                        <div className="page-content-title">
-                            Điểm danh đi học
-                            <small>(Chỉ điểm danh trong khoảng từ khi buổi học bắt đầu đến khi
-                                buổi học kết thúc được 5 tiếng)</small>
-                        </div>
-                        <div className="page-content-note">
-                            <span className="item">Đi học: 1</span>
-                            <span className="item">Đi muộn: <span style={{ color: 'yellow' }}>M</span></span>
-                            <span className="item">Nghỉ học: 0</span>
-                            <span className="item">Nghỉ phép: P</span>
-                        </div>
-                        <div className="page-content-wrap">
-                            <table className="table-attendence">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Họ Tên</th>
-                                        <th>Ngày sinh</th>
-                                        <th>Ghi chú</th>
-                                    </tr>
-                                </thead>
-                            </table>
-                        </div>
+                        <ClassCheckin classesList={classesList} studentList={studentList}/>
                         <div className="seperate">
                             <hr />
                         </div>
-                        <div className="page-content-title">
-                            Điểm danh bài tập
-                        </div>
-                        <div className="page-content-note">
-                            <span className="item">Có làm bài tập: 1</span>
-                            <span className="item">Không làm bài tập: 0</span>
-                            <span className="item">Không giao bài tập: N</span>
-                        </div>
-                        <div className="page-content-wrap">
-                            <table className="table-attendence">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Họ Tên</th>
-                                        <th>Ngày sinh</th>
-                                    </tr>
-                                </thead>
-                            </table>
-                        </div>
+                        <HWCheck classesList={classesList} studentList={studentList}/>
                     </div>
                 </div>
             </div>
