@@ -1,0 +1,124 @@
+* {
+    box-sizing: border-box;
+}
+body {
+    font-family: 'Roboto', sans-serif;
+    color : black;
+    font-weight: 400;
+}
+
+.page-control {
+    background-color: #FFF;
+    border-bottom: 1px solid #e9e9e9;
+    padding: 10px 15px;
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+    min-height: 57px;
+}
+
+.title {
+    font-size: 20px;
+}
+
+.btt-blu {
+    background-color: #29b6f6;
+    color: white;
+    border-color: #29b6f6;
+    text-shadow: none;
+    width: fit-content;
+    padding: 10px;
+}
+
+.page-tab {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px 10px 15px;
+}
+
+.nav {
+    list-style: none ;
+    padding-left: 0;
+}
+
+
+.page-tab .nav > li {
+    display: inline-block;
+    margin: 5px 5px;
+}
+
+.page-tab .nav > li > a {
+    display: block;
+    background-color: #e9e9e9;
+    margin: 0 10px 0 0;
+    padding : 0 15px;
+    height: 36px;
+    line-height: 36px;
+    border-radius: 3px;
+    text-decoration: none;
+    color : black;
+}
+
+.page-content-wrap {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: auto;
+    
+}
+.table-attendence {
+    border: 1px solid #ccc;
+    border-color: #e9e9e9;
+    margin: 0;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.page-content-wrap .table-attendence > th {
+    border: 1px solid #ccc;
+    background-color: #EEE;
+    border-top: 1px solid #EEE;
+
+}
+
+.tag-content {
+    background-color: #EEE;
+    width: 100%;
+    padding: 10px;
+}
+
+.page-content {
+    background-color: white;
+    margin: 10px;
+}
+
+.page-content-title {
+    font-weight: 600;
+    padding: 10px;
+    font-size: 18px;
+    border-bottom: 2px solid #EEE;
+}
+
+.page-content-note {
+    padding: 10px;
+    border-bottom: 2px solid #EEE;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.item {
+    display: inline-block;
+    margin: 5px 15px 5px 0px;
+}
+.seperate {
+    background-color: #EEE;
+    padding: 20px 0px;
+}
+hr {
+    display: block;
+    border: 1px solid white;
+}
+
+.nav > li > a:hover {
+    background-color:yellow;
+}

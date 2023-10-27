@@ -64,12 +64,12 @@ export default function Register() {
           <img className='w-8 h-8 mr-2' src='https://cdn-icons-png.flaticon.com/128/1290/1290874.png' alt='logo' />
           Fake Tiw
         </a>
-        <div className='w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md  l:p-0 dark:bg-gray-800 dark:border-gray-700 '>
-          <div className='p-6 space-y-4 md:space-y-6 sm:p-8 space-x-8 flex flex-col'>
-            <h1 className='text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white text-center'>
-              Register
+        <div className='w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700'>
+          <div className='p-6 space-y-4 md:space-y-6 sm:p-8'>
+            <h1 className='text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white'>
+              Sign up for your account
             </h1>
-            <form className='space-y-4 md:space-y-6 ' onSubmit={onSubmit} noValidate>
+            <form className='space-y-4 md:space-y-6' action='#' onSubmit={onSubmit} noValidate>
               <div>
                 {/* <label htmlFor='email' className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'>
                   Your email & password
@@ -81,39 +81,8 @@ export default function Register() {
                   placeholder='youremail@gmail.com'
                   {...register('email', rules.email)}
                 />
-                <div className='mt-0 text-red-600 text-xs p-0'>{errors.email?.message}</div>
               </div>
-              <div>
-                {/* <label htmlFor='password' className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'>
-                  Password
-                </label> */}
-                <input
-                  type='text'
-                  id='username'
-                  placeholder='username'
-                  className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-80 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-                  {...register('username', rules.username)}
-                  required
-                />
-                <div className='mt-0 text-red-600 text-xs p-0'>{errors.username?.message}</div>
-              </div>
-
-              <Controller
-                name='dateOfBirth'
-                control={control}
-                defaultValue=''
-                render={({ field: { value, onChange } }) => (
-                  <DatePicker
-                    selected={value ? new Date(value) : null}
-                    onChange={(date: Date | null) => onChange(date?.toISOString().split('T')[0] ?? '')}
-                    dateFormat='dd/MM/yyyy'
-                    name='datepicker'
-                    placeholderText='Date of birth'
-                    className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg w-80  focus:ring-primary-600 focus:border-primary-600 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-                    required
-                  />
-                )}
-              />
+              <div className='mt-0 text-red-600 text-xs p-0'>{errors.email?.message}</div>
               <div>
                 {/* <label htmlFor='password' className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'>
                   Password

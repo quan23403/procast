@@ -4,13 +4,13 @@
 
 table {
   border-collapse: collapse;
-  width: 70%;
+  width: 100%;
 }
 
 table,
 th,
 td {
-  border: 1px solid #ccc;
+    border: 1px solid #ccc;
 }
 
 th {
@@ -44,4 +44,27 @@ td {
 .out-of-range {
   background-color: #eee;
   color: #434343;
+}
+
+.out-of-range .date {
+    display: none;
+}
+
+.date-picker-container {
+    margin-bottom: 16px;
+}
+.form-input {
+    display: inline;
+}
+.form-input .form-label {
+    padding-right: 20px;
+}
+.form-input > * {
+    display: inline-block;
+    margin: auto 8px;
+}
+
+.form-control {
+    border: 1px solid #434343;
+    border-radius: 4px;
 }
