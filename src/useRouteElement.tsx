@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 //customize the router using useRoute hook
 import { Navigate, Outlet, useRoutes } from 'react-router-dom'
 import SalaryList from './pages/SalaryList'
@@ -10,6 +11,7 @@ import MainLayout from './layouts/MainLayout'
 import path from './constants/path'
 import Schedule from './pages/Schedule/Schedule'
 import Attendance from './pages/Attendance/Attendance'
+import CourseDetail from './pages/CourseDetail/CourseDetail'
 import ClassList from './pages/ClassList'
 const isAuthenticated = true
 function ProtectedRoute() {
@@ -69,6 +71,15 @@ export default function useRouteElements() {
             </MainLayout>
           )
         },
+        {
+          path: 'detail/:id',
+          element: (
+            <MainLayout>
+              <CourseDetail/>
+            </MainLayout>
+          )
+        }
+        ,
         {
           path: '/attendance',
           element: (

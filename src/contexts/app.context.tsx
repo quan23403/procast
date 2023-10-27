@@ -21,7 +21,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(initialAppContext.isAuthenticated)
   const [profile, setProfile] = useState<User | null>(initialAppContext.profile)
   return (
-    <AppConxtext.Provider value={{ isAuthenticated, setIsAuthenticated, profile, setProfile }}>
+    <AppConxtext.Provider value={{ isAuthenticated, setIsAuthenticated, profile: initialAppContext.profile }}>
       {children}
     </AppConxtext.Provider>
   )
