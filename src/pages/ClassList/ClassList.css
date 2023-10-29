@@ -23,9 +23,46 @@
 .search-element {
     border-radius: 3px;
     border: 1px solid #e5e5e5;
+    height: 100%;
 }
 .page-search {
     display: flex;
-    justify-content: space-between;
     flex-wrap: wrap;
+    align-items: stretch;
+}
+.page-content {
+    background-color: #EEE;
+    margin: 0;
+    padding: 20px;
+}
+.table-content {
+    background-color: white;
+    overflow-x: auto;
+    overflow-y: auto;
+}
+.table-checkbox {
+    width: 100%;
+}
+.table-checkbox > thead > tr > th {
+    background-color: #f9f9f9 !important;
+    border: 0px;
+    white-space: nowrap;
+}
+.table-checkbox > tbody > tr > td {
+    width: fit-content;
+    height: fit-content;
+    border: 0px;
+    text-align: center;
+    white-space: nowrap;
+    padding: 10px 10px;
+}
+.container-search-element {
+    padding: 10px;
+    display: inline-block;
+}
+input.search-element {
+    margin-left: 10px;
+}
+.search-element {
+    padding-left: 10px;
 }
