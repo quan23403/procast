@@ -69,7 +69,7 @@ export default function Calendar(props: { startDate: string | number | Date; end
   }
 
   return (
-    <table>
+    <table className='table-calendar'>
       <thead>
         <tr>
           <th>Mon</th>
