@@ -10,9 +10,9 @@ import RegisterLayout from './layouts/RegisterLayout'
 import MainLayout from './layouts/MainLayout'
 import path from './constants/path'
 import Schedule from './pages/Schedule/Schedule'
-import Attendance from './pages/Attendance/Attendance'
 import CourseDetail from './pages/CourseDetail/CourseDetail'
 import ClassList from './pages/ClassList'
+import Attendance from './pages/CourseDetail/Attendance'
 const isAuthenticated = true
 function ProtectedRoute() {
   // const { isAuthenticated } = useContext(AppConxtext)
