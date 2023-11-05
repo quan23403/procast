@@ -5,6 +5,7 @@ import Form from 'react-bootstrap/Form'
 import 'react-datepicker/dist/react-datepicker.min.css';
 import ScheduleService from "./Schedule.service";
 import './Schedule.css';
+import CourseClass from "./CourseClass";
 
 export default function Schedule() {
   const scheduleService = new ScheduleService();
@@ -13,7 +14,7 @@ export default function Schedule() {
   const [startDate, setStartDate] = useState<Date>(new Date(Date.now() - 7 * 1000 * 3600 * 24));
   const [endDate, setEndDate] = useState<Date>(new Date(Date.now() + 7 * 1000 * 3600 * 24));
   console.log(startDate.toDateString() + endDate.toDateString());
-  const classes = scheduleService.getEvents();
+  const [classes, setClasses] = useState<CourseClass[]>(scheduleService.getEvents())
 
   // handle change
   const handleStartChange = (date: Date) => {
@@ -32,7 +33,7 @@ export default function Schedule() {
 
   const handleSubmit = () => {
     scheduleService.fetchEvents(startDate.toLocaleDateString('vi-VN'), endDate.toLocaleDateString('vi-VN'))
-    // classes = scheduleService.getEvents();
+    setClasses(scheduleService.getEvents());
   }
 
 

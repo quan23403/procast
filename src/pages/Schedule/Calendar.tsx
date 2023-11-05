@@ -33,8 +33,8 @@ export default function Calendar(props: { startDate: string | number | Date; end
       return (
         <div className='classes'>
           {eventsOnDate.map((classEvent) => (
-            <button key={classEvent.id} className='classButton'>
-              {`${classEvent.startTime}-${classEvent.endTime} ${classEvent.className}`}
+            <button key={classEvent.course_id} className='classButton'>
+              {`${classEvent.start_time}-${classEvent.end_time} ${classEvent.course_name}`}
             </button>
           ))}
         </div>

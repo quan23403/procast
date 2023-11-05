@@ -77,7 +77,10 @@ export default function useRouteElements() {
             <MainLayout>
               <CourseDetail/>
             </MainLayout>
-          )
+          ),
+          children: [
+            
+          ]
         }
         ,
         {

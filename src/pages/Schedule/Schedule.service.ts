@@ -1,7 +1,11 @@
 import CourseClass from "./CourseClass";
-
+export interface ScheduleParam {
+    startDate: string;
+    endDate: string;
+    course_code?: string;
+} 
 export default class ScheduleService {
-    baseUrl = 'https://localhost:8080/class';
+    baseUrl = 'http://localhost:8081/i/v1';
     events: CourseClass[] = [];
 
     getEvents(): CourseClass[] { return this.events};
@@ -9,13 +13,13 @@ export default class ScheduleService {
 
     async fetchEvents(startDate: string, endDate: string) {
         try {
-            const response = await fetch(`${this.baseUrl}/schedule`, {
-                method: 'POST',
+            const response = await fetch(`${this.baseUrl}/user-schedule`, {
+                method: 'GET',
                 headers: {'Content-Type': 'application/json'}, 
-                body: JSON.stringify({
-                    startDate: startDate,
-                    endDate: endDate
-                })
+                params: {
+                    fromDate: startDate;
+                    toDate: endDate;
+                }
             });
 
             if (!response.ok)
