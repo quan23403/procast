@@ -5,29 +5,30 @@ import SalaryList from './pages/SalaryList'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import RegisterLayout from './layouts/RegisterLayout'
-// import { useContext } from 'react'
-// import { AppConxtext } from './contexts/app.context'
+import { useContext } from 'react'
+import { AppConxtext } from './contexts/app.context'
 import MainLayout from './layouts/MainLayout'
 import path from './constants/path'
 import Schedule from './pages/Schedule/Schedule'
 import Attendance from './pages/Attendance/Attendance'
 import CourseDetail from './pages/CourseDetail/CourseDetail'
-const isAuthenticated = true
+import UserLayout from './pages/User/Layouts/UserLayout'
+import Profile from './pages/User/pages/Profile'
+import ChangePassword from './pages/User/pages/ChangePassword'
+import ClassList from './pages/ClassList'
+
 function ProtectedRoute() {
-  // const { isAuthenticated } = useContext(AppConxtext)
+  const { isAuthenticated } = useContext(AppConxtext)
+  // console.log(isAuthenticated)
   return isAuthenticated ? <Outlet /> : <Navigate to='/login' />
 }
 function RejectedRoute() {
-  // const { isAuthenticated } = useContext(AppConxtext)
+  const { isAuthenticated } = useContext(AppConxtext)
+  console.log(isAuthenticated)
   return !isAuthenticated ? <Outlet /> : <Navigate to='/home' />
 }
 export default function useRouteElements() {
   const routeElements = useRoutes([
-    // {
-    //   path: '/',
-    //   // element: <?thanh's component/>
-    //   index: true
-    // },
     {
       path: '',
       element: <RejectedRoute />,
@@ -56,6 +57,7 @@ export default function useRouteElements() {
       children: [
         {
           path: path.salary,
+
           element: (
             <MainLayout>
               <SalaryList />
@@ -63,7 +65,8 @@ export default function useRouteElements() {
           )
         },
         {
-          path: '/home',
+          path: path.home,
+          index: true,
           element: (
             <MainLayout>
               <Schedule />
@@ -71,19 +74,44 @@ export default function useRouteElements() {
           )
         },
         {
-          path: 'detail/:id',
+          path: path.user,
           element: (
             <MainLayout>
-              <CourseDetail/>
+              <UserLayout />
+            </MainLayout>
+          ),
+          children: [
+            {
+              path: path.profile,
+              element: <Profile />
+            },
+            {
+              path: path.changePassword,
+              element: <ChangePassword />
+            }
+          ]
+        },
+        {
+          path: path.courseDetail,
+          element: (
+            <MainLayout>
+              <CourseDetail />
             </MainLayout>
           )
-        }
-        ,
+        },
         {
-          path: '/attendance',
+          path: path.attendance,
           element: (
             <MainLayout>
-              <Attendance/>
+              <Attendance />
+            </MainLayout>
+          )
+        },
+        {
+          path: path.classList,
+          element: (
+            <MainLayout>
+              <ClassList />
             </MainLayout>
           )
         }

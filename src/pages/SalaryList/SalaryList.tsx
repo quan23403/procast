@@ -1,6 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
 import { isUndefined, omitBy } from 'lodash'
-
 import { Fragment, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { createSearchParams, useNavigate } from 'react-router-dom'
@@ -10,7 +9,6 @@ import path from '~/constants/path'
 import useQueryParams from '~/hooks/useQueryParams'
 import { PersonSalary, salaryListConfig } from '~/types/salary.type'
 import { formatCurrency } from '~/utils/utils'
-
 export default function SalaryList() {
   const initialPersonalSalary: PersonSalary | null = null
 
