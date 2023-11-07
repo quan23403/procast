@@ -13,6 +13,7 @@ import Schedule from './pages/Schedule/Schedule'
 import Attendance from './pages/Attendance/Attendance'
 import CourseDetail from './pages/CourseDetail/CourseDetail'
 import ClassList from './pages/ClassList'
+import StudentList from './pages/StudentList'
 const isAuthenticated = true
 function ProtectedRoute() {
   // const { isAuthenticated } = useContext(AppConxtext)
@@ -92,10 +93,18 @@ export default function useRouteElements() {
           path: '/classlist',
           element: (
             <MainLayout>
-              <ClassList/>
+              <ClassList />
             </MainLayout>
           )
-        }
+        },
+        {
+          path: '/studentlist',
+          element: (
+            <MainLayout>
+              <StudentList />
+            </MainLayout>
+          )
+        },
       ]
     }
   ])

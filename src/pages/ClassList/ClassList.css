@@ -66,3 +66,16 @@ input.search-element {
 .search-element {
     padding-left: 10px;
 }
+.search-btn {
+    background-color: #f0db2d;
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+.delete-btn {
+    background-color: #d84a38;
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+.first-container-search-element > input{
+    margin-left: 0px;
+}
