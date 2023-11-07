@@ -3,7 +3,11 @@ import { useFloating, FloatingPortal } from '@floating-ui/react-dom-interactions
 import { useMutation } from '@tanstack/react-query'
 import { logout } from '~/apis/auth.api'
 import { AppConxtext } from '~/contexts/app.context'
+import { NavLink } from 'react-router-dom'
+import NavbarComponent from '../NavbarComponent'
+import { trainingLabel, trainingPath } from '~/constants/navbarPaths'
 export default function MainHeader() {
+  const selected = 'Đào tạo'
   const [open, setOpen] = useState(false)
   const { x, y, reference, floating, strategy } = useFloating({
     open,
@@ -15,21 +19,24 @@ export default function MainHeader() {
   const hidePopover = () => {
     setOpen(false)
   }
-  const { setIsAuthenticated } = useContext(AppConxtext)
-  const logoutMutation = useMutation({
-    mutationFn: logout,
-    onSuccess: () => {
-      setIsAuthenticated(false)
-    }
-  })
+  const { reset } = useContext(AppConxtext)
+  // const logoutMutation = useMutation({
+  //   mutationFn: logout,
+  //   onSuccess: () => {
+  //     setIsAuthenticated(false)
+  //   }
+  // })
+  // const handleLogout = () => {
+  //   logoutMutation.mutate()
+  // }
   const handleLogout = () => {
-    logoutMutation.mutate()
+    reset()
   }
   return (
     <div>
       <nav className='bg-gray-800 border-gray-200 '>
         <div className='max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4'>
-          <a href='https://flowbite.com/' className='flex items-center'>
+          <a href='#' className='flex items-center'>
             <img src='https://cdn-icons-png.flaticon.com/128/1290/1290874.png' className='h-8 mr-3' alt='Tiw Logo' />
             <span className='self-center text-2xl font-semibold whitespace-nowrap dark:text-white'>Tiw </span>
           </a>
@@ -143,24 +150,35 @@ export default function MainHeader() {
             </div>
           </div>
           <div className='items-center justify-between hidden w-full md:flex md:w-auto md:order-1' id='navbar-user'>
-            <ul className='flex flex-col font-normal p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-800 dark:border-gray-700'>
+            {/* flex flex-col font-normal p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-800 dark:border-gray-700 */}
+            <ul
+              className='flex font-normal p-0 text-white
+             space-x-10 mt-0 border-0'
+            >
               <li>
-                <a
-                  href='#'
-                  className='block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500'
-                  aria-current='page'
-                >
-                  Trang Chủ
-                </a>
+                <NavLink to='/home' className=''>
+                  {({ isActive }) => (
+                    <div className={isActive ? 'bg-black' : ''}>
+                      <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        fill='none'
+                        viewBox='0 0 24 24'
+                        strokeWidth={1.5}
+                        stroke='currentColor'
+                        className='w-6 h-6'
+                      >
+                        <path
+                          strokeLinecap='round'
+                          strokeLinejoin='round'
+                          d='M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25'
+                        />
+                      </svg>
+                      Trang chủ
+                    </div>
+                  )}
+                </NavLink>
               </li>
-              <li>
-                <a
-                  href='#'
-                  className='block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700'
-                >
-                  Đào tạo
-                </a>
-              </li>
+              <NavbarComponent selected={selected} options={trainingLabel} aliasPath={trainingPath} />
               <li>
                 <a
                   href='#'

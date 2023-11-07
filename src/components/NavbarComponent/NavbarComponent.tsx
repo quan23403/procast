@@ -1,14 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react'
-import './Dropdown.css'
-
+import './NavbarComponent.css'
+import { NavLink } from 'react-router-dom'
 interface DropdownProps {
   selected: string
-  setSelected: (option: string) => void
   options: string[]
+  aliasPath: string[]
 }
-const Dropdown: React.FC<DropdownProps> = ({ selected, setSelected, options }) => {
+const NavbarComponent: React.FC<DropdownProps> = ({ selected, options, aliasPath }) => {
   const [isActive, setIsActive] = useState(false)
   const dropdownRef = useRef<HTMLDivElement | null>(null)
+  // const optionSize = _.size(options)
 
   // Event handler for clicking outside the dropdown
   const handleClickOutside = (event: MouseEvent) => {
@@ -38,14 +39,12 @@ const Dropdown: React.FC<DropdownProps> = ({ selected, setSelected, options }) =
       {isActive && (
         <div className='dropdown-content'>
           {options.map((option, index) => (
-            <div
-              onClick={() => {
-                setSelected(option)
-                setIsActive(false)
-              }}
-              className='dropdown-item'
-            >
-              {option}
+            <div onClick={() => setIsActive(false)} className='dropdown-item'>
+              <div>
+                <NavLink to={aliasPath[index]} key={index}>
+                  {({ isActive }) => <span className={isActive ? 'bg-black' : ''}>{option}</span>}
+                </NavLink>
+              </div>
             </div>
           ))}
         </div>
@@ -53,4 +52,4 @@ const Dropdown: React.FC<DropdownProps> = ({ selected, setSelected, options }) =
     </div>
   )
 }
-export default Dropdown
+export default NavbarComponent
