@@ -1,12 +1,15 @@
 import axios, { AxiosError, type AxiosInstance } from 'axios'
 import HttpStatusCode from '~/constants/httpStatusCode.enum'
 import { toast } from 'react-toastify'
-import { clearLS, getAccessTokenFromLS, setAccessTokentoLS } from './auth'
+import { clearLS, getAccessTokenFromLS, getProfileFromLS, setAccessTokentoLS, setProfileToLS } from './auth'
+import { User } from '~/types/user.type'
 class Http {
   instance: AxiosInstance
   private accessToken: string
+  private profile: User
   constructor() {
     this.accessToken = getAccessTokenFromLS()
+    this.profile = getProfileFromLS()
     this.instance = axios.create({
       baseURL: 'http://localhost:8081',
       timeout: 10000,
@@ -34,9 +37,11 @@ class Http {
     this.instance.interceptors.response.use(
       (response) => {
         const { url } = response.config
-        if (url === '/login' || url === '/register') {
-          this.accessToken = response.data.data.access_token
-          setAccessTokentoLS(this.accessToken)
+        if (url === '/e/v1/login' || url === '/e/v1/register') {
+          this.accessToken = response.data.data.token
+          this.profile = response.data.data.user
+          setAccessTokentoLS('Bearer ' + this.accessToken)
+          setProfileToLS(this.profile)
         } else if (url === '/logout') {
           this.accessToken = ''
           clearLS()
@@ -46,12 +51,12 @@ class Http {
       function (error: AxiosError) {
         if (error.response?.status !== HttpStatusCode.UnprocessableEntity) {
           const data: any | undefined = error.response?.data
-          const message = data.message || error.message
+          const message = data
           toast.error(message)
         }
-        if (error.response?.status !== HttpStatusCode.Unauthorized) {
-          clearLS()
-        }
+        // if (error.response?.status !== HttpStatusCode.Unauthorized) {
+        //   clearLS()
+        // }
         return Promise.reject(error)
       }
     )

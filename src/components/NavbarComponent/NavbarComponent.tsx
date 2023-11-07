@@ -41,7 +41,7 @@ const NavbarComponent: React.FC<DropdownProps> = ({ selected, options, aliasPath
           {options.map((option, index) => (
             <div onClick={() => setIsActive(false)} className='dropdown-item'>
               <div>
-                <NavLink to={aliasPath[index]}>
+                <NavLink to={aliasPath[index]} key={index}>
                   {({ isActive }) => <span className={isActive ? 'bg-black' : ''}>{option}</span>}
                 </NavLink>
               </div>

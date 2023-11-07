@@ -5,7 +5,7 @@ import { logout } from '~/apis/auth.api'
 import { AppConxtext } from '~/contexts/app.context'
 import { NavLink } from 'react-router-dom'
 import NavbarComponent from '../NavbarComponent'
-import { hrLabel, hrPath, trainingLabel, trainingPath } from '~/constants/navbarPaths'
+import { trainingLabel, trainingPath } from '~/constants/navbarPaths'
 export default function MainHeader() {
   const selected = 'Đào tạo'
   const [open, setOpen] = useState(false)
@@ -19,15 +19,18 @@ export default function MainHeader() {
   const hidePopover = () => {
     setOpen(false)
   }
-  const { setIsAuthenticated } = useContext(AppConxtext)
-  const logoutMutation = useMutation({
-    mutationFn: logout,
-    onSuccess: () => {
-      setIsAuthenticated(false)
-    }
-  })
+  const { reset } = useContext(AppConxtext)
+  // const logoutMutation = useMutation({
+  //   mutationFn: logout,
+  //   onSuccess: () => {
+  //     setIsAuthenticated(false)
+  //   }
+  // })
+  // const handleLogout = () => {
+  //   logoutMutation.mutate()
+  // }
   const handleLogout = () => {
-    logoutMutation.mutate()
+    reset()
   }
   return (
     <div>

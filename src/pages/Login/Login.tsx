@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
 import { login } from '~/apis/auth.api'
 import { AppConxtext } from '~/contexts/app.context'
-import { SuccessReponse } from '~/types/utils.type'
+import { ErrorResponse } from '~/types/utils.type'
 import { getRules } from '~/utils/rules'
 import { isAxiosUnprocessableEntity } from '~/utils/utils'
 import { useContext } from 'react'
@@ -27,7 +27,6 @@ export default function Login() {
     mutationFn: (body: FormData) => login(body)
   })
   const onSubmit = handleSubmit((data: FormData) => {
-    console.log(data)
     loginMutation.mutate(data, {
       onSuccess: (data) => {
         setIsAuthenticated(true)
@@ -37,7 +36,7 @@ export default function Login() {
       },
       onError: (error) => {
         console.log(error)
-        if (isAxiosUnprocessableEntity<SuccessReponse<FormData>>(error)) {
+        if (isAxiosUnprocessableEntity<ErrorResponse<FormData>>(error)) {
           const formError = error.response?.data.data
           if (formError?.email) {
             setError('email', {

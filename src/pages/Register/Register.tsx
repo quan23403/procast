@@ -11,6 +11,7 @@ import { ErrorResponse } from '~/types/utils.type'
 import { useContext } from 'react'
 import { AppConxtext } from '~/contexts/app.context'
 import Button from '~/components/Button'
+import { toast } from 'react-toastify'
 interface FormData {
   email: string
   user_name: string
@@ -43,7 +44,7 @@ export default function Register() {
       onSuccess: (data) => {
         setIsAuthenticated(true)
         setProfile(data.data.data.user)
-        navigate('/')
+        navigate('/home')
         console.log(data)
       },
       onError: (error) => {

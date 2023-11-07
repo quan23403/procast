@@ -24,13 +24,12 @@ function ProtectedRoute() {
 }
 function RejectedRoute() {
   const { isAuthenticated } = useContext(AppConxtext)
-  console.log(isAuthenticated)
   return !isAuthenticated ? <Outlet /> : <Navigate to='/home' />
 }
 export default function useRouteElements() {
   const routeElements = useRoutes([
     {
-      path: '',
+      path: '/',
       element: <RejectedRoute />,
       children: [
         {
