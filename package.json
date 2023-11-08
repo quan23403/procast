@@ -14,6 +14,7 @@
     "start-json-server": "json-server --watch db.json --port 3001"
   },
   "dependencies": {
+    "@ant-design/icons": "^5.2.6",
     "@floating-ui/react": "^0.25.4",
     "@floating-ui/react-dom-interactions": "^0.13.3",
     "@fortawesome/fontawesome-svg-core": "^6.4.2",

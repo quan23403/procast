@@ -44,4 +44,9 @@
 .student-table > tbody > tr > td {
     border: solid 1px #ddd;
     text-align: center;
+    padding: 5px 0px;
+}
+.change-student-inf-button{
+    display: flex;
+    justify-content: space-around;
 }

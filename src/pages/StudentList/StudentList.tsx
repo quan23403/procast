@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import './StudentList.css'
 import Modal from './Components/Modal';
+import { DeleteOutlined } from '@ant-design/icons'
+import { FormOutlined } from '@ant-design/icons'
 export default function StudentList() {
     const nameHeaderTable = ["#", "Họ và tên", "Ngày sinh", "Giới tính", "Email", "Tình trạng", "Công cụ"];
     const [openModal, setOpenModal] = useState(false)
@@ -12,8 +14,8 @@ export default function StudentList() {
                         <h1>Danh sách học viên lớp học</h1>
                     </div>
                     <div className="btn-left">
-                        <button className='addNewStudent' onClick={() => { setOpenModal(true);}}>Thêm học viên</button>
-                        {openModal && <Modal closeModal={setOpenModal}/>}
+                        <button className='addNewStudent' onClick={() => { setOpenModal(true); }}>Thêm học viên</button>
+                        {openModal && <Modal closeModal={setOpenModal} />}
                         <button className='exportButton'>Xuất Excel</button>
                     </div>
                 </div>
@@ -38,7 +40,12 @@ export default function StudentList() {
                             <td>Nam</td>
                             <td>2102666@gmail.com</td>
                             <td>Dang theo hoc</td>
-                            <td>Chinh sua</td>
+                            <td>
+                                <div className='change-student-inf-button'>
+                                    <FormOutlined style={{ fontSize: '150%'}}/>
+                                    <DeleteOutlined style={{ fontSize: '150%'}}/>
+                                </div>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
