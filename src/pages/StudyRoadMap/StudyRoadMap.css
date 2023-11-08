@@ -1,4 +1,4 @@
-.main-content-student-list {
+.main-content-road-map {
     background-color: white;
     /* position: fixed;
     bottom: 0;
@@ -7,18 +7,18 @@
     top: 64px; */
 
 }
-.container-student-list {
+.container-road-map {
     background-color: #EEE;
     width: 100%;
     padding: 15px;
 }
-.student-table {
+.road-map-table {
     width: 100%;
 }
-.student-table > thead > tr > th {
+.road-map-table > thead > tr > th {
     border: solid 1px #ddd;
 }
-.title-student-list {
+.title-road-map {
     display: flex;
     padding: 10px 0;
     align-items: center;
@@ -29,7 +29,7 @@
 .btn-right {
     margin-left: 10px;
 }
-.addNewStudent {
+.addNewRoadMap {
     background-color: #f0db2d;
     border-radius: 5px;
     margin-right: 10px;
@@ -40,8 +40,4 @@
     margin-right: 10px;
     border-radius: 5px;
     padding: 5px 10px;
-}
-.student-table > tbody > tr > td {
-    border: solid 1px #ddd;
-    text-align: center;
 }

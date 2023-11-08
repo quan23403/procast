@@ -14,6 +14,7 @@ import Attendance from './pages/Attendance/Attendance'
 import CourseDetail from './pages/CourseDetail/CourseDetail'
 import ClassList from './pages/ClassList'
 import StudentList from './pages/StudentList'
+import StudyRoadMap from './pages/StudyRoadMap'
 const isAuthenticated = true
 function ProtectedRoute() {
   // const { isAuthenticated } = useContext(AppConxtext)
@@ -102,6 +103,14 @@ export default function useRouteElements() {
           element: (
             <MainLayout>
               <StudentList />
+            </MainLayout>
+          )
+        },
+        {
+          path: '/studyroadmap',
+          element: (
+            <MainLayout>
+              <StudyRoadMap />
             </MainLayout>
           )
         },

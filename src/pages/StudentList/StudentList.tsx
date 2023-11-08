@@ -28,6 +28,19 @@ export default function StudentList() {
                             )}
                         </tr>
                     </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                1
+                            </td>
+                            <td>Hoang Minh Quan</td>
+                            <td>23/04/2003</td>
+                            <td>Nam</td>
+                            <td>2102666@gmail.com</td>
+                            <td>Dang theo hoc</td>
+                            <td>Chinh sua</td>
+                        </tr>
+                    </tbody>
                 </table>
             </div>
         </div>
