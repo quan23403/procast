@@ -17,8 +17,6 @@ export default function SalaryList() {
 
   const [selectedRowData, setSelectedRowData] = useState<PersonSalary | null>(initialPersonalSalary)
   const { currentMonth, currentYear } = useCurrentMonthYear()
-
-  console.log(currentMonth)
   const openModal = (rowData: PersonSalary) => {
     setSelectedRowData(rowData)
     setModalOpen(true)
@@ -30,6 +28,12 @@ export default function SalaryList() {
   }
 
   const queryParams: salaryListConfig = useQueryParams()
+  if (!queryParams.name && !queryParams.month && !queryParams.year) {
+    queryParams.name = ''
+    queryParams.month = currentMonth.toString()
+    queryParams.year = currentYear.toString()
+  }
+  console.log(currentMonth, currentYear)
   const queryConfig: salaryListConfig = omitBy(
     {
       name: queryParams.name,
@@ -45,7 +49,7 @@ export default function SalaryList() {
       pathname: path.salary,
       search: createSearchParams({
         ...queryConfig,
-        name: data.text,
+        name: data.text || undefined,
         month: data.month,
         year: data.year
       }).toString()
@@ -70,14 +74,12 @@ export default function SalaryList() {
   const { data } = useQuery({
     queryKey: ['salary', queryConfig],
     queryFn: () => {
-      console.log(queryConfig)
       return salaryApi.getSalary(queryConfig)
     }
   })
-
   return (
     <div>
-      <form className='max-w-screen-xl flex justify-start py-3 px-3 ' onSubmit={onSubmit}>
+      <form className='max-w-screen-xl flex justify-start py-3 px-3 ' onSubmit={onSubmit} autoComplete='off'>
         <Controller
           name='text'
           control={control}
@@ -85,7 +87,6 @@ export default function SalaryList() {
             <input
               type='text'
               placeholder='Từ khóa'
-              defaultValue={'locnguyen'}
               className='mr-4 w-200 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block p-2.5 dark:bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500'
               {...field}
             />
@@ -101,7 +102,7 @@ export default function SalaryList() {
               className='mr-4 w-200 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block p-2.5 dark:bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500 '
               min={1}
               max={12}
-              defaultValue={currentMonth}
+              defaultValue={currentMonth.toString()}
               {...field}
             />
           )}
@@ -116,7 +117,7 @@ export default function SalaryList() {
               className='mr-4 w-200 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block p-2.5 dark:bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500'
               min={1990}
               max={2050}
-              defaultValue={currentYear}
+              defaultValue={currentYear.toString()}
               {...field}
             />
           )}
@@ -189,7 +190,7 @@ export default function SalaryList() {
           </thead>
           <tbody>
             {data &&
-              data.data.data?.salaryList.map((salaryList: PersonSalary) => (
+              data.data.data.map((salaryList: PersonSalary) => (
                 <tr key={salaryList.userId} className='m-0'>
                   <td className=' border-slate-300 border-2 '>{salaryList.userId}</td>
                   <td className=' border-slate-300 border-2'>

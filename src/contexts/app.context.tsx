@@ -25,7 +25,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
 
   const reset = () => {
     setIsAuthenticated(false)
-    setProfile(null)
+    clearLS()
   }
   return (
     <AppConxtext.Provider value={{ isAuthenticated, setIsAuthenticated, profile, setProfile, reset }}>

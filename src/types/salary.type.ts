@@ -1,8 +1,6 @@
-import { faUnderline } from '@fortawesome/free-solid-svg-icons'
-
 interface Salary {
-  course_type: string
-  course_type_id: number
+  payroll_id: string
+  course_type: number
   work_days: number
   price_each: number
   amount: number

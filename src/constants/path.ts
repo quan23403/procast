@@ -10,6 +10,6 @@ const path = {
   schedule: '/schedule',
   courseDetail: '/detail/:id',
   attendance: '/attendance',
-  classList: '/classList'
+  classList: '/edu-class'
 }
 export default path

@@ -1,11 +1,12 @@
 import './ClassList.css'
 import { useState } from 'react'
 import Dropdown from './Dropdown'
-import CreateModal from '~/components/CreateModal'
 import { useQuery } from '@tanstack/react-query'
 import englishClassApi from '~/apis/englishClass.api'
 import { nameLabelSeacrch, options, options1, options2, options3, options4 } from '~/constants/nameLabelSearch'
-
+import CreateClassModal from '~/components/CreateClassModal'
+import { englishClass } from '~/types/englishClass.type'
+import { FormOutlined } from '@ant-design/icons'
 export default function ClassList() {
   const [selected, setSelected] = useState(nameLabelSeacrch[0])
   const [selected1, setSelected1] = useState(nameLabelSeacrch[1])
@@ -82,20 +83,23 @@ export default function ClassList() {
               </thead>
               <tbody>
                 {data &&
-                  data.data.data?.englishClassList.map((classes) => (
+                  data.data.data.map((classes: englishClass) => (
                     <tr>
                       <td>
                         <input type='checkbox'></input>
                       </td>
-                      <td>{classes.CourseId}</td>
-                      <td>{classes.CourseName}</td>
-                      <td>{classes.MainTeacher}</td>
-                      <td>{classes.Room}</td>
-                      <td>{classes.StartDate}</td>
-                      <td>{classes.EndDate}</td>
+                      <td>
+                        <FormOutlined />
+                      </td>
+                      <td>{classes.course_id}</td>
+                      <td>{classes.course_name}</td>
+                      <td>{classes.main_teacher}</td>
+                      <td>{classes.room}</td>
+                      <td>{classes.start_date}</td>
+                      <td>{classes.end_date}</td>
                       <td>15:00-19:00</td>
-                      <td>{classes.CourseStatus}</td>
-                      <td>{classes.TotalSessions}</td>
+                      <td>{classes.course_status}</td>
+                      <td>{classes.total_sessions}</td>
                     </tr>
                   ))}
               </tbody>
@@ -103,7 +107,7 @@ export default function ClassList() {
           </div>
         </div>
       </div>
-      <CreateModal isOpen={isModalOpen} onClose={closeModal}></CreateModal>
+      <CreateClassModal isOpen={isModalOpen} onClose={closeModal}></CreateClassModal>
     </div>
   )
 }

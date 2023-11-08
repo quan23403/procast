@@ -45,7 +45,7 @@ export default function Register() {
         setIsAuthenticated(true)
         setProfile(data.data.data.user)
         navigate('/home')
-        console.log(data)
+        toast.success('Create new user successful')
       },
       onError: (error) => {
         if (isAxiosUnprocessableEntity<ErrorResponse<Omit<FormData, 'confirm_password'>>>(error)) {
@@ -72,7 +72,7 @@ export default function Register() {
             <h1 className='text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white text-center'>
               Register
             </h1>
-            <form className='space-y-4 md:space-y-6 ' onSubmit={onSubmit} noValidate>
+            <form className='space-y-4 md:space-y-6 ' onSubmit={onSubmit} noValidate autoComplete='off'>
               <div>
                 {/* <label htmlFor='email' className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'>
                   Your email & password
@@ -117,22 +117,20 @@ export default function Register() {
                   />
                 )}
               />
+              <select
+                {...register('gender', { required: true })}
+                className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg w-80  focus:ring-primary-600 focus:border-primary-600 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+              >
+                <option value='male'>Male</option>
+                <option value='female'>Female</option>
+                <option value='others'>Others</option>
+              </select>
               <div>
                 <input
                   type='text'
                   placeholder='Full Name'
                   className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-80 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-                  {...register('gender', rules.username)}
-                  required
-                />
-                <div className='mt-0 text-red-600 text-xs p-0'>{errors.fullName?.message}</div>
-              </div>
-              <div>
-                <input
-                  type='text'
-                  placeholder='Full Name'
-                  className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-80 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-                  {...register('fullName', rules.username)}
+                  {...register('fullName', rules.fullName)}
                   required
                 />
                 <div className='mt-0 text-red-600 text-xs p-0'>{errors.fullName?.message}</div>
@@ -164,27 +162,6 @@ export default function Register() {
                 />
                 <div className='mt-0 text-red-600 text-xs p-0'>{errors.confirm_password?.message}</div>
               </div>
-              {/* <div className='flex items-center justify-between'>
-                <div className='flex items-start'>
-                  <div className='flex items-center h-5'>
-                    <input
-                      id='remember'
-                      aria-describedby='remember'
-                      type='checkbox'
-                      className='w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800'
-                      required
-                    />
-                  </div>
-                  <div className='ml-3 text-sm'>
-                    <label htmlFor='remember' className='text-gray-500 dark:text-gray-300'>
-                      Remember me
-                    </label>
-                  </div>
-                </div>
-                <a href='#' className='text-sm font-medium text-primary-600 hover:underline dark:text-primary-500'>
-                  Forgot password?
-                </a>
-                </div>     */}
               <Button
                 type='submit'
                 className='w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 flex justify-center items-center '

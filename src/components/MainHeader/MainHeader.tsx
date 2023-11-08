@@ -1,13 +1,73 @@
 import { useContext, useState } from 'react'
 import { useFloating, FloatingPortal } from '@floating-ui/react-dom-interactions'
-import { useMutation } from '@tanstack/react-query'
-import { logout } from '~/apis/auth.api'
 import { AppConxtext } from '~/contexts/app.context'
-import { NavLink } from 'react-router-dom'
+import { Link, NavLink, createSearchParams, useNavigate } from 'react-router-dom'
 import NavbarComponent from '../NavbarComponent'
 import { trainingLabel, trainingPath } from '~/constants/navbarPaths'
+import { Button, Dropdown, Menu, type MenuProps } from 'antd'
+import { AppstoreOutlined, HomeOutlined, BookOutlined } from '@ant-design/icons'
+import path from '~/constants/path'
+import useCurrentMonthYear from '~/hooks/useCurrentMonthYear'
 export default function MainHeader() {
-  const selected = 'Đào tạo'
+  const { currentMonth, currentYear } = useCurrentMonthYear()
+  const navigate = useNavigate()
+  const onSalaryListNagivate = () => {
+    navigate({
+      pathname: path.salary,
+      search: createSearchParams({
+        month: currentMonth,
+        year: currentYear
+      }).toString()
+    })
+  }
+  const items: MenuProps['items'] = [
+    {
+      label: <Link to={path.home}>Trang chủ</Link>,
+      key: 'mail',
+      icon: <HomeOutlined />
+    },
+    {
+      label: 'Đào tạo',
+      key: 'SubMenu',
+      icon: <BookOutlined />,
+      children: [
+        {
+          label: <Link to={path.classList}>Khóa học</Link>,
+          key: 'setting:1'
+        },
+        {
+          label: 'Lớp học',
+          key: 'setting:2'
+        },
+        {
+          label: (
+            <Button rootClassName='border-none pl-0' onClick={onSalaryListNagivate}>
+              Bảng lương TA
+            </Button>
+          ),
+          key: 'setting:3'
+        },
+        {
+          label: 'Option 4',
+          key: 'setting:4'
+        }
+      ]
+    }
+    // {
+    //   label: (
+    //     <a href='https://ant.design' target='_blank' rel='noopener noreferrer'>
+    //       Navigation Four - Link
+    //     </a>
+    //   ),
+    //   key: 'alipay'
+    // }
+  ]
+  const [current, setCurrent] = useState('mail')
+
+  const onClick: MenuProps['onClick'] = (e) => {
+    console.log('click ', e)
+    setCurrent(e.key)
+  }
   const [open, setOpen] = useState(false)
   const { x, y, reference, floating, strategy } = useFloating({
     open,
@@ -20,15 +80,6 @@ export default function MainHeader() {
     setOpen(false)
   }
   const { reset } = useContext(AppConxtext)
-  // const logoutMutation = useMutation({
-  //   mutationFn: logout,
-  //   onSuccess: () => {
-  //     setIsAuthenticated(false)
-  //   }
-  // })
-  // const handleLogout = () => {
-  //   logoutMutation.mutate()
-  // }
   const handleLogout = () => {
     reset()
   }
@@ -37,8 +88,12 @@ export default function MainHeader() {
       <nav className='bg-gray-800 border-gray-200 '>
         <div className='max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4'>
           <a href='#' className='flex items-center'>
-            <img src='https://cdn-icons-png.flaticon.com/128/1290/1290874.png' className='h-8 mr-3' alt='Tiw Logo' />
-            <span className='self-center text-2xl font-semibold whitespace-nowrap dark:text-white'>Tiw </span>
+            <img
+              src='https://cdn-icons-png.flaticon.com/128/1290/1290874.png'
+              className='h-8 mr-3'
+              alt='procast logo'
+            />
+            <span className='self-center text-2xl font-semibold whitespace-nowrap dark:text-white'>Procast</span>
           </a>
           <div
             className='flex items-center md:order-2'
@@ -93,7 +148,7 @@ export default function MainHeader() {
                       <li>
                         <button
                           className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white'
-                          onClick={handleLogout}
+                          onClick={() => handleLogout()}
                         >
                           Sign out
                         </button>
@@ -149,9 +204,10 @@ export default function MainHeader() {
               </ul>
             </div>
           </div>
-          <div className='items-center justify-between hidden w-full md:flex md:w-auto md:order-1' id='navbar-user'>
+          <div>
+            {/* items-center justify-between hidden w-full md:flex md:w-auto md:order-1 */}
             {/* flex flex-col font-normal p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-800 dark:border-gray-700 */}
-            <ul
+            {/* <ul
               className='flex font-normal p-0 text-white
              space-x-10 mt-0 border-0'
             >
@@ -178,7 +234,9 @@ export default function MainHeader() {
                   )}
                 </NavLink>
               </li>
-              <NavbarComponent selected={selected} options={trainingLabel} aliasPath={trainingPath} />
+              <Dropdown menu={{ items }} placement='bottomLeft'>
+                <Button>Đào tạo</Button>
+              </Dropdown>
               <li>
                 <a
                   href='#'
@@ -203,7 +261,15 @@ export default function MainHeader() {
                   Contact
                 </a>
               </li>
-            </ul>
+            </ul> */}
+
+            <Menu
+              onClick={onClick}
+              selectedKeys={[current]}
+              mode='horizontal'
+              items={items}
+              rootClassName='bg-gray-800 text-white w-80'
+            />
           </div>
         </div>
       </nav>

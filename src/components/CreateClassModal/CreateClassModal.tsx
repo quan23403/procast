@@ -5,7 +5,7 @@ interface Props {
   onClose: () => void
 }
 
-export default function CreateModal({ isOpen, onClose }: Props) {
+export default function CreateClassModal({ isOpen, onClose }: Props) {
   const modalRoot = document.getElementById('root') as HTMLElement
   return isOpen
     ? ReactDOM.createPortal(
