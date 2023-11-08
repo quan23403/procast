@@ -12,10 +12,12 @@ import path from './constants/path'
 import Schedule from './pages/Schedule/Schedule'
 import Attendance from './pages/Attendance/Attendance'
 import CourseDetail from './pages/CourseDetail/CourseDetail'
+import ClassList from './pages/ClassList'
+import StudentList from './pages/StudentList'
+import StudyRoadMap from './pages/StudyRoadMap'
 import UserLayout from './pages/User/Layouts/UserLayout'
 import Profile from './pages/User/pages/Profile'
 import ChangePassword from './pages/User/pages/ChangePassword'
-import ClassList from './pages/ClassList'
 
 function ProtectedRoute() {
   const { isAuthenticated } = useContext(AppConxtext)
@@ -111,6 +113,30 @@ export default function useRouteElements() {
           element: (
             <MainLayout>
               <ClassList />
+            </MainLayout>
+          )
+        },
+        {
+          path: '/classlist',
+          element: (
+            <MainLayout>
+              <ClassList />
+            </MainLayout>
+          )
+        },
+        {
+          path: '/studentlist',
+          element: (
+            <MainLayout>
+              <StudentList />
+            </MainLayout>
+          )
+        },
+        {
+          path: '/studyroadmap',
+          element: (
+            <MainLayout>
+              <StudyRoadMap />
             </MainLayout>
           )
         }
