@@ -5,7 +5,7 @@ import { Link, NavLink, createSearchParams, useNavigate } from 'react-router-dom
 import NavbarComponent from '../NavbarComponent'
 import { trainingLabel, trainingPath } from '~/constants/navbarPaths'
 import { Button, Dropdown, Menu, type MenuProps } from 'antd'
-import { AppstoreOutlined, HomeOutlined, BookOutlined } from '@ant-design/icons'
+import { HomeOutlined, BookOutlined } from '@ant-design/icons'
 import path from '~/constants/path'
 import useCurrentMonthYear from '~/hooks/useCurrentMonthYear'
 export default function MainHeader() {
