@@ -5,8 +5,6 @@ export interface englishClass {
   room: number
   start_date: string
   end_date: string
-  start_time: string
-  end_time: string
   study_days: string
   course_status: string
   total_sessions: number

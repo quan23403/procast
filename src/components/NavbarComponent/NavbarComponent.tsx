@@ -37,7 +37,7 @@ const NavbarComponent: React.FC<DropdownProps> = ({ selected, options, aliasPath
         {selected}
       </div>
       {isActive && (
-        <div className='dropdown-content '>
+        <div className='dropdown-content z-5000'>
           {options.map((option, index) => (
             <div onClick={() => setIsActive(false)} className='dropdown-item'>
               <div>

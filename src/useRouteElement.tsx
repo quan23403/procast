@@ -117,6 +117,14 @@ export default function useRouteElements() {
           )
         },
         {
+          path: '/classlist',
+          element: (
+            <MainLayout>
+              <ClassList />
+            </MainLayout>
+          )
+        },
+        {
           path: '/studentlist',
           element: (
             <MainLayout>
