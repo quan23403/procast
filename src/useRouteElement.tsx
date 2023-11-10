@@ -16,6 +16,8 @@ import Profile from './pages/User/pages/Profile'
 import ChangePassword from './pages/User/pages/ChangePassword'
 import ClassList from './pages/ClassList'
 import Attendance from './pages/CourseDetail/Attendance'
+import StudentList from './pages/StudentList'
+import StudyRoadMap from './pages/StudyRoadMap'
 
 function ProtectedRoute() {
   const { isAuthenticated } = useContext(AppConxtext)
