@@ -16,14 +16,14 @@ import Profile from './pages/User/pages/Profile'
 import ChangePassword from './pages/User/pages/ChangePassword'
 import ClassList from './pages/ClassList'
 import Attendance from './pages/CourseDetail/Attendance'
-
+const isAuthenticated = true;
 function ProtectedRoute() {
-  const { isAuthenticated } = useContext(AppConxtext)
+  // const { isAuthenticated } = useContext(AppConxtext)
   // console.log(isAuthenticated)
   return isAuthenticated ? <Outlet /> : <Navigate to='/login' />
 }
 function RejectedRoute() {
-  const { isAuthenticated } = useContext(AppConxtext)
+  // const { isAuthenticated } = useContext(AppConxtext)
   return !isAuthenticated ? <Outlet /> : <Navigate to='/home' />
 }
 export default function useRouteElements() {
