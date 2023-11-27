@@ -1,11 +1,9 @@
 import { useContext, useState } from 'react'
 import { useFloating, FloatingPortal } from '@floating-ui/react-dom-interactions'
 import { AppConxtext } from '~/contexts/app.context'
-import { Link, NavLink, createSearchParams, useNavigate } from 'react-router-dom'
-import NavbarComponent from '../NavbarComponent'
-import { trainingLabel, trainingPath } from '~/constants/navbarPaths'
-import { Button, Dropdown, Menu, type MenuProps } from 'antd'
-import { AppstoreOutlined, HomeOutlined, BookOutlined } from '@ant-design/icons'
+import { Link, createSearchParams, useNavigate } from 'react-router-dom'
+import { Button, Menu, type MenuProps } from 'antd'
+import { HomeOutlined, BookOutlined } from '@ant-design/icons'
 import path from '~/constants/path'
 import useCurrentMonthYear from '~/hooks/useCurrentMonthYear'
 export default function MainHeader() {
@@ -115,7 +113,8 @@ export default function MainHeader() {
                     position: strategy,
                     top: y ?? 0,
                     left: x ?? 0,
-                    width: 'max-content'
+                    width: 'max-content',
+                    zIndex: 6000
                   }}
                 >
                   <div
@@ -130,28 +129,28 @@ export default function MainHeader() {
                     </div>
                     <ul className='py-2' aria-labelledby='user-menu-button '>
                       <li>
-                        <a
-                          href='#'
+                        <Link
+                          to={path.changePassword}
                           className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white'
                         >
                           Đổi mật khẩu
-                        </a>
+                        </Link>
                       </li>
                       <li>
-                        <a
-                          href='#'
+                        <Link
+                          to={path.profile}
                           className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white'
                         >
                           Sửa hồ sơ
-                        </a>
+                        </Link>
                       </li>
                       <li>
-                        <button
-                          className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white'
+                        <div
+                          className='block py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white px-4'
                           onClick={() => handleLogout()}
                         >
-                          Sign out
-                        </button>
+                          Đăng xuất
+                        </div>
                       </li>
                     </ul>
                   </div>
@@ -205,64 +204,6 @@ export default function MainHeader() {
             </div>
           </div>
           <div>
-            {/* items-center justify-between hidden w-full md:flex md:w-auto md:order-1 */}
-            {/* flex flex-col font-normal p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-800 dark:border-gray-700 */}
-            {/* <ul
-              className='flex font-normal p-0 text-white
-             space-x-10 mt-0 border-0'
-            >
-              <li>
-                <NavLink to='/home' className=''>
-                  {({ isActive }) => (
-                    <div className={isActive ? 'bg-black' : ''}>
-                      <svg
-                        xmlns='http://www.w3.org/2000/svg'
-                        fill='none'
-                        viewBox='0 0 24 24'
-                        strokeWidth={1.5}
-                        stroke='currentColor'
-                        className='w-6 h-6'
-                      >
-                        <path
-                          strokeLinecap='round'
-                          strokeLinejoin='round'
-                          d='M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25'
-                        />
-                      </svg>
-                      Trang chủ
-                    </div>
-                  )}
-                </NavLink>
-              </li>
-              <Dropdown menu={{ items }} placement='bottomLeft'>
-                <Button>Đào tạo</Button>
-              </Dropdown>
-              <li>
-                <a
-                  href='#'
-                  className='block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700'
-                >
-                  Báo cáo
-                </a>
-              </li>
-              <li>
-                <a
-                  href='#'
-                  className='block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700'
-                >
-                  Nhân sự
-                </a>
-              </li>
-              <li>
-                <a
-                  href='#'
-                  className='block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700'
-                >
-                  Contact
-                </a>
-              </li>
-            </ul> */}
-
             <Menu
               onClick={onClick}
               selectedKeys={[current]}

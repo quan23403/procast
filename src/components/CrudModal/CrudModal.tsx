@@ -55,8 +55,8 @@ export default function CrudModal({ isOpen, onClose, item }: Props) {
                       name='name'
                       id='name'
                       className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5 '
-                      defaultValue={item?.fullName}
-                      placeholder={item?.fullName}
+                      defaultValue={item?.full_name}
+                      placeholder={item?.full_name}
                       readOnly
                     />
                   </div>

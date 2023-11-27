@@ -13,18 +13,19 @@ export interface Course {
 }
 export default function CourseDetail() {
   const { id } = useParams()
-  console.log(id)
   const service = new CoureseDetailService()
-  const detail = service.getDetail(+id)
+  const detail = service.getDetail(id)
   const note: string | null = null
 
   return (
     <div className='course'>
-      <div className='course-label'>
+      {/* <div className='course-label'>
         <h1>
           Chi tiết lớp học {detail.courseType}-{detail.id}
         </h1>
       </div>
+      <DetailNavbar></DetailNavbar> */}
+
       <div className='content'>
         <div className='row'>
           <div className='col'>
@@ -32,75 +33,18 @@ export default function CourseDetail() {
             <div className='detail'>
               {detail.courseType}-{detail.id}
             </div>
-            <DetailNavbar></DetailNavbar>
-
-            <div className='content'>
-              <div className='row'>
-                <div className='col'>
-                  <div className='field'>THÔNG TIN LỚP HỌC:</div>
-                  <div className='detail'>
-                    {detail.courseType}-{detail.id}
-                  </div>
-                </div>
-              </div>
-              <div className='row'>
-                <div className='col'>
-                  <div className='field'>Khóa học:</div>
-                  <div className='detail'>a{}</div>
-                </div>
-                <div className='col'>
-                  <div className='field'>
-                    Ngày khai giảng:
-                    <br />
-                    Kết thúc:
-                  </div>
-                  <div className='detail'>
-                    a{}
-                    <br />a{}
-                  </div>
-                </div>
-                <div className='col'>
-                  <div className='field'>Ca học:</div>
-                  <div className='detail'>a{}</div>
-                </div>
-              </div>
-              <div className='row'>
-                <div className='col'>
-                  <div className='field'>Số học viên:</div>
-                  <div className='detail'>a{}</div>
-                </div>
-                <div className='col'>
-                  <div className='field'>Số học viên tối đa:</div>
-                  <div className='detail'>a{}</div>
-                </div>
-                <div className='col' />
-              </div>
-              <div className='row'>
-                <div className='col'>
-                  <div className='field'>Địa điểm học:</div>
-                  <div className='detail'>a{}</div>
-                </div>
-                <div className='col'>
-                  <div className='field'>Phòng học:</div>
-                  <div className='detail'>a{}</div>
-                </div>
-                <div className='col'>
-                  <div className='field'>Giảng viên:</div>
-                  {/* dùng for và el<br/> */}
-                  <div className='detail'>{}</div>
-                </div>
-              </div>
-              <div className='row'>
-                <div className='col'>
-                  <div className='field'>Số buổi học:</div>
-                  <div className='detail'>{}</div>
-                </div>
-                <div className='col'>
-                  <div className='field'>Lịch học:</div>
-                  <div className='detail'>{}</div>
-                </div>
-                <div className='col' />
-              </div>
+          </div>
+        </div>
+        <div className='row'>
+          <div className='col'>
+            <div className='field'>Khóa học:</div>
+            <div className='detail'>a{}</div>
+          </div>
+          <div className='col'>
+            <div className='field'>
+              Ngày khai giảng:
+              <br />
+              Kết thúc:
             </div>
             <div className='detail'>
               a{}

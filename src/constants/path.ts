@@ -8,8 +8,11 @@ const path = {
   logout: '/logout',
   salary: '/salary',
   schedule: '/schedule',
-  courseDetail: '/detail/:id',
-  attendance: '/attendance',
+  detail: '/detail/id/:id',
+  courseDetail: '/detail/id/:id/index',
+  studentList: '/detail/id/:id/studentlist',
+  studyRoadmap: '/detail/id/:id/studyRoadmap',
+  classAttendance: '/detail/id/:id/classAttendance',
   classList: '/edu-class'
 }
 export default path

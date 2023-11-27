@@ -33,7 +33,7 @@ export default function ClassList() {
             <button className='purple-btn'>Xuất Excel</button>
           </div>
         </div>
-        <div className='page-search'>
+        <div className='page-search pt-3'>
           <div className='container-search-element'>
             <input type='text' placeholder='Từ khóa' className='search-element'></input>
           </div>

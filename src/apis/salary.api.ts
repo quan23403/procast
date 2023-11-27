@@ -11,5 +11,3 @@ const salaryApi = {
   }
 }
 export default salaryApi
-
-// <SuccessReponse<salaryList>>

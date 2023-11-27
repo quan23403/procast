@@ -18,6 +18,7 @@ import ClassList from './pages/ClassList'
 import Attendance from './pages/CourseDetail/Attendance'
 import StudentList from './pages/StudentList'
 import StudyRoadMap from './pages/StudyRoadMap'
+import ClassDetailLayout from './layouts/ClassDetailLayout'
 
 function ProtectedRoute() {
   const { isAuthenticated } = useContext(AppConxtext)
@@ -93,50 +94,36 @@ export default function useRouteElements() {
           ]
         },
         {
-          path: path.courseDetail,
+          path: path.detail,
           element: (
             <MainLayout>
-              <CourseDetail />
+              <ClassDetailLayout />
             </MainLayout>
-          )
-        },
-        {
-          path: path.attendance,
-          element: (
-            <MainLayout>
-              <Attendance />
-            </MainLayout>
-          )
+          ),
+          children: [
+            {
+              path: path.courseDetail,
+              element: <CourseDetail />
+            },
+            {
+              path: path.studentList,
+              element: <StudentList />
+            },
+            {
+              path: path.studyRoadmap,
+              element: <StudyRoadMap />
+            },
+            {
+              path: path.classAttendance,
+              element: <Attendance />
+            }
+          ]
         },
         {
           path: path.classList,
           element: (
             <MainLayout>
               <ClassList />
-            </MainLayout>
-          )
-        },
-        {
-          path: '/classlist',
-          element: (
-            <MainLayout>
-              <ClassList />
-            </MainLayout>
-          )
-        },
-        {
-          path: '/studentlist',
-          element: (
-            <MainLayout>
-              <StudentList />
-            </MainLayout>
-          )
-        },
-        {
-          path: '/studyroadmap',
-          element: (
-            <MainLayout>
-              <StudyRoadMap />
             </MainLayout>
           )
         }

@@ -33,7 +33,6 @@ export default function SalaryList() {
     queryParams.month = currentMonth.toString()
     queryParams.year = currentYear.toString()
   }
-  console.log(currentMonth, currentYear)
   const queryConfig: salaryListConfig = omitBy(
     {
       name: queryParams.name,
