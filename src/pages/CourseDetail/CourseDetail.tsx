@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare } from '@fortawesome/free-regular-svg-icons';
 import { CoureseDetailService } from './CourseDetail.service';
 import { useParams } from 'react-router-dom';
+import DetailNavbar from './DetailNavbar/DetailNavbar';
 
 export interface Course {
     id: number,
@@ -21,6 +22,8 @@ export default function CourseDetail() {
             <div className="course-label">
                 <h1>Chi tiết lớp học {detail.courseType}-{detail.id}</h1>
             </div>
+            <DetailNavbar></DetailNavbar>
+            
             <div className="content">
                 <div className="row">
                     <div className='col'>

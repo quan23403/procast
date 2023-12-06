@@ -1,0 +1,36 @@
+.page-tab {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px 10px 15px;
+}
+
+
+.nav {
+    list-style: none ;
+    padding-left: 0;
+}
+
+.page-tab .nav > li > a.active {
+    background-color: yellow;
+}
+
+.page-tab .nav > li {
+    display: inline-block;
+    margin: 5px 5px;
+}
+
+.page-tab .nav > li > a {
+    display: block;
+    background-color: #e9e9e9;
+    margin: 0 10px 0 0;
+    padding : 0 15px;
+    height: 36px;
+    line-height: 36px;
+    border-radius: 3px;
+    text-decoration: none;
+    color : black;
+}
+.nav > li > a:hover {
+    background-color:yellow;
+}

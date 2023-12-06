@@ -1,23 +1,24 @@
 import { useQuery } from '@tanstack/react-query'
 import { isUndefined, omitBy } from 'lodash'
-
 import { Fragment, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { createSearchParams, useNavigate } from 'react-router-dom'
 import salaryApi from '~/apis/salary.api'
 import CrudModal from '~/components/CrudModal'
 import path from '~/constants/path'
+import useCurrentMonthYear from '~/hooks/useCurrentMonthYear'
 import useQueryParams from '~/hooks/useQueryParams'
 import { PersonSalary, salaryListConfig } from '~/types/salary.type'
 import { formatCurrency } from '~/utils/utils'
-
 export default function SalaryList() {
   const initialPersonalSalary: PersonSalary | null = null
 
   const [isModalOpen, setModalOpen] = useState<boolean>(false)
 
   const [selectedRowData, setSelectedRowData] = useState<PersonSalary | null>(initialPersonalSalary)
+  const { currentMonth, currentYear } = useCurrentMonthYear()
 
+  console.log(currentMonth)
   const openModal = (rowData: PersonSalary) => {
     setSelectedRowData(rowData)
     setModalOpen(true)
@@ -31,9 +32,9 @@ export default function SalaryList() {
   const queryParams: salaryListConfig = useQueryParams()
   const queryConfig: salaryListConfig = omitBy(
     {
-      user: queryParams.user,
       name: queryParams.name,
-      date: queryParams.date
+      month: queryParams.month,
+      year: queryParams.year
     },
     isUndefined
   )
@@ -45,17 +46,24 @@ export default function SalaryList() {
       search: createSearchParams({
         ...queryConfig,
         name: data.text,
-        date: data.month
+        month: data.month,
+        year: data.year
       }).toString()
     })
   })
+
   const handleClear = () => {
     reset({
       text: '',
-      month: ''
+      month: '',
+      year: ''
     }) // This will reset the form's input fields.
     navigate({
-      pathname: path.salary
+      pathname: path.salary,
+      search: createSearchParams({
+        month: currentMonth,
+        year: currentYear
+      }).toString()
     })
   }
 
@@ -77,7 +85,8 @@ export default function SalaryList() {
             <input
               type='text'
               placeholder='Từ khóa'
-              className='mr-4 w-400 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+              defaultValue={'locnguyen'}
+              className='mr-4 w-200 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block p-2.5 dark:bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500'
               {...field}
             />
           )}
@@ -87,9 +96,27 @@ export default function SalaryList() {
           control={control}
           render={({ field }) => (
             <input
-              type='month'
-              placeholder='Tháng/Năm'
-              className='mr-4 w-200 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+              type='number'
+              placeholder='Tháng'
+              className='mr-4 w-200 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block p-2.5 dark:bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500 '
+              min={1}
+              max={12}
+              defaultValue={currentMonth}
+              {...field}
+            />
+          )}
+        />
+        <Controller
+          name='year'
+          control={control}
+          render={({ field }) => (
+            <input
+              type='number'
+              placeholder='Năm'
+              className='mr-4 w-200 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block p-2.5 dark:bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500'
+              min={1990}
+              max={2050}
+              defaultValue={currentYear}
               {...field}
             />
           )}
@@ -162,7 +189,7 @@ export default function SalaryList() {
           </thead>
           <tbody>
             {data &&
-              data.data.data?.salaryList.map((salaryList) => (
+              data.data.data?.salaryList.map((salaryList: PersonSalary) => (
                 <tr key={salaryList.userId} className='m-0'>
                   <td className=' border-slate-300 border-2 '>{salaryList.userId}</td>
                   <td className=' border-slate-300 border-2'>
@@ -179,12 +206,12 @@ export default function SalaryList() {
                       </svg>
                     </button>
                   </td>
-                  <td className=' border-slate-300 border-2 '>{salaryList.fullName}</td>
-                  <td className=' border-slate-300 border-2'>{salaryList.jobPosition}</td>
+                  <td className=' border-slate-300 border-2 '>{salaryList.full_name}</td>
+                  <td className=' border-slate-300 border-2'>{salaryList.job_position}</td>
                   <td className=' border-slate-300 border-2'>{salaryList.gender}</td>
                   {salaryList.salary.map((salary, index) => (
                     <Fragment key={index}>
-                      <td className=' border-slate-300 border-2'>{salary.work_dates}</td>
+                      <td className=' border-slate-300 border-2'>{salary.work_days}</td>
                       <td className=' border-slate-300 border-2'>{formatCurrency(salary.price_each)} </td>
                       <td className=' border-slate-300 border-2'>{formatCurrency(salary.amount)}</td>
                     </Fragment>
