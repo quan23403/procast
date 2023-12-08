@@ -15,8 +15,10 @@ import UserLayout from './pages/User/Layouts/UserLayout'
 import Profile from './pages/User/pages/Profile'
 import ChangePassword from './pages/User/pages/ChangePassword'
 import ClassList from './pages/ClassList'
-import Attendance from './pages/CourseDetail/Attendance'
-const isAuthenticated = true;
+import Attendance from './pages/CourseDetail/Attendance/Attendance'
+import StudentList from './pages/StudentList/StudentList'
+import StudyRoadMap from './pages/StudyRoadMap/StudyRoadMap'
+const isAuthenticated = true
 function ProtectedRoute() {
   // const { isAuthenticated } = useContext(AppConxtext)
   // console.log(isAuthenticated)
