@@ -6,47 +6,17 @@ import ClassCheckIn from './ClassCheckin'
 
 export default function Attendance() {
   const classesList: classesList[] = [
-    {
-      id: 1,
-      name: 'B1'
-    },
-    {
-      id: 2,
-      name: 'B2'
-    },
-    {
-      id: 3,
-      name: 'B3'
-    },
-    {
-      id: 4,
-      name: 'B4'
-    },
-    {
-      id: 5,
-      name: 'B5'
-    },
-    {
-      id: 6,
-      name: 'B6'
-    },
-    {
-      id: 7,
-      name: 'B7'
-    },
-    {
-      id: 8,
-      name: 'B8'
-    },
-    {
-      id: 9,
-      name: 'B9'
-    },
-    {
-      id: 10,
-      name: 'B10'
-    }
-  ]
+    { id: 1, name: 'B1', date: '2023-10-27' },
+    { id: 3, name: 'B2', date: '2023-10-30' },
+    { id: 2, name: 'B3', date: '2023-12-07' },
+    { id: 4, name: 'B4', date: '2023-11-03' },
+    { id: 5, name: 'B5', date: '2023-11-06' },
+    { id: 6, name: 'B6', date: '2023-11-08' },
+    { id: 7, name: 'B7', date: '2023-11-10' },
+    { id: 8, name: 'B8', date: '2023-11-13' },
+    { id: 9, name: 'B9', date: '2023-11-15' },
+    { id: 10, name: 'B10', date: '2023-11-17' },
+  ];
   const initialStudentList: studentList = {
     studentList: [
       {
@@ -56,24 +26,14 @@ export default function Attendance() {
         note: '',
         checkin: [
           {
-            class: 'bo tro',
-            status: 'done'
+            classId: 1,
+            status: '1'
           },
           {
-            class: 'advance',
-            status: 'done'
+            classId: 2,
+            status: 'M'
           }
         ],
-        hw: [
-          {
-            class: 'bo tro',
-            status: 'done'
-          },
-          {
-            class: 'advance',
-            status: 'done'
-          }
-        ]
       },
       {
         id: 2,
@@ -82,24 +42,14 @@ export default function Attendance() {
         note: '',
         checkin: [
           {
-            class: 'bo tro',
-            status: 'done'
+            classId: 1,
+            status: '1'
           },
           {
-            class: 'advance',
-            status: 'done'
+            classId: 2,
+            status: '1'
           }
         ],
-        hw: [
-          {
-            class: 'bo tro',
-            status: 'done'
-          },
-          {
-            class: 'advance',
-            status: 'done'
-          }
-        ]
       }
     ]
   }
@@ -110,10 +60,10 @@ export default function Attendance() {
         <div className='tag-content'>
           <div className='page-content'>
             <ClassCheckIn classesList={classesList} studentList={studentList} />
-            <div className='seperate'>
+            {/* <div className='seperate'>
               <hr />
             </div>
-            <HWCheck classesList={classesList} studentList={studentList} />
+            <HWCheck classesList={classesList} studentList={studentList} /> */}
           </div>
         </div>
       </div>

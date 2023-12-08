@@ -4,11 +4,7 @@ export interface Student {
   dob: string
   note?: string
   checkin: {
-    class: string
-    status: string
-  }[]
-  hw: {
-    class: string
+    classId: number 
     status: string
   }[]
 }

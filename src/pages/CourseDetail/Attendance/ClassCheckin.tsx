@@ -1,3 +1,5 @@
+import { Select, Table } from 'antd'
+import dayjs from 'dayjs'
 import { classesList } from '~/types/classLists.type'
 import { Student, studentList } from '~/types/student.type'
 interface Props {
@@ -5,6 +7,51 @@ interface Props {
   studentList: studentList
 }
 export default function ClassCheckIn({ classesList, studentList }: Props) {
+  const updateCheckin = (studentId, status) => {
+    console.log([studentId, status])
+  }
+  const columns = [
+    { title: '#', dataIndex: 'id', key: 'id', fixed: 'left', width: 40 },
+    { title: 'Họ tên', dataIndex: 'name', key: 'name', fixed: 'left', width: 200 },
+    { title: 'Ngày sinh', dataIndex: 'dob', key: 'dob', fixed: 'left', width: 120 },
+    { title: 'Ghi chú', dataIndex: 'note', key: 'note', fixed: 'left', width: 80 },
+    ...classesList.map((session) => {
+      const isToday = session.date === dayjs().format('YYYY-MM-DD')
+      return {
+        title: session.name,
+        dataIndex: ['checkin'],
+        key: session.id,
+        width: 60,
+        align: 'center',
+        render: (text, record: Student) => {
+          const sessionCheck = text.find((ses) => (ses.classId === session.id)) || null
+          // const [status, setStatus] = useState<string|null>(sessionCheck.status || null)
+          return isToday ?
+            <Select
+              showSearch
+              options={[
+                { value: '1' },
+                { value: 'M' },
+                { value: '0' },
+                { value: 'P' },
+              ]}
+              defaultValue={sessionCheck?.status || null}
+              onChange={(value) => {
+                updateCheckin(record.id, value)
+              }}
+              popupMatchSelectWidth={false}
+              style={{
+                padding:'0'
+              }}
+              size={'small'}
+              bordered={false}
+              suffixIcon={<></>}
+            ></Select>
+            : <span>{sessionCheck?.status || null}</span>;
+        },
+      }
+    })
+  ]
   return (
     <>
       <div className='page-content-title'>
@@ -19,34 +66,13 @@ export default function ClassCheckIn({ classesList, studentList }: Props) {
         <span className='item'>Nghỉ học: 0</span>
         <span className='item'>Nghỉ phép: P</span>
       </div>
-      <div className='page-content-wrap'>
-        <table className='table-attendence'>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Họ Tên</th>
-              <th>Ngày sinh</th>
-              <th>Ghi chú</th>
-              {classesList.map((courseClass: classesList) => (
-                <th key={courseClass.id}>{courseClass.name}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {studentList.studentList.map((student: Student) => (
-              <tr key={student.id}>
-                <td>{student.id}</td>
-                <td>{student.name}</td>
-                <td>{student.dob}</td>
-                <td>{student.note === null ? '' : student.note}</td>
-                {student.checkin.map((courseClass) => (
-                  <span id={courseClass.class}>{courseClass.status}</span>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <Table 
+        dataSource={studentList.studentList} 
+        columns={columns}
+        bordered={true} 
+        scroll={{ x: 1500, y: 300 }}>
+      </Table>
     </>
   )
+
 }
