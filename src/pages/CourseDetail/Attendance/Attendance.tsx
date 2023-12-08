@@ -1,5 +1,4 @@
 import '~/css/Attendance.css'
-import HWCheck from './HWCheck'
 import { studentList } from '~/types/student.type'
 import { classesList } from '~/types/classLists.type'
 import ClassCheckIn from './ClassCheckin'

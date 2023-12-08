@@ -1,9 +1,9 @@
-import { useState } from 'react'
+import { MouseEvent, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 
-export default function DetailNavbar({ id }) {
-  const [activeLink, setActiveLink] = useState(null)
-  const handleClick = (id, event) => {
+export default function DetailNavbar({ id }: {id: string}) {
+  const [activeLink, setActiveLink] = useState('')
+  const handleClick = (id: string, event: MouseEvent<HTMLAnchorElement, globalThis.MouseEvent>) => {
     event.preventDefault()
     setActiveLink(id)
   }

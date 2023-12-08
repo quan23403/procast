@@ -1,20 +1,23 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Select, Table } from 'antd'
 import dayjs from 'dayjs'
 import { classesList } from '~/types/classLists.type'
 import { Student, studentList } from '~/types/student.type'
+import { AlignType, FixedType } from 'rc-table/lib/interface';
+
 interface Props {
   classesList: classesList[]
   studentList: studentList
 }
 export default function ClassCheckIn({ classesList, studentList }: Props) {
-  const updateCheckin = (studentId, status) => {
+  const updateCheckin = (studentId: number, status: any) => {
     console.log([studentId, status])
   }
   const columns = [
-    { title: '#', dataIndex: 'id', key: 'id', fixed: 'left', width: 40 },
-    { title: 'Họ tên', dataIndex: 'name', key: 'name', fixed: 'left', width: 200 },
-    { title: 'Ngày sinh', dataIndex: 'dob', key: 'dob', fixed: 'left', width: 120 },
-    { title: 'Ghi chú', dataIndex: 'note', key: 'note', fixed: 'left', width: 80 },
+    { title: '#', dataIndex: 'id', key: 'id', fixed: 'left' as FixedType, width: 40 },
+    { title: 'Họ tên', dataIndex: 'name', key: 'name', fixed: 'left' as FixedType, width: 200 },
+    { title: 'Ngày sinh', dataIndex: 'dob', key: 'dob', fixed: 'left' as FixedType, width: 120 },
+    { title: 'Ghi chú', dataIndex: 'note', key: 'note', fixed: 'left' as FixedType, width: 80 },
     ...classesList.map((session) => {
       const isToday = session.date === dayjs().format('YYYY-MM-DD')
       return {
@@ -22,9 +25,9 @@ export default function ClassCheckIn({ classesList, studentList }: Props) {
         dataIndex: ['checkin'],
         key: session.id,
         width: 60,
-        align: 'center',
-        render: (text, record: Student) => {
-          const sessionCheck = text.find((ses) => (ses.classId === session.id)) || null
+        align: 'center' as AlignType,
+        render: (text: any[], record: Student) => {
+          const sessionCheck = text.find((ses: { classId: number }) => (ses.classId === session.id)) || null
           // const [status, setStatus] = useState<string|null>(sessionCheck.status || null)
           return isToday ?
             <Select

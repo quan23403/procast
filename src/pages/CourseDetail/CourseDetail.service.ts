@@ -4,11 +4,11 @@ export class CoureseDetailService {
     baseUrl = "";
     detail!: Course;
     setDetail(detail: Course) {this.detail=detail}
-    getDetail(id: number){
+    getDetail(id: string | undefined){
         this.fetchCourseDetail(id);
         return this.detail;
     }
-    async fetchCourseDetail(id: number) {
+    async fetchCourseDetail(id: string | undefined) {
         const test: Course = {
             id: id,
             courseType: 'PSA'
