@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 import { useMutation } from '@tanstack/react-query'
 import { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
@@ -9,12 +10,20 @@ interface Props {
   onClose: () => void
   item: PersonSalary | null
 }
+
 export default function CrudModal({ isOpen, onClose, item }: Props) {
   const [formData, setFormData] = useState<PersonSalary | null>(item)
   useEffect(() => {
     setFormData(item)
   }, [item])
-  const updatedFormData: Exclude<PersonSalary, undefined> = { ...formData }
+  const updatedFormData: Exclude<PersonSalary, undefined> = {
+    userId: formData?.userId!,  // Use the non-null assertion operator
+    user_name: formData?.user_name || '',  // Provide a default value
+    full_name: formData?.full_name || '',  // Provide a default value
+    gender: formData?.gender || '',  // Provide a default value
+    job_position: formData?.job_position || '',  // Provide a default value
+    salary: formData?.salary || [],  // Provide a default value
+  }
   const handlePriceChange = (newPrice: number, index: number) => {
     updatedFormData.salary[index].price_each = newPrice
     setFormData(updatedFormData)

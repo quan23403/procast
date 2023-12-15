@@ -26,7 +26,7 @@ export default function ClassDetailLayout() {
           Chi tiết lớp học {data?.data.data.course_name}-{data?.data.data.course_id}
         </h1>
       </div>
-      <DetailNavbar id={id}></DetailNavbar>
+      <DetailNavbar id={id? id : 'null'}></DetailNavbar>
       <Outlet />
     </div>
   )
