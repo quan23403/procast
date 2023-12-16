@@ -18,6 +18,7 @@ import ClassList from './pages/ClassList'
 import Attendance from './pages/CourseDetail/Attendance/Attendance'
 import StudentList from './pages/StudentList/StudentList'
 import StudyRoadMap from './pages/StudyRoadMap/StudyRoadMap'
+import EmployeeList from './pages/EmployeeList'
 const isAuthenticated = true
 function ProtectedRoute() {
   // const { isAuthenticated } = useContext(AppConxtext)
@@ -137,6 +138,14 @@ export default function useRouteElements() {
           element: (
             <MainLayout>
               <StudyRoadMap />
+            </MainLayout>
+          )
+        },
+        {
+          path: '/employeelist',
+          element: (
+            <MainLayout>
+              <EmployeeList />
             </MainLayout>
           )
         },
