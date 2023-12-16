@@ -2,12 +2,12 @@
 import { Select, Table } from 'antd'
 import dayjs from 'dayjs'
 import { classesList } from '~/types/classLists.type'
-import { Student, studentList } from '~/types/student.type'
+import { StudentCheckin} from '~/types/student.type'
 import { AlignType, FixedType } from 'rc-table/lib/interface';
 
 interface Props {
   classesList: classesList[]
-  studentList: studentList
+  studentList: StudentCheckin[]
 }
 export default function ClassCheckIn({ classesList, studentList }: Props) {
   const updateCheckin = (studentId: number, status: any) => {
@@ -26,7 +26,7 @@ export default function ClassCheckIn({ classesList, studentList }: Props) {
         key: session.id,
         width: 60,
         align: 'center' as AlignType,
-        render: (text: any[], record: Student) => {
+        render: (text: any[], record: StudentCheckin) => {
           const sessionCheck = text.find((ses: { classId: number }) => (ses.classId === session.id)) || null
           // const [status, setStatus] = useState<string|null>(sessionCheck.status || null)
           return isToday ?
@@ -70,7 +70,7 @@ export default function ClassCheckIn({ classesList, studentList }: Props) {
         <span className='item'>Nghỉ phép: P</span>
       </div>
       <Table 
-        dataSource={studentList.studentList} 
+        dataSource={studentList} 
         columns={columns}
         bordered={true} 
         scroll={{ x: 1500, y: 300 }}>

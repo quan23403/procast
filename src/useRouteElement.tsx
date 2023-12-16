@@ -5,8 +5,6 @@ import SalaryList from './pages/SalaryList'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import RegisterLayout from './layouts/RegisterLayout'
-import { useContext } from 'react'
-import { AppConxtext } from './contexts/app.context'
 import MainLayout from './layouts/MainLayout'
 import path from './constants/path'
 import Schedule from './pages/Schedule/Schedule'
@@ -20,13 +18,14 @@ import StudentList from './pages/StudentList'
 import StudyRoadMap from './pages/StudyRoadMap'
 import ClassDetailLayout from './layouts/ClassDetailLayout'
 
+const isAuthenticated = true;
 function ProtectedRoute() {
-  const { isAuthenticated } = useContext(AppConxtext)
+  // const { isAuthenticated } = useContext(AppConxtext)
   // console.log(isAuthenticated)
   return isAuthenticated ? <Outlet /> : <Navigate to='/login' />
 }
 function RejectedRoute() {
-  const { isAuthenticated } = useContext(AppConxtext)
+  // const { isAuthenticated } = useContext(AppConxtext)
   return !isAuthenticated ? <Outlet /> : <Navigate to='/home' />
 }
 export default function useRouteElements() {
