@@ -4,10 +4,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPenToSquare } from '@fortawesome/free-regular-svg-icons'
 import { CoureseDetailService } from './CourseDetail.service'
 import { useParams } from 'react-router-dom'
-import DetailNavbar from './DetailNavbar/DetailNavbar'
+// import DetailNavbar from './DetailNavbar/DetailNavbar'
 
 export interface Course {
-  id: number
+  id: string | undefined
   courseType: string
   note?: string | null
 }

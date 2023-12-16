@@ -1,8 +1,8 @@
-import { useState } from 'react';
+// import { useState } from 'react';
 import './StudyRoadMap.css'
 export default function StudyRoadMap() {
         const nameHeaderTable = ["Công cụ", "Buổi học", "Ngày", "Ca học", "Môn học", "Giáo viên", "TA đã được duyệt","Ghi chú của giáo viên","Ghi chú của giáo vụ"];
-        const [openModal, setOpenModal] = useState(false)
+        // const [openModal, setOpenModal] = useState(false)
         return (
             <div className="container-road-map">
                 <div className="main-content-road-map">

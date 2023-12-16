@@ -1,4 +1,4 @@
-export interface Student {
+export interface StudentCheckin {
   id: number
   name: string
   dob: string
@@ -6,8 +6,6 @@ export interface Student {
   checkin: {
     classId: number 
     status: string
+    date?: string
   }[]
-}
-export interface studentList {
-  studentList: Student[]
 }

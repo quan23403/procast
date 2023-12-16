@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState, useEffect, useRef } from 'react'
 import './Dropdown.css'
 
@@ -37,7 +38,7 @@ const Dropdown: React.FC<DropdownProps> = ({ selected, setSelected, options }) =
       </div>
       {isActive && (
         <div className='dropdown-content'>
-          {options.map((option, index) => (
+          {options.map((option, _index) => (
             <div
               onClick={() => {
                 setSelected(option)
