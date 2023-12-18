@@ -1,23 +1,14 @@
 import { Button } from "antd";
 import { useState } from "react";
-
+import TeacherList from "./TeacherList.json"
+import TAList from "./TAList.json"
 export default function () {
     const nameHeaderTable = ["#", "Họ và tên", "Ngày sinh", "Giới tính", "Email"];
-    const teacherList = [
-        { name: "Nguyễn Cao A", dob: "1", gender: "Nữ", email: "abc@gmail.com" },
-        { name: "Nguyễn Cao B", dob: "2", gender: "Nữ", email: "abc@gmail.com" },
-        { name: "Nguyễn Cao C", dob: "3", gender: "Nữ", email: "abc@gmail.com" },
-        { name: "Nguyễn Cao D", dob: "4", gender: "Nữ", email: "abc@gmail.com" },
-        { name: "Nguyễn Cao Thanh", dob: "5", gender: "Nữ", email: "abc@gmail.com" }
-    ];
-    const teachingassistantList = [
-        { name: "Tống Đức A", dob: "1", gender: "Nữ", email: "abc@gmail.com" },
-        { name: "Tống Đức B", dob: "2", gender: "Nữ", email: "abc@gmail.com" },
-        { name: "Tống Đức C", dob: "3", gender: "Nữ", email: "abc@gmail.com" },
-        { name: "Tống Đức D", dob: "4", gender: "Nữ", email: "abc@gmail.com" },
-        { name: "Tống Đức E", dob: "4", gender: "Nữ", email: "abc@gmail.com" },
-        { name: "Tống Đức Minh", dob: "5", gender: "Nữ", email: "abc@gmail.com" }
-    ];
+
+    // Lấy dữ liệu test từ File Json
+    const teacherList = TeacherList;
+    const teachingassistantList = TAList;
+    // List danh sách theo nhu cầu
     const [list, setList] = useState(teacherList);
     return (
         <div className="container-employee-list">
@@ -46,9 +37,9 @@ export default function () {
                                 </tr>
                             </thead>
                             <tbody>
-                                {list.map((data, index) => (
+                                {list.data.map((data, index) => (
                                     <tr><th style={{ border: "solid 1px #ddd",fontWeight:"normal"}}>{index + 1}</th>
-                                        <th style={{ border: "solid 1px #ddd",fontWeight:"normal", width:"30%", textAlign:"left", paddingLeft:"10px"}}>{data.name}</th>
+                                        <th style={{ border: "solid 1px #ddd",fontWeight:"normal", width:"30%", textAlign:"left", paddingLeft:"10px"}}>{data.full_name}</th>
                                         <th style={{ border: "solid 1px #ddd",fontWeight:"normal" }}>{data.dob}</th>
                                         <th style={{ border: "solid 1px #ddd",fontWeight:"normal" }}>{data.gender}</th>
                                         <th style={{ border: "solid 1px #ddd",fontWeight:"normal", width:"30%", textAlign:"left", paddingLeft:"10px"}}>{data.email}</th>

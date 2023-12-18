@@ -1,0 +1,53 @@
+{
+    "data": [
+        {
+            "user_id": "20230925144533",
+            "user_name": "hello",
+            "dob": "2003-10-15",
+            "email": "tdminhg@gmail.com",
+            "job_position": "Teacher",
+            "role": "user",
+            "start_date": "2023-09-25",
+            "password": "",
+            "full_name": "Tong Duc Minh",
+            "gender": "Male"
+        },
+        {
+            "user_id": "20231009183214",
+            "user_name": "minhtd5",
+            "dob": "2003-10-15",
+            "email": "ducminhtong1510@gmail.com",
+            "job_position": "Teacher",
+            "role": "user",
+            "start_date": "2023-10-09",
+            "password": "",
+            "full_name": "Nguyen Cow Thank",
+            "gender": "Male"
+        },
+        {
+            "user_id": "20231009184909",
+            "user_name": "minhtd1515",
+            "dob": "2003-10-15",
+            "email": "ducminhtong15102003@gmail.com",
+            "job_position": "Teacher",
+            "role": "admin",
+            "start_date": "2023-10-09",
+            "password": "",
+            "full_name": "Nguyen Tun Loc",
+            "gender": "Male"
+        },
+        {
+            "user_id": "20231102182757",
+            "user_name": "minhtd15156",
+            "dob": "1990-01-01",
+            "email": "example@example.com",
+            "job_position": "Teacher",
+            "role": "user",
+            "start_date": "2023-11-02",
+            "password": "",
+            "full_name": "Nguyen Tun Minh",
+            "gender": "Male"
+        }
+    ],
+    "message": "Successful get  Teacher"
+}
