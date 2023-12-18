@@ -17,13 +17,13 @@ import Attendance from './pages/CourseDetail/Attendance'
 import StudentList from './pages/StudentList'
 import StudyRoadMap from './pages/StudyRoadMap'
 import ClassDetailLayout from './layouts/ClassDetailLayout'
-import { useContext } from 'react'
-import { AppConxtext } from './contexts/app.context'
+// import { useContext } from 'react'
+// import { AppConxtext } from './contexts/app.context'
 import EmployeeList from './pages/EmployeeList'
 
 const isAuthenticated = true;
 function ProtectedRoute() {
-  const { isAuthenticated } = useContext(AppConxtext)
+  // const { isAuthenticated } = useContext(AppConxtext)
   // console.log(isAuthenticated)
   return isAuthenticated ? <Outlet /> : <Navigate to='/login' />
 }

@@ -3,13 +3,13 @@ import './StudentList.css'
 import Modal from './Components/Modal';
 import { DeleteOutlined } from '@ant-design/icons'
 import { FormOutlined } from '@ant-design/icons'
-import DetailClassHeader from '~/components/DetailClassHeader';
+// import DetailClassHeader from '~/components/DetailClassHeader';
 export default function StudentList() {
     const nameHeaderTable = ["#", "Họ và tên", "Ngày sinh", "Giới tính", "Email", "Tình trạng", "Công cụ"];
     const [openModal, setOpenModal] = useState(false)
     return (
         <div className="container-student-list">
-            <DetailClassHeader></DetailClassHeader>
+            {/* <DetailClassHeader></DetailClassHeader> */}
             <div className="main-content-student-list">
                 <div className='title-student-list' style={{display:"flex", alignItems:"center"}}>
                     <h2 style={{paddingLeft:"10px", fontWeight:"bold"}}>Danh sách sinh viên</h2>
