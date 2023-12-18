@@ -17,6 +17,9 @@ import Attendance from './pages/CourseDetail/Attendance'
 import StudentList from './pages/StudentList'
 import StudyRoadMap from './pages/StudyRoadMap'
 import ClassDetailLayout from './layouts/ClassDetailLayout'
+// import { useContext } from 'react'
+// import { AppConxtext } from './contexts/app.context'
+import EmployeeList from './pages/EmployeeList'
 
 const isAuthenticated = true;
 function ProtectedRoute() {
@@ -125,7 +128,39 @@ export default function useRouteElements() {
               <ClassList />
             </MainLayout>
           )
-        }
+        },
+        {
+          path: '/classlist',
+          element: (
+            <MainLayout>
+              <ClassList />
+            </MainLayout>
+          )
+        },
+        {
+          path: '/studentlist',
+          element: (
+            <MainLayout>
+              <StudentList />
+            </MainLayout>
+          )
+        },
+        {
+          path: '/studyroadmap',
+          element: (
+            <MainLayout>
+              <StudyRoadMap />
+            </MainLayout>
+          )
+        },
+        {
+          path: '/employeelist',
+          element: (
+            <MainLayout>
+              <EmployeeList />
+            </MainLayout>
+          )
+        },
       ]
     }
   ])

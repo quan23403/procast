@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom';
 import { isUndefined, omitBy } from 'lodash';
 import { useQuery } from '@tanstack/react-query';
 import classDetailApi from '~/apis/classDetail.api';
+// import DetailClassHeader from '~/components/DetailClassHeader'
 
 export default function Attendance() {
   // const classesList: classesList[] = [
@@ -82,6 +83,7 @@ export default function Attendance() {
   return (
     <div>
       <div className='main-content'>
+        {/* <DetailClassHeader></DetailClassHeader> */}
         <div className='tag-content'>
           <div className='page-content'>
             <ClassCheckIn classesList={classesList} studentList={studentList} />

@@ -39,7 +39,7 @@ export default function Schedule() {
     return "";
   }
   const dateCellRender = (value: Dayjs) => {
-    const dateClasses: CourseClass[] = data?.data.data.filter((data) => data.date == value.format('YYYY-MM-DD')) || [];
+    const dateClasses: CourseClass[] = data?.data.data.filter((data) => data.date === value.format('YYYY-MM-DD')) || [];
     // const dateClasses: CourseClass[] = dataTest.filter((data) => data.date == value.format('YYYY-MM-DD')) || [];
     return (
       <ul>
