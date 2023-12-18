@@ -1,5 +1,5 @@
 export interface StudentCheckin {
-  id: number
+  student_id: number
   name: string
   dob: string
   note?: string
@@ -8,4 +8,10 @@ export interface StudentCheckin {
     status: string
     date?: string
   }[]
+}
+
+export interface CheckinParam {
+  student_id: number
+  class_id: number
+  status: string
 }
