@@ -5,6 +5,7 @@ interface Props {
   studentList: studentList
 }
 export default function ClassCheckIn({ classesList, studentList }: Props) {
+  const headerTableClassCheckIn = ["#","Họ và tên", "Ngày sinh", "Ghi chú"];
   return (
     <>
       <div className='page-content-title'>
@@ -19,26 +20,25 @@ export default function ClassCheckIn({ classesList, studentList }: Props) {
         <span className='item'>Nghỉ học: 0</span>
         <span className='item'>Nghỉ phép: P</span>
       </div>
-      <div className='page-content-wrap'>
-        <table className='table-attendence'>
+      <div className='page-content-wrap' style={{overflowX:"auto"}}>
+        <table className='table-attendence' style={{width:"100%", borderCollapse:"collapse"}}>
           <thead>
             <tr>
-              <th>#</th>
-              <th>Họ Tên</th>
-              <th>Ngày sinh</th>
-              <th>Ghi chú</th>
+              {headerTableClassCheckIn.map((header) =>(
+            <th style={{ border: "solid 1px #ddd",fontWeight:"normal"}}>{header}</th>
+              ))}
               {classesList.map((courseClass: classesList) => (
-                <th key={courseClass.id}>{courseClass.name}</th>
+                <th style={{ border: "solid 1px #ddd",fontWeight:"normal"}} key={courseClass.id}>{courseClass.name}</th>
               ))}
             </tr>
           </thead>
           <tbody>
-            {studentList.studentList.map((student: Student) => (
+            {studentList.studentList.map((student: Student, index) => (
               <tr key={student.id}>
-                <td>{student.id}</td>
-                <td>{student.name}</td>
-                <td>{student.dob}</td>
-                <td>{student.note === null ? '' : student.note}</td>
+                <td style={{ border: "solid 1px #ddd",fontWeight:"normal", textAlign:"center"}}>{index+1}</td>
+                <td style={{ border: "solid 1px #ddd",fontWeight:"normal", width:"30%", textAlign:"left", paddingLeft:"10px"}}>{student.name}</td>
+                <td style={{ border: "solid 1px #ddd",fontWeight:"normal", textAlign:"center"}}>{student.dob}</td>
+                <td style={{ border: "solid 1px #ddd",fontWeight:"normal"}}>{student.note === null ? '' : student.note}</td>
                 {student.checkin.map((courseClass) => (
                   <span id={courseClass.class}>{courseClass.status}</span>
                 ))}

@@ -5,12 +5,12 @@
     left: 0;
     right: 0;
     top: 64px; */
-
+    margin: 20px;
 }
 .container-student-list {
     background-color: #EEE;
     width: 100%;
-    padding: 15px;
+    padding-bottom: 10px;
 }
 .student-table {
     width: 100%;
@@ -18,17 +18,15 @@
 .student-table > thead > tr > th {
     border: solid 1px #ddd;
 }
-.title-student-list {
+/* .title-student-list {
     display: flex;
     padding: 10px 0;
     align-items: center;
-}
+} */
 .btn-left {
     margin-left: auto;
 }
-.btn-right {
-    margin-left: 10px;
-}
+
 .addNewStudent {
     background-color: #f0db2d;
     border-radius: 5px;

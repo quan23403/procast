@@ -3,17 +3,17 @@ import './StudentList.css'
 import Modal from './Components/Modal';
 import { DeleteOutlined } from '@ant-design/icons'
 import { FormOutlined } from '@ant-design/icons'
+import DetailClassHeader from '~/components/DetailClassHeader';
 export default function StudentList() {
     const nameHeaderTable = ["#", "Họ và tên", "Ngày sinh", "Giới tính", "Email", "Tình trạng", "Công cụ"];
     const [openModal, setOpenModal] = useState(false)
     return (
         <div className="container-student-list">
+            <DetailClassHeader></DetailClassHeader>
             <div className="main-content-student-list">
-                <div className="title-student-list">
-                    <div className="btn-right">
-                        <h1>Danh sách học viên lớp học</h1>
-                    </div>
-                    <div className="btn-left">
+                <div className='title-student-list' style={{display:"flex", alignItems:"center"}}>
+                    <h2 style={{paddingLeft:"10px", fontWeight:"bold"}}>Danh sách sinh viên</h2>
+                    <div className="items" style={{ padding: "15px", marginLeft:"auto"}}>
                         <button className='addNewStudent' onClick={() => { setOpenModal(true); }}>Thêm học viên</button>
                         {openModal && <Modal closeModal={setOpenModal} />}
                         <button className='exportButton'>Xuất Excel</button>
@@ -42,8 +42,8 @@ export default function StudentList() {
                             <td>Dang theo hoc</td>
                             <td>
                                 <div className='change-student-inf-button'>
-                                    <FormOutlined style={{ fontSize: '150%'}}/>
-                                    <DeleteOutlined style={{ fontSize: '150%'}}/>
+                                    <FormOutlined style={{ fontSize: '150%' }} />
+                                    <DeleteOutlined style={{ fontSize: '150%' }} />
                                 </div>
                             </td>
                         </tr>

@@ -7,10 +7,8 @@ export default function DetailNavbar() {
         event.preventDefault();
         setActiveLink(id);
     }
-
     return (
         <>
-
             <div className="page-tab">
                 <ul className="nav">
                     <li>
@@ -36,18 +34,6 @@ export default function DetailNavbar() {
                         className={activeLink === 'attendance' ? 'active' : ''}
                         onClick={(e) => handleClick('attendance', e) }
                          href="">Điểm danh</a>
-                    </li>
-                    <li>
-                        <a id='sup-class'
-                        className={activeLink === 'sup-class' ? 'active' : ''}
-                        onClick={(e) => handleClick('sup-class', e) }
-                         href="">Bổ trợ</a>
-                    </li>
-                    <li>
-                        <a id='history'
-                        className={activeLink === 'history' ? 'active' : ''}
-                        onClick={(e) => handleClick('history', e) }
-                         href="">Lịch sử thay đổi</a>
                     </li>
                 </ul>
                 <div className="time-system">Time : 23/04/2003</div>

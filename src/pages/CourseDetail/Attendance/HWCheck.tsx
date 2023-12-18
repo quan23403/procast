@@ -1,4 +1,5 @@
-export default function HWCheck(props) {
+export default function HWCheck(props: any) {
+  const headerHWCheck = ["#","Họ Tên", "Ngày sinh"]
   return (
     <>
       <div className='page-content-title'>Điểm danh bài tập</div>
@@ -7,13 +8,13 @@ export default function HWCheck(props) {
         <span className='item'>Không làm bài tập: 0</span>
         <span className='item'>Không giao bài tập: N</span>
       </div>
-      <div className='page-content-wrap'>
-        <table className='table-attendence'>
+      <div className='page-content-wrap' style={{overflowX:"auto"}}>
+        <table className='table-attendence' style={{width:"100%"}}>
           <thead>
             <tr>
-              <th>#</th>
-              <th>Họ Tên</th>
-              <th>Ngày sinh</th>
+              {headerHWCheck.map((header) => (
+                <th style={{ border: "solid 1px #ddd",fontWeight:"normal"}}>{header}</th>
+              ))}
             </tr>
           </thead>
         </table>

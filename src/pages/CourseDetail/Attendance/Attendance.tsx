@@ -2,7 +2,8 @@ import '~/css/Attendance.css'
 import HWCheck from './HWCheck'
 import { studentList } from '~/types/student.type'
 import { classesList } from '~/types/classLists.type'
-import ClassCheckIn from './ClassCheckIn'
+import ClassCheckIn from './ClassCheckin'
+import DetailClassHeader from '~/components/DetailClassHeader'
 
 export default function Attendance() {
   const classesList: classesList[] = [
@@ -107,38 +108,7 @@ export default function Attendance() {
   return (
     <div>
       <div className='main-content'>
-        <div className='page-control'>
-          <div className='title name-class'>Chi tiết lớp học</div>
-          <div className='title btt-group'>
-            <a href=''>
-              <i className='far' />
-              <button className='btt-blu'>Danh Sách</button>
-            </a>
-          </div>
-        </div>
-        <div className='page-tab'>
-          <ul className='nav'>
-            <li>
-              <a href=''>Thông tin chung</a>
-            </li>
-            <li>
-              <a href=''>Danh sách học viên</a>
-            </li>
-            <li>
-              <a href=''>Lộ trình học</a>
-            </li>
-            <li>
-              <a href=''>Điểm danh</a>
-            </li>
-            <li>
-              <a href=''>Bổ trợ</a>
-            </li>
-            <li>
-              <a href=''>Lịch sử thay đổi</a>
-            </li>
-          </ul>
-          <div className='time-system'>Time : 23/04/2003</div>
-        </div>
+        <DetailClassHeader></DetailClassHeader>
         <div className='tag-content'>
           <div className='page-content'>
             <ClassCheckIn classesList={classesList} studentList={studentList} />
