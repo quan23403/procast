@@ -5,12 +5,13 @@
     left: 0;
     right: 0;
     top: 64px; */
-
+    margin: 20px;
 }
 .container-road-map {
     background-color: #EEE;
     width: 100%;
-    padding: 15px;
+    /* padding: 15px; */
+    padding-bottom: 10px;
 }
 .road-map-table {
     width: 100%;
@@ -18,11 +19,11 @@
 .road-map-table > thead > tr > th {
     border: solid 1px #ddd;
 }
-.title-road-map {
+/* .title-road-map {
     display: flex;
     padding: 10px 0;
     align-items: center;
-}
+} */
 .btn-left {
     margin-left: auto;
 }

@@ -1,13 +1,17 @@
-export interface Student {
-  id: number
+export interface StudentCheckin {
+  student_id: number
   name: string
   dob: string
   note?: string
   checkin: {
     classId: number 
     status: string
+    date?: string
   }[]
 }
-export interface studentList {
-  studentList: Student[]
+
+export interface CheckinParam {
+  student_id: number
+  class_id: number
+  status: string
 }

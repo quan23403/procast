@@ -1,17 +1,38 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Select, Table } from 'antd'
 import dayjs from 'dayjs'
 import { classesList } from '~/types/classLists.type'
-import { Student, studentList } from '~/types/student.type'
+import { StudentCheckin} from '~/types/student.type'
 import { AlignType, FixedType } from 'rc-table/lib/interface';
+import { useMutation } from '@tanstack/react-query';
+import classDeltailApi from '~/apis/classDetail.api';
 
 interface Props {
   classesList: classesList[]
-  studentList: studentList
+  studentList: StudentCheckin[]
 }
 export default function ClassCheckIn({ classesList, studentList }: Props) {
-  const updateCheckin = (studentId: number, status: any) => {
+  const updateCheckin = (studentId: number, status: any, check:boolean, classId: number) => {
     console.log([studentId, status])
+    if (check) {
+      useMutation({
+        mutationFn: () => classDeltailApi.updateStudentCheckin({
+          student_id: studentId,
+          class_id: classId,
+          status: status
+        })
+      })
+    }
+    else {
+      useMutation({
+        mutationFn: () => classDeltailApi.postStudentCheckin({
+          student_id: studentId,
+          class_id: classId,
+          status: status
+        })
+      })
+    }
   }
   const columns = [
     { title: '#', dataIndex: 'id', key: 'id', fixed: 'left' as FixedType, width: 40 },
@@ -26,8 +47,8 @@ export default function ClassCheckIn({ classesList, studentList }: Props) {
         key: session.id,
         width: 60,
         align: 'center' as AlignType,
-        render: (text: any[], record: Student) => {
-          const sessionCheck = text.find((ses: { classId: number }) => (ses.classId === session.id)) || null
+        render: (text: any[], record: StudentCheckin) => {
+          const sessionCheck = text.find((ses: classesList) => (ses.id === session.id)) || null
           // const [status, setStatus] = useState<string|null>(sessionCheck.status || null)
           return isToday ?
             <Select
@@ -40,7 +61,8 @@ export default function ClassCheckIn({ classesList, studentList }: Props) {
               ]}
               defaultValue={sessionCheck?.status || null}
               onChange={(value) => {
-                updateCheckin(record.id, value)
+                const check = sessionCheck !== null
+                updateCheckin(record.student_id, value, check, session.id)
               }}
               popupMatchSelectWidth={false}
               style={{
@@ -70,7 +92,7 @@ export default function ClassCheckIn({ classesList, studentList }: Props) {
         <span className='item'>Nghỉ phép: P</span>
       </div>
       <Table 
-        dataSource={studentList.studentList} 
+        dataSource={studentList} 
         columns={columns}
         bordered={true} 
         scroll={{ x: 1500, y: 300 }}>

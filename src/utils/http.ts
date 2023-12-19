@@ -11,7 +11,7 @@ class Http {
     this.accessToken = getAccessTokenFromLS()
     this.profile = getProfileFromLS()
     this.instance = axios.create({
-      baseURL: 'http://localhost:8081',
+      baseURL: 'http://fall2324w20g6.int3306.freeddns.org/',
       timeout: 10000,
       headers: {
         'Content-Type': 'application/json'

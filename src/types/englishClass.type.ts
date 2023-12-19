@@ -10,6 +10,7 @@ export interface englishClass {
   study_days: string
   course_status: string
   total_sessions: number
+  note?: string
 }
 // export interface englishCLassList {
 //   englishClassList: englishClass[]
