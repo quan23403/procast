@@ -1,5 +1,5 @@
 import { Controller, useForm } from 'react-hook-form'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, createSearchParams, useNavigate } from 'react-router-dom'
 import { getRules } from '~/utils/rules'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
@@ -12,6 +12,9 @@ import { useContext } from 'react'
 import { AppConxtext } from '~/contexts/app.context'
 import Button from '~/components/Button'
 import { toast } from 'react-toastify'
+import useFirstDayOfMonth from '~/hooks/useFirstDayOfMonth'
+import useLastDayOfMonth from '~/hooks/useLastDayOfMonth'
+import path from '~/constants/path'
 interface FormData {
   email: string
   user_name: string
@@ -24,6 +27,8 @@ interface FormData {
 export default function Register() {
   const { setIsAuthenticated, setProfile } = useContext(AppConxtext)
   const navigate = useNavigate()
+  const startDate = useFirstDayOfMonth()
+  const endDate = useLastDayOfMonth()
   const {
     register,
     handleSubmit,
@@ -44,8 +49,14 @@ export default function Register() {
       onSuccess: (data) => {
         setIsAuthenticated(true)
         setProfile(data.data.data.user)
-        navigate('/home')
         toast.success('Create new user successful')
+        navigate({
+          pathname: path.home,
+          search: createSearchParams({
+            fromDate: startDate,
+            toDate: endDate
+          }).toString()
+        })
       },
       onError: (error) => {
         if (isAxiosUnprocessableEntity<ErrorResponse<Omit<FormData, 'confirm_password'>>>(error)) {
@@ -65,7 +76,7 @@ export default function Register() {
       <div className='flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 bg-slate-900 min-h-screen'>
         <a href='#' className='flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white'>
           <img className='w-8 h-8 mr-2' src='https://cdn-icons-png.flaticon.com/128/1290/1290874.png' alt='logo' />
-          Fake Tiw
+          Procast
         </a>
         <div className='w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md  l:p-0 dark:bg-gray-800 dark:border-gray-700 '>
           <div className='p-6 space-y-4 md:space-y-6 sm:p-8 space-x-8 flex flex-col'>

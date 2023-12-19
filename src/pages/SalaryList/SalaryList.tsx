@@ -76,6 +76,10 @@ export default function SalaryList() {
       return salaryApi.getSalary(queryConfig)
     }
   })
+  console.log(data)
+  const courseTypes = Array.from(
+    new Set(data?.data.data.flatMap((user) => user.salary_config.map((config) => config.course_type)))
+  )
   return (
     <div>
       <form className='max-w-screen-xl flex justify-start py-3 px-3 ' onSubmit={onSubmit} autoComplete='off'>
@@ -159,41 +163,31 @@ export default function SalaryList() {
               <th className='px-5 border-slate-300 border-2' rowSpan={2}>
                 Giới tính
               </th>
-              <th className='px-5  border-slate-300 border-2' colSpan={3}>
-                TA bổ trợ nhóm Basic
-              </th>
-              <th className='px-5  border-slate-300 border-2' colSpan={3}>
-                TA bổ trợ nhóm Advanced
-              </th>
-              <th className='px-5 border-slate-300 border-2' colSpan={3}>
-                TA bổ trợ nhóm BTCS
-              </th>
-              <th className='px-5 border-slate-300 border-2' colSpan={3}>
-                TA bổ trợ không có học viên
-              </th>
+              {courseTypes.map((courseType) => (
+                <Fragment key={courseType}>
+                  <th className='px-5  border-slate-300 border-2' colSpan={3}>
+                    {courseType}
+                  </th>
+                </Fragment>
+              ))}
             </tr>
             <tr>
-              <th className='px-5  border-slate-300 border-2'>Số giờ dạy</th>
-              <th className='px-5  border-slate-300 border-2'>Giá tiền</th>
-              <th className='px-5  border-slate-300 border-2'>Thành tiền</th>
-              <th className='px-5  border-slate-300 border-2'>Số giờ dạy</th>
-              <th className='px-5  border-slate-300 border-2'>Giá tiền</th>
-              <th className='px-5  border-slate-300 border-2'>Thành tiền</th>
-              <th className='px-5  border-slate-300 border-2'>Số giờ dạy</th>
-              <th className='px-5  border-slate-300 border-2'>Giá tiền</th>
-              <th className='px-5  border-slate-300 border-2'>Thành tiền</th>
-              <th className='px-5  border-slate-300 border-2'>Số giờ dạy</th>
-              <th className='px-5  border-slate-300 border-2'>Giá tiền</th>
-              <th className='px-5  border-slate-300 border-2'>Thành tiền</th>
+              {courseTypes.map((courseType) => (
+                <Fragment key={courseType}>
+                  <th className='px-5  border-slate-300 border-2'>Số giờ dạy</th>
+                  <th className='px-5  border-slate-300 border-2'>Giá tiền</th>
+                  <th className='px-5  border-slate-300 border-2'>Thành tiền</th>
+                </Fragment>
+              ))}
             </tr>
           </thead>
           <tbody>
             {data &&
-              data.data.data.map((salaryList: PersonSalary) => (
-                <tr key={salaryList.userId} className='m-0'>
-                  <td className=' border-slate-300 border-2 '>{salaryList.userId}</td>
+              data.data.data.map((user: PersonSalary, index) => (
+                <tr key={index} className='m-0'>
+                  <td className=' border-slate-300 border-2 '>{index + 1}</td>
                   <td className=' border-slate-300 border-2'>
-                    <button onClick={() => openModal(salaryList)}>
+                    <button onClick={() => openModal(user)}>
                       <svg
                         xmlns='http://www.w3.org/2000/svg'
                         width={24}
@@ -206,16 +200,24 @@ export default function SalaryList() {
                       </svg>
                     </button>
                   </td>
-                  <td className=' border-slate-300 border-2 '>{salaryList.full_name}</td>
-                  <td className=' border-slate-300 border-2'>{salaryList.job_position}</td>
-                  <td className=' border-slate-300 border-2'>{salaryList.gender}</td>
-                  {salaryList.salary.map((salary, index) => (
-                    <Fragment key={index}>
-                      <td className=' border-slate-300 border-2'>{salary.work_days}</td>
-                      <td className=' border-slate-300 border-2'>{formatCurrency(salary.price_each)} </td>
-                      <td className=' border-slate-300 border-2'>{formatCurrency(salary.amount)}</td>
-                    </Fragment>
-                  ))}
+                  <td className=' border-slate-300 border-2 '> {user.full_name}</td>
+                  <td className=' border-slate-300 border-2'>{user.job_position}</td>
+                  <td className=' border-slate-300 border-2'> {user.gender}</td>
+                  {courseTypes.map((courseType) => {
+                    const userConfig = user.salary_config.find((config) => config.course_type === courseType)
+                    const userSalary = user.salary.find((s) => s.payroll_id === userConfig?.payroll_id)
+                    const total = userSalary ? userSalary.work_days * userConfig!.payroll_rate : 0
+
+                    return (
+                      <Fragment key={courseType}>
+                        <td className=' border-slate-300 border-2'>{userSalary ? userSalary.work_days : 'N/A'}</td>
+                        <td className=' border-slate-300 border-2'>
+                          {userConfig ? formatCurrency(userConfig.payroll_rate) : 'N/A'}
+                        </td>
+                        <td className=' border-slate-300 border-2'>{userSalary ? formatCurrency(total) : 'N/A'}</td>
+                      </Fragment>
+                    )
+                  })}
                 </tr>
               ))}
           </tbody>

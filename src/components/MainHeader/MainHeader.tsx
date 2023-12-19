@@ -6,8 +6,12 @@ import { Button, Menu, type MenuProps } from 'antd'
 import { HomeOutlined, BookOutlined } from '@ant-design/icons'
 import path from '~/constants/path'
 import useCurrentMonthYear from '~/hooks/useCurrentMonthYear'
+import useFirstDayOfMonth from '~/hooks/useFirstDayOfMonth'
+import useLastDayOfMonth from '~/hooks/useLastDayOfMonth'
 export default function MainHeader() {
   const { currentMonth, currentYear } = useCurrentMonthYear()
+  const firstDayOfMonth = useFirstDayOfMonth()
+  const lastDayOfMonth = useLastDayOfMonth()
   const navigate = useNavigate()
   const onSalaryListNagivate = () => {
     navigate({
@@ -18,9 +22,23 @@ export default function MainHeader() {
       }).toString()
     })
   }
+  const onHomeNavigate = () => {
+    navigate({
+      pathname: path.home,
+      search: createSearchParams({
+        fromDate: firstDayOfMonth,
+        toDate: lastDayOfMonth
+      }).toString()
+    })
+  }
+  // <Link to={path.home}>Trang chủ</Link>
   const items: MenuProps['items'] = [
     {
-      label: <Link to={path.home}>Trang chủ</Link>,
+      label: (
+        <Button rootClassName='border-none pl-0 text-white' onClick={onHomeNavigate}>
+          Trang Chủ
+        </Button>
+      ),
       key: 'mail',
       icon: <HomeOutlined />
     },
@@ -77,7 +95,7 @@ export default function MainHeader() {
   const hidePopover = () => {
     setOpen(false)
   }
-  const { reset } = useContext(AppConxtext)
+  const { reset, profile } = useContext(AppConxtext)
   const handleLogout = () => {
     reset()
   }
@@ -122,9 +140,11 @@ export default function MainHeader() {
                     // id='user-dropdown'
                   >
                     <div className='px-4 py-3 '>
-                      <span className='block text-sm text-gray-900 dark:text-white'>Loc Nguyen</span>
+                      <span className='block text-sm text-gray-900 dark:text-white'>
+                        {profile?.user_name ?? 'Default name'}
+                      </span>
                       <span className='block text-sm  text-gray-500 truncate dark:text-gray-400'>
-                        loclieulinh318@gmail.com
+                        {profile?.email ?? 'Default email'}
                       </span>
                     </div>
                     <ul className='py-2' aria-labelledby='user-menu-button '>
