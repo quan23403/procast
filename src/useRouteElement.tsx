@@ -56,12 +56,11 @@ export default function useRouteElements() {
       ]
     },
     {
-      path: '',
+      path: '/',
       element: <ProtectedRoute />,
       children: [
         {
           path: path.salary,
-
           element: (
             <MainLayout>
               <SalaryList />

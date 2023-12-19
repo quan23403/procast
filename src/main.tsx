@@ -16,12 +16,12 @@ const queryClient = new QueryClient({
 })
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename='/web/'>
       <QueryClientProvider client={queryClient}>
         <AppProvider>
           <App />
         </AppProvider>
-        <ReactQueryDevtools initialIsOpen={false} />
+        {process.env.NODE_ENV === 'development' && <ReactQueryDevtools initialIsOpen={false} />}
       </QueryClientProvider>
     </BrowserRouter>
   </React.StrictMode>

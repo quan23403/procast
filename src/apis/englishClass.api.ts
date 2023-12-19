@@ -6,7 +6,7 @@ const englishClassApi = {
   getClass() {
     return http.get<SuccessReponse<englishClass[]>>(URL)
   },
-  createClass(body: englishClass | null) {
+  createClass(body: Omit<englishClass, 'course_id'>) {
     return http.post<SuccessReponse<englishClass>>('classList/add', body)
   }
 }
