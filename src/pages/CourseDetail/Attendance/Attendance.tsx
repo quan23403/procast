@@ -64,22 +64,27 @@ export default function Attendance() {
     isUndefined
   )
   const { data: checkinData } = useQuery({
-    queryKey: ['classDetail', queryConfig],
+    queryKey: ['checkinData', queryConfig],
     queryFn: () => {
       return classDetailApi.getStudentCheckinList(queryConfig)
     }
   })
+  const studentList : StudentCheckin[] = [...(checkinData?.data?.data ?? [])];
 
   const { data: sessionsData } = useQuery({
-    queryKey: ['classDetail', queryConfig],
+    queryKey: ['sessionsData', queryConfig],
     queryFn: () => {
       return classDetailApi.getSessionList(queryConfig)
     }
   })
 
-  const studentList : StudentCheckin[] = checkinData?.data.data || [];
-  const classesList : classesList[] = sessionsData?.data.data || []
-  
+  const classesList: classesList[] = [...(sessionsData?.data?.data ?? [])].map(item => ({
+    ...item,
+    date: new Date(item.date)
+  })).sort((a, b) => a.date.getTime() - b.date.getTime()).map((item, index) => ({
+    ...item,
+    name: `Buổi ${index+1}`
+  }));
   return (
     <div>
       <div className='main-content'>

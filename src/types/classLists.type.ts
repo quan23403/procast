@@ -1,5 +1,10 @@
 export interface classesList {
-  id: number
-  name: string
-  date: string
+  class_id: number
+  type_class: number
+  date: string | Date
+  start_time: string
+  end_time: string
+  room?: string
+  note?: string
+  name?: string
 }
