@@ -2,8 +2,10 @@ import './CourseDetail.css'
 import '../../App.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPenToSquare } from '@fortawesome/free-regular-svg-icons'
-import { CoureseDetailService } from './CourseDetail.service'
 import { useParams } from 'react-router-dom'
+import { useQuery } from '@tanstack/react-query'
+import { omitBy, isUndefined } from 'lodash'
+import classDetailApi from '~/apis/classDetail.api'
 // import DetailNavbar from './DetailNavbar/DetailNavbar'
 
 export interface Course {
@@ -13,10 +15,33 @@ export interface Course {
 }
 export default function CourseDetail() {
   const { id } = useParams()
-  const service = new CoureseDetailService()
-  const detail = service.getDetail(id)
+  const queryConfig = omitBy(
+    {
+      classId: id
+    },
+    isUndefined
+  )
+  const { data } = useQuery({
+    queryKey: ['classDetail', queryConfig],
+    queryFn: () => {
+      return classDetailApi.getClassDetail(queryConfig)
+    }
+  })
   const note: string | null = null
-
+  const detail = data?.data?.data || {
+    course_id: null,
+    course_name: null,
+    main_teacher: null,
+    room: null,
+    start_date: null,
+    end_date: null,
+    start_time: null,
+    end_time: null,
+    study_days: null,
+    course_status: null,
+    total_sessions: null,
+    note: null,
+  }
   return (
     <div className='course'>
       {/* <div className='course-label'>
@@ -31,65 +56,65 @@ export default function CourseDetail() {
           <div className='col'>
             <div className='field'>THÔNG TIN LỚP HỌC:</div>
             <div className='detail'>
-              {detail.courseType}-{detail.id}
+              {detail.course_name}-{detail.course_id}
             </div>
           </div>
         </div>
         <div className='row'>
           <div className='col'>
             <div className='field'>Khóa học:</div>
-            <div className='detail'>a{}</div>
+            <div className='detail'>{detail.course_name}</div>
           </div>
           <div className='col'>
             <div className='field'>
-              Ngày khai giảng:
+              Ngày khai giảng: 
               <br />
-              Kết thúc:
+              Kết thúc: 
             </div>
             <div className='detail'>
-              a{}
-              <br />a{}
+            {detail.start_date}
+              <br />{detail.end_date}
             </div>
           </div>
           <div className='col'>
-            <div className='field'>Ca học:</div>
-            <div className='detail'>a{}</div>
+            <div className='field'>Ca học: </div>
+            <div className='detail'>{detail.start_time}-{detail.end_time}</div>
           </div>
         </div>
         <div className='row'>
           <div className='col'>
             <div className='field'>Số học viên:</div>
-            <div className='detail'>a{}</div>
+            <div className='detail'>{}</div>
           </div>
           <div className='col'>
             <div className='field'>Số học viên tối đa:</div>
-            <div className='detail'>a{}</div>
+            <div className='detail'>{}</div>
           </div>
           <div className='col' />
         </div>
         <div className='row'>
           <div className='col'>
             <div className='field'>Địa điểm học:</div>
-            <div className='detail'>a{}</div>
+            <div className='detail'>Hoàng Quốc Việt</div>
           </div>
           <div className='col'>
             <div className='field'>Phòng học:</div>
-            <div className='detail'>a{}</div>
+            <div className='detail'>{detail.room}</div>
           </div>
           <div className='col'>
             <div className='field'>Giảng viên:</div>
             {/* dùng for và el<br/> */}
-            <div className='detail'>{}</div>
+            <div className='detail'>{detail.main_teacher}</div>
           </div>
         </div>
         <div className='row'>
           <div className='col'>
             <div className='field'>Số buổi học:</div>
-            <div className='detail'>{}</div>
+            <div className='detail'>{detail.total_sessions}</div>
           </div>
           <div className='col'>
             <div className='field'>Lịch học:</div>
-            <div className='detail'>{}</div>
+            <div className='detail'>{detail.study_days}</div>
           </div>
           <div className='col' />
         </div>

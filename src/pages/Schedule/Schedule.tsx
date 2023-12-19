@@ -39,14 +39,14 @@ export default function Schedule() {
     return "";
   }
   const dateCellRender = (value: Dayjs) => {
-    const dateClasses: CourseClass[] = data?.data.data.filter((data) => data.date === value.format('YYYY-MM-DD')) || [];
+    const dateClasses: CourseClass[] = data?.data?.data?.filter((data) => data.date === value.format('YYYY-MM-DD')) || [];
     // const dateClasses: CourseClass[] = dataTest.filter((data) => data.date == value.format('YYYY-MM-DD')) || [];
     return (
       <ul>
         {dateClasses.map((item) => (
           <li key={item.course_id} style={{ backgroundColor:  colorByCourseCode(item.course_code), marginBottom:"10px"}}>
             {/* <a>{item.date}</a> <br /> */}
-            <a>{item.start_time.slice(0, 5)}{item.end_time.slice(0, 5)} {item.course_name}</a> 
+            <a href={`/detail/id/${item.course_id}`}>{item.start_time.slice(0, 5)}-{item.end_time.slice(0, 5)} {item.course_name}</a> 
           </li>
           // return null
         ))}

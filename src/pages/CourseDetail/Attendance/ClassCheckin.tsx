@@ -48,7 +48,7 @@ export default function ClassCheckIn({ classesList, studentList }: Props) {
         width: 60,
         align: 'center' as AlignType,
         render: (text: any[], record: StudentCheckin) => {
-          const sessionCheck = text.find((ses: { classId: number }) => (ses.classId === session.id)) || null
+          const sessionCheck = text.find((ses: classesList) => (ses.id === session.id)) || null
           // const [status, setStatus] = useState<string|null>(sessionCheck.status || null)
           return isToday ?
             <Select
