@@ -1,21 +1,49 @@
 // import { useMutation } from '@tanstack/react-query'
-import { Button, Form, Input } from 'antd'
+import { useMutation } from '@tanstack/react-query'
+import { Button, Checkbox, Col, Form, Input, InputNumber, Row } from 'antd'
 // import { omit } from 'lodash'
 import ReactDOM from 'react-dom'
+import { toast } from 'react-toastify'
+import englishClassApi from '~/apis/englishClass.api'
 // import { toast } from 'react-toastify'
 // import englishClassApi from '~/apis/englishClass.api'
-import { englishClass } from '~/types/englishClass.type'
 
 interface Props {
   isOpen: boolean
   onClose: () => void
 }
 
+export interface createClassType {
+  class_type: string
+  start_time: string
+  end_time: string
+  start_date: string
+  teacher: string
+  room: number
+  study_date: string[]
+  location: string
+}
+
 export default function CreateClassModal({ isOpen, onClose }: Props) {
   const modalRoot = document.getElementById('root') as HTMLElement
-
-  function onFinish(values: any): void {
-    console.log(values)
+  const createClassMutation = useMutation({
+    mutationFn: (body: createClassType) => englishClassApi.createClass(body)
+  })
+  function onFinish(values: createClassType): void {
+    createClassMutation.mutate(values, {
+      onSuccess: (data) => {
+        toast.success('Tạo khóa thành công!')
+        setTimeout(() => onClose(), 1000)
+        console.log(data)
+        console.log(values)
+      },
+      onError: (error) => {
+        toast.error('Thêm mới khóa học không thành công ')
+        setTimeout(() => onClose(), 1000)
+        console.log(error)
+        console.log(values)
+      }
+    })
   }
 
   function onFinishFailed(errorInfo: any): void {
@@ -29,7 +57,7 @@ export default function CreateClassModal({ isOpen, onClose }: Props) {
             <div className='relative z-0 w-full mb-6 group flex-col justify-center'>
               <Form
                 name='basic'
-                labelCol={{ span: 7 }}
+                labelCol={{ span: 8 }}
                 wrapperCol={{ span: 16 }}
                 style={{ maxWidth: 15000 }}
                 initialValues={{ remember: true }}
@@ -38,72 +66,111 @@ export default function CreateClassModal({ isOpen, onClose }: Props) {
                 autoComplete='off'
                 rootClassName='pt-4 h-full w-full'
               >
-                <Form.Item<englishClass>
+                <Form.Item<createClassType>
                   label='Tên khóa học:'
-                  name='course_name'
+                  name='class_type'
                   rules={[{ required: true, message: 'Vui lòng điền tên khóa học!' }]}
                 >
-                  <Input />
+                  <Input placeholder='VD: PS50' />
+                </Form.Item>
+                <Form.Item<createClassType>
+                  label='Thời gian bắt đầu:'
+                  name='start_time'
+                  rules={[{ required: true, message: 'Vui lòng điền thời gian bắt đầu!' }]}
+                >
+                  <Input placeholder='HH:MM' />
+                </Form.Item>
+                <Form.Item<createClassType>
+                  label='Thời gian kết thúc:'
+                  name='end_time'
+                  rules={[{ required: true, message: 'Vui lòng điền thời gian kết thúc!' }]}
+                >
+                  <Input placeholder='HH:MM' />
+                </Form.Item>
+                <Form.Item<createClassType>
+                  name='start_date'
+                  label='Ngày bắt đầu'
+                  rules={[{ required: true, message: 'Vui lòng điền ngày bắt đầu!' }]}
+                >
+                  <Input placeholder='YYYY-MM_DD' />
                 </Form.Item>
 
-                <Form.Item<englishClass>
+                <Form.Item<createClassType>
                   label='Giáo viên:'
-                  name='main_teacher'
+                  name='teacher'
                   rules={[{ required: true, message: 'Vui lòng điền tên giáo viên!' }]}
                 >
-                  <Input />
+                  <Input placeholder='VD: Hoàng Trọng Tùng' />
                 </Form.Item>
-                <Form.Item<englishClass>
-                  label='Phòng học:'
+                <Form.Item<createClassType>
+                  label='Phòng:'
                   name='room'
-                  rules={[{ required: true, message: 'Vui lòng điền phòng học!' }]}
+                  rules={[{ required: true, message: 'Vui lòng điền tên phòng học!' }]}
                 >
-                  <Input />
+                  <InputNumber />
                 </Form.Item>
-                <Form.Item<englishClass>
-                  label='Phòng học:'
-                  name='room'
-                  rules={[{ required: true, message: 'Vui lòng xác minh mật khẩu mới!' }]}
+                <Form.Item<createClassType>
+                  name='study_date'
+                  label='Ngày học'
+                  rules={[{ required: true, message: 'Vui lòng chọn ngày học!' }]}
                 >
-                  <Input />
+                  <Checkbox.Group>
+                    <Row>
+                      <Col span={8}>
+                        <Checkbox value='Monday' style={{ lineHeight: '32px' }}>
+                          T2
+                        </Checkbox>
+                      </Col>
+                      <Col span={8}>
+                        <Checkbox value='Tuesday' style={{ lineHeight: '32px' }}>
+                          T3
+                        </Checkbox>
+                      </Col>
+                      <Col span={8}>
+                        <Checkbox value='Wednesday' style={{ lineHeight: '32px' }}>
+                          T4
+                        </Checkbox>
+                      </Col>
+                      <Col span={8}>
+                        <Checkbox value='Thursday' style={{ lineHeight: '32px' }}>
+                          T5
+                        </Checkbox>
+                      </Col>
+                      <Col span={8}>
+                        <Checkbox value='Friday' style={{ lineHeight: '32px' }}>
+                          T6
+                        </Checkbox>
+                      </Col>
+                      <Col span={8}>
+                        <Checkbox value='Saturday' style={{ lineHeight: '32px' }}>
+                          T7
+                        </Checkbox>
+                      </Col>
+                      <Col span={8}>
+                        <Checkbox value='Sunday' style={{ lineHeight: '32px' }}>
+                          CN
+                        </Checkbox>
+                      </Col>
+                    </Row>
+                  </Checkbox.Group>
                 </Form.Item>
-                <Form.Item<englishClass>
-                  label='Phòng học:'
-                  name='room'
-                  rules={[{ required: true, message: 'Vui lòng xác minh mật khẩu mới!' }]}
+                <Form.Item
+                  label='Địa điểm:'
+                  name='location'
+                  rules={[{ required: true, message: 'Vui lòng điền tên địa điểm!' }]}
                 >
-                  <Input />
+                  <Input placeholder='VD: hqv' />
                 </Form.Item>
-                <Form.Item<englishClass>
-                  label='Phòng học:'
-                  name='room'
-                  rules={[{ required: true, message: 'Vui lòng xác minh mật khẩu mới!' }]}
-                >
-                  <Input />
-                </Form.Item>
-                <Form.Item<englishClass>
-                  label='Phòng học:'
-                  name='room'
-                  rules={[{ required: true, message: 'Vui lòng xác minh mật khẩu mới!' }]}
-                >
-                  <Input />
-                </Form.Item>
+
                 <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
                   <Button type='primary' htmlType='submit' rootClassName='bg-cyan-200'>
                     Submit
                   </Button>{' '}
-                  <Button type='primary' rootClassName='bg-cyan-200' onClick={() => onClose()}>
+                  <Button type='primary' danger onClick={() => onClose()}>
                     Close
                   </Button>
                 </Form.Item>
               </Form>
-              {/* <button
-                type='button'
-                className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
-                onClick={() => onClose()}
-              >
-                Close
-              </button> */}
             </div>
           </div>
         </div>,

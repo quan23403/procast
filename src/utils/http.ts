@@ -11,12 +11,13 @@ class Http {
     this.accessToken = getAccessTokenFromLS()
     this.profile = getProfileFromLS()
     this.instance = axios.create({
-      baseURL: 'http://fall2324w20g6.int3306.freeddns.org/',
+      baseURL: 'http://localhost:8081',
       timeout: 10000,
       headers: {
         'Content-Type': 'application/json'
       }
     })
+    // http://fall2324w20g6.int3306.freeddns.org/
     // Add a request interceptor
     this.instance.interceptors.request.use(
       (config) => {

@@ -6,7 +6,9 @@ import englishClassApi from '~/apis/englishClass.api'
 import { nameLabelSeacrch, options, options1, options2, options3, options4 } from '~/constants/nameLabelSearch'
 import CreateClassModal from '~/components/CreateClassModal'
 import { englishClass } from '~/types/englishClass.type'
-import { FormOutlined } from '@ant-design/icons'
+import { CloseOutlined, FormOutlined } from '@ant-design/icons'
+import { Link } from 'react-router-dom'
+import ModifyCourse from '~/components/MofidyCourse'
 export default function ClassList() {
   const [selected, setSelected] = useState(nameLabelSeacrch[0])
   const [selected1, setSelected1] = useState(nameLabelSeacrch[1])
@@ -14,11 +16,24 @@ export default function ClassList() {
   const [selected3, setSelected3] = useState(nameLabelSeacrch[3])
   const [selected4, setSelected4] = useState(nameLabelSeacrch[4])
   const [isModalOpen, setModalOpen] = useState<boolean>(false)
+  const [isModifyOpen, setModifyOpen] = useState<boolean>(false)
+  const [courseId, setCourseId] = useState<number>(0)
+  const [teacherName, setTeacherName] = useState<string>('')
+  const [roomNumber, setRoomNumber] = useState<number>(0)
   const openModal = () => {
     setModalOpen(true)
   }
   const closeModal = () => {
     setModalOpen(false)
+  }
+  const openModify = (courseId: number, teacherName: string, roomNumber: number) => {
+    setCourseId(courseId)
+    setTeacherName(teacherName)
+    setRoomNumber(roomNumber)
+    setModifyOpen(true)
+  }
+  const closeModify = () => {
+    setModifyOpen(false)
   }
   const { data } = useQuery(['class'], () => englishClassApi.getClass())
   return (
@@ -66,10 +81,8 @@ export default function ClassList() {
             <table className='table-checkbox'>
               <thead>
                 <tr>
-                  <th>
-                    <input type='checkbox'></input>
-                  </th>
-                  <th>#</th>
+                  <th>Chỉnh sửa</th>
+                  <th>Xóa</th>
                   <th>Mã lớp </th>
                   <th>Khóa học</th>
                   <th>Giáo viên</th>
@@ -86,13 +99,30 @@ export default function ClassList() {
                   data.data.data.map((classes: englishClass) => (
                     <tr>
                       <td>
-                        <input type='checkbox'></input>
+                        <button onClick={() => openModify(classes.course_id, classes.main_teacher, classes.room)}>
+                          <FormOutlined />
+                        </button>
                       </td>
                       <td>
-                        <FormOutlined />
+                        <CloseOutlined />
                       </td>
-                      <td>{classes.course_id}</td>
-                      <td>{classes.course_name}</td>
+                      <td>
+                        <Link
+                          to={`/detail/id/${classes.course_id.toString()}/index`}
+                          className='text-sky-400 underline'
+                        >
+                          {classes.course_id}
+                        </Link>
+                      </td>
+                      <td>
+                        {' '}
+                        <Link
+                          to={`/detail/id/${classes.course_id.toString()}/index`}
+                          className='text-sky-400 underline'
+                        >
+                          {classes.course_name}
+                        </Link>
+                      </td>
                       <td>{classes.main_teacher}</td>
                       <td>{classes.room}</td>
                       <td>{classes.start_date}</td>
@@ -108,6 +138,13 @@ export default function ClassList() {
         </div>
       </div>
       <CreateClassModal isOpen={isModalOpen} onClose={closeModal}></CreateClassModal>
+      <ModifyCourse
+        isOpen={isModifyOpen}
+        onClose={closeModify}
+        course_id={courseId}
+        teacher={teacherName}
+        room={roomNumber}
+      ></ModifyCourse>
     </div>
   )
 }

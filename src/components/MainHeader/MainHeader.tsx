@@ -64,7 +64,7 @@ export default function MainHeader() {
           key: 'setting:3'
         },
         {
-          label: 'Option 4',
+          label: <Link to={`/employeeList?job_position=Teacher`}>Danh sách nhân viên</Link>,
           key: 'setting:4'
         }
       ]
