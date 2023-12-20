@@ -28,7 +28,7 @@ export interface salaryList {
 }
 
 export interface salaryListConfig {
-  name?: string | undefined
+  username?: string | undefined
   month?: string | undefined
   year?: string | undefined
 }

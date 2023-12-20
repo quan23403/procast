@@ -32,22 +32,26 @@ export default function Schedule() {
   //   { course_id: 57, course_code: "APS", course_name: "APS57", start_time: "08:00:00", end_time: "10:00:00", date: "2023-12-06" },
   // ]
   const colorByCourseCode = (course_code: string) => {
-    if (course_code == "PS") {
-      return "#C6FFC5";
-    }
-    else if (course_code == "APS")
-      return "#FFC5C5"
-    return "";
+    if (course_code == 'PS') {
+      return '#C6FFC5'
+    } else if (course_code == 'APS') return '#FFC5C5'
+    return ''
   }
   const dateCellRender = (value: Dayjs) => {
-    const dateClasses: CourseClass[] = data?.data?.data?.filter((data) => data.date === value.format('YYYY-MM-DD')) || [];
+    const dateClasses: CourseClass[] =
+      data?.data?.data?.filter((data) => data.date === value.format('YYYY-MM-DD')) || []
     // const dateClasses: CourseClass[] = dataTest.filter((data) => data.date == value.format('YYYY-MM-DD')) || [];
     return (
       <ul>
         {dateClasses.map((item) => (
-          <li key={item.course_id} style={{ backgroundColor: colorByCourseCode(item.course_code), marginBottom: "10px" }}>
+          <li
+            key={item.course_id}
+            style={{ backgroundColor: colorByCourseCode(item.course_code), marginBottom: '10px' }}
+          >
             {/* <a>{item.date}</a> <br /> */}
-            <Link className='class-button' to={`/detail/id/${item.course_id}/index`}>{`${item.start_time.slice(0, 5)}-${item.end_time.slice(0, 5)} ${item.course_name}`}</Link>
+            <Link to={`/detail/id/${item.course_id}/index`}>
+              {item.start_time.slice(0, 5)}-{item.end_time.slice(0, 5)} {item.course_name}
+            </Link>
           </li>
           // return null
         ))}

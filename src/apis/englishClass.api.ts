@@ -1,13 +1,17 @@
+import { createClassType } from '~/components/CreateClassModal/CreateClassModal'
+import { ModifyType } from '~/components/MofidyCourse/ModifyCourse'
 import { englishClass } from '~/types/englishClass.type'
 import { SuccessReponse } from '~/types/utils.type'
 import http from '~/utils/http'
-const URL = 'e/v1/all-courses'
 const englishClassApi = {
   getClass() {
-    return http.get<SuccessReponse<englishClass[]>>(URL)
+    return http.get<SuccessReponse<englishClass[]>>('e/v1/all-courses')
   },
-  createClass(body: Omit<englishClass, 'course_id'>) {
-    return http.post<SuccessReponse<englishClass>>('classList/add', body)
+  createClass(body: createClassType) {
+    return http.post('i/v1/new-course', body)
+  },
+  modifyClass(body: ModifyType) {
+    return http.put('i/v1/fix-course-information', body)
   }
 }
 export default englishClassApi
