@@ -7,4 +7,5 @@ export interface classesList {
   room?: string
   note?: string
   name?: string
+  assistant?: string[]
 }

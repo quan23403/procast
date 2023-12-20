@@ -13,3 +13,6 @@ export const resgisterAccount = (body: {
 export const login = (body: { email: string; password: string }) => http.post<AuthResponse>('/e/v1/login', body)
 
 export const logout = () => http.post('/logout')
+
+export const changePassword = (body: { old_password: string; new_password: string }) =>
+  http.put('/i/v1/change-password', body)

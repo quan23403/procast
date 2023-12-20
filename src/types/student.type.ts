@@ -24,3 +24,11 @@ export interface StudentsInfo {
   phone? : string
   status?: string
 }
+
+export interface StudentParam {
+  courseId: number,
+  name: string,
+  dob: string,
+  email: string,
+  phone: string
+}
