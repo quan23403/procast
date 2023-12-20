@@ -1,9 +1,9 @@
 import { Dictionary } from 'lodash'
 import { classesList } from '~/types/classLists.type'
 import { englishClass } from '~/types/englishClass.type'
-import { CheckinParam, StudentCheckin, StudentsInfo} from '~/types/student.type'
+import { CheckinParam, StudentCheckin, StudentParam, StudentsInfo} from '~/types/student.type'
 import { SuccessReponse } from '~/types/utils.type'
-import http from '~/utils/http'
+import http, {Http} from '~/utils/http'
 
 const classDeltailApi = {
   getClassDetail(params: Dictionary<string | undefined>) {
@@ -25,5 +25,12 @@ const classDeltailApi = {
   getStudentList(params: Dictionary<string | undefined>) {
     return http.get<SuccessReponse<StudentsInfo[]>>('e/v1/students', {params})
   },
+  addNewStudent(params: StudentParam) {
+    return http.post('i/v1/add-student', params)
+  },
+  importStudentExcel(data: FormData, course_id: string|undefined) {
+    const fileHttp = new Http('multipart/form-data').instance
+    return fileHttp.post(`i/v1/insert-students?course_id=${course_id}`, data)
+  }
 }
 export default classDeltailApi

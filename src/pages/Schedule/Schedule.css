@@ -1,3 +1,7 @@
 .user-schedule .now-button {
   margin: auto
 }
+
+.class-button {
+  overflow: hidden;
+}

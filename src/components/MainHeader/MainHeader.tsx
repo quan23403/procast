@@ -62,10 +62,6 @@ export default function MainHeader() {
             </Button>
           ),
           key: 'setting:3'
-        },
-        {
-          label: 'Option 4',
-          key: 'setting:4'
         }
       ]
     }
