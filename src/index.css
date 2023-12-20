@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+button[type='button'].ant-btn-primary {
+  background-color: #1677ff;
+}
 /* /* :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
