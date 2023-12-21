@@ -1,8 +1,10 @@
 import { useMutation } from '@tanstack/react-query'
-import { Button, Form, Input } from 'antd'
+import { Button, Form, Input, InputNumber } from 'antd'
 import ReactDOM from 'react-dom'
+import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import englishClassApi from '~/apis/englishClass.api'
+import path from '~/constants/path'
 
 interface Props {
   isOpen: boolean
@@ -13,16 +15,19 @@ interface Props {
 }
 export type ModifyType = Omit<Props, 'isOpen' | 'onClose'>
 export default function ModifyCourse({ isOpen, onClose, course_id, teacher, room }: Props) {
+  const navigate = useNavigate()
   const modalRoot = document.getElementById('root') as HTMLElement
+  const modifyCourseMutation = useMutation({
+    mutationFn: (body: ModifyType) => englishClassApi.modifyClass(body)
+  })
   function onFinish(values: ModifyType): void {
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const createClassMutation = useMutation({
-      mutationFn: (body: ModifyType) => englishClassApi.modifyClass(body)
-    })
-    createClassMutation.mutate(values, {
+    modifyCourseMutation.mutate(values, {
       onSuccess: (data) => {
         toast.success('Cập nhật khóa học thành công!')
-        setTimeout(() => onClose(), 1000)
+        navigate({
+          pathname: path.classList
+        })
         console.log(data)
         console.log(values)
       },
@@ -42,6 +47,7 @@ export default function ModifyCourse({ isOpen, onClose, course_id, teacher, room
     ? ReactDOM.createPortal(
         <div className='modal-overlay'>
           <div className='modal-content w-1/4'>
+            <h2 className='text-center bg-slate-700 text-white mx-0 rounded-lg py-3'>Chỉnh sửa khóa học</h2>
             <div className='relative z-0 w-full mb-6 group flex-col justify-center'>
               <Form
                 name='basic'
@@ -76,7 +82,7 @@ export default function ModifyCourse({ isOpen, onClose, course_id, teacher, room
                   rules={[{ required: true, message: 'Vui lòng điền phòng học!' }]}
                   initialValue={room}
                 >
-                  <Input />
+                  <InputNumber />
                 </Form.Item>
                 <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
                   <Button type='primary' htmlType='submit' rootClassName='bg-cyan-200'>
