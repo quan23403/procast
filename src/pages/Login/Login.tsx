@@ -8,8 +8,8 @@ import { getRules } from '~/utils/rules'
 import { isAxiosUnprocessableEntity } from '~/utils/utils'
 import { useContext } from 'react'
 import Button from '~/components/Button'
-// import useFirstDayOfMonth from '~/hooks/useFirstDayOfMonth'
-// import useLastDayOfMonth from '~/hooks/useLastDayOfMonth'
+import useFirstDayOfMonth from '~/hooks/useFirstDayOfMonth'
+import useLastDayOfMonth from '~/hooks/useLastDayOfMonth'
 import path from '~/constants/path'
 interface FormData {
   email: string
@@ -18,8 +18,8 @@ interface FormData {
 export default function Login() {
   const { setIsAuthenticated, setProfile } = useContext(AppConxtext)
   const navigate = useNavigate()
-  // const startDate = useFirstDayOfMonth()
-  // const endDate = useLastDayOfMonth()
+  const startDate = useFirstDayOfMonth()
+  const endDate = useLastDayOfMonth()
   const {
     register,
     handleSubmit,
@@ -39,8 +39,8 @@ export default function Login() {
         navigate({
           pathname: path.home,
           search: createSearchParams({
-            fromDate: '2023-10-01',
-            toDate: '2023-10-30'
+            fromDate: startDate,
+            toDate: endDate
           }).toString()
         })
       },

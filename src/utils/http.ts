@@ -18,6 +18,7 @@ class Http {
         'Content-Type': contenttype
       }
     })
+    // http://fall2324w20g6.int3306.freeddns.org/
     // Add a request interceptor
     this.instance.interceptors.request.use(
       (config) => {

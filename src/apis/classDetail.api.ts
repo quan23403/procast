@@ -1,5 +1,5 @@
 import { Dictionary } from 'lodash'
-import { classesList } from '~/types/classLists.type'
+import { classesList, sessionsUpdate } from '~/types/classLists.type'
 import { englishClass } from '~/types/englishClass.type'
 import { CheckinParam, StudentCheckin, StudentParam, StudentsInfo} from '~/types/student.type'
 import { SuccessReponse } from '~/types/utils.type'
@@ -31,6 +31,9 @@ const classDeltailApi = {
   importStudentExcel(data: FormData, course_id: string|undefined) {
     const fileHttp = new Http('multipart/form-data').instance
     return fileHttp.post(`i/v1/insert-students?course_id=${course_id}`, data)
-  }
+  },
+  updateSession(params: sessionsUpdate) {
+    return http.post('i/v1/note', params)
+  },
 }
 export default classDeltailApi

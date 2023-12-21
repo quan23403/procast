@@ -128,38 +128,30 @@ export default function useRouteElements() {
             </MainLayout>
           )
         },
+        // {
+        //   path: '/classlist',
+        //   element: (
+        //     <MainLayout>
+        //       <ClassList />
+        //     </MainLayout>
+        //   )
+        // },
+        // {
+        //   path: '/studentlist',
+        //   element: (
+        //     <MainLayout>
+        //       <StudentList />
+        //     </MainLayout>
+        //   )
+        // },
         {
-          path: '/classlist',
-          element: (
-            <MainLayout>
-              <ClassList />
-            </MainLayout>
-          )
-        },
-        {
-          path: '/studentlist',
-          element: (
-            <MainLayout>
-              <StudentList />
-            </MainLayout>
-          )
-        },
-        {
-          path: '/studyroadmap',
-          element: (
-            <MainLayout>
-              <StudyRoadMap />
-            </MainLayout>
-          )
-        },
-        {
-          path: '/employeelist',
+          path: path.employeeList,
           element: (
             <MainLayout>
               <EmployeeList />
             </MainLayout>
           )
-        },
+        }
       ]
     }
   ])

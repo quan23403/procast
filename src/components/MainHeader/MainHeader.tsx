@@ -62,6 +62,10 @@ export default function MainHeader() {
             </Button>
           ),
           key: 'setting:3'
+        },
+        {
+          label: <Link to={`/employeeList?job_position=Teacher`}>Danh sách nhân viên</Link>,
+          key: 'setting:4'
         }
       ]
     }

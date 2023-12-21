@@ -21,7 +21,7 @@ export interface StudentsInfo {
   student_name: string
   dob: string
   email? : string
-  phone? : string
+  phone_number? : string
   status?: string
 }
 
