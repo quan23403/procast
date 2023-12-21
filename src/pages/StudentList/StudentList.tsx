@@ -63,7 +63,7 @@ export default function StudentList() {
             key: 'email',
         }, {
             title: 'SĐT',
-            dataIndex: 'phone',
+            dataIndex: 'phone_number',
             key: 'phone',
         }, {
             title: 'Tình trạng',
@@ -79,7 +79,7 @@ export default function StudentList() {
 
                 return (
                     <div>
-                        <a onClick={()=>{openEditModal(record.student_id)}}><FormOutlined style={{fontSize:'24px', marginRight:'20px'}}/>
+                        <a onClick={()=>{openEditModal(record.student_id)}} title='Chi tiết'><FormOutlined style={{fontSize:'24px', marginRight:'20px'}}/>
                         </a>
                         <AntdModal 
                         centered={true}
@@ -87,7 +87,7 @@ export default function StudentList() {
                         open={openEditMap[record.student_id] || false}
             onCancel={() => closeEditModal(record.student_id)}
             onOk={() => closeEditModal(record.student_id)}>
-                            <Form>
+                            <Form disabled>
                                 <Form.Item
                                     label="Họ và tên"
                                     name="name">
@@ -106,7 +106,7 @@ export default function StudentList() {
                                 <Form.Item
                                     label="SĐT"
                                     name="phone">
-                                    <Input defaultValue={record.phone}></Input>
+                                    <Input defaultValue={record.phone_number}></Input>
                                 </Form.Item>
                             </Form>
                         </AntdModal>

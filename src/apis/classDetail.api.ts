@@ -33,7 +33,7 @@ const classDeltailApi = {
     return fileHttp.post(`i/v1/insert-students?course_id=${course_id}`, data)
   },
   updateSession(params: sessionsUpdate) {
-    return http.put('e/v1/note', params)
-  }
+    return http.post('i/v1/note', params)
+  },
 }
 export default classDeltailApi

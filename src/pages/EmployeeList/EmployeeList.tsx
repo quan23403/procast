@@ -8,7 +8,7 @@ import { isUndefined, omitBy } from 'lodash'
 import { useQuery } from '@tanstack/react-query'
 import { createSearchParams, useNavigate, useParams } from 'react-router-dom'
 import path from '~/constants/path'
-import { useLayoutEffect, useRef, useState } from 'react'
+import { useLayoutEffect, useRef } from 'react'
 export interface employeeType {
   user_id: string
   user_name: string
