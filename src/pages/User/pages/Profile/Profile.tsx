@@ -45,8 +45,8 @@ export default function Profile() {
     navigate({
       pathname: path.home,
       search: createSearchParams({
-        fromDate: '2023-10-01',
-        toDate: '2023-10-30'
+        fromDate: '2023-12-01',
+        toDate: '2023-12-31'
       }).toString()
     })
   }
@@ -101,6 +101,7 @@ export default function Profile() {
           getValueFromEvent={(onChange) => moment(onChange).format('YYYY-MM-DD')}
           getValueProps={(i) => ({ value: i === undefined ? undefined : moment(i) })}
           rules={[{ required: true, message: 'Please input your Date of Birth' }]}
+          initialValue={profile?.dob}
         >
           <DatePicker style={{ width: '100%' }} />
         </Form.Item>
@@ -109,6 +110,7 @@ export default function Profile() {
           label='Fullname'
           tooltip='What is your full name?'
           rules={[{ required: true, message: 'Please input your fullname!', whitespace: true }]}
+          initialValue={profile?.fullName}
         >
           <Input />
         </Form.Item>

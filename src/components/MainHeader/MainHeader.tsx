@@ -3,7 +3,7 @@ import { useFloating, FloatingPortal } from '@floating-ui/react-dom-interactions
 import { AppConxtext } from '~/contexts/app.context'
 import { Link, createSearchParams, useNavigate } from 'react-router-dom'
 import { Button, Menu, type MenuProps } from 'antd'
-import { HomeOutlined, BookOutlined } from '@ant-design/icons'
+import { HomeOutlined, BookOutlined, TeamOutlined } from '@ant-design/icons'
 import path from '~/constants/path'
 import useCurrentMonthYear from '~/hooks/useCurrentMonthYear'
 import useFirstDayOfMonth from '~/hooks/useFirstDayOfMonth'
@@ -31,7 +31,6 @@ export default function MainHeader() {
       }).toString()
     })
   }
-  // <Link to={path.home}>Trang chủ</Link>
   const items: MenuProps['items'] = [
     {
       label: (
@@ -39,7 +38,7 @@ export default function MainHeader() {
           Trang Chủ
         </Button>
       ),
-      key: 'mail',
+      key: 'home',
       icon: <HomeOutlined />
     },
     {
@@ -50,33 +49,28 @@ export default function MainHeader() {
         {
           label: <Link to={path.classList}>Khóa học</Link>,
           key: 'setting:1'
-        },
-        {
-          label: 'Lớp học',
-          key: 'setting:2'
-        },
+        }
+      ]
+    },
+    {
+      label: 'Nhân sự',
+      key: 'Staff',
+      icon: <TeamOutlined />,
+      children: [
         {
           label: (
             <Button rootClassName='border-none pl-0' onClick={onSalaryListNagivate}>
               Bảng lương TA
             </Button>
           ),
-          key: 'setting:3'
+          key: 'setting:2'
         },
         {
           label: <Link to={`/employeeList?job_position=Teacher`}>Danh sách nhân viên</Link>,
-          key: 'setting:4'
+          key: 'setting:3'
         }
       ]
     }
-    // {
-    //   label: (
-    //     <a href='https://ant.design' target='_blank' rel='noopener noreferrer'>
-    //       Navigation Four - Link
-    //     </a>
-    //   ),
-    //   key: 'alipay'
-    // }
   ]
   const [current, setCurrent] = useState('mail')
 
@@ -102,15 +96,15 @@ export default function MainHeader() {
   return (
     <div>
       <nav className='bg-gray-800 border-gray-200 '>
-        <div className='max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4'>
-          <a href='#' className='flex items-center'>
+        <div className='max-w-screen-xl flex items-center justify-between mx-auto p-4'>
+          <Link to={`/?fromDate=2023-12-01&toDate=2023-12-31`} className='flex items-center'>
             <img
               src='https://cdn-icons-png.flaticon.com/128/1290/1290874.png'
               className='h-8 mr-3'
               alt='procast logo'
             />
             <span className='self-center text-2xl font-semibold whitespace-nowrap dark:text-white'>Procast</span>
-          </a>
+          </Link>
           <div
             className='flex items-center md:order-2'
             ref={reference}
@@ -229,7 +223,7 @@ export default function MainHeader() {
               selectedKeys={[current]}
               mode='horizontal'
               items={items}
-              rootClassName='bg-gray-800 text-white w-80'
+              rootClassName='bg-gray-800 text-white w-400'
             />
           </div>
         </div>

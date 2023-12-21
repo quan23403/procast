@@ -54,6 +54,7 @@ export default function CreateClassModal({ isOpen, onClose }: Props) {
     ? ReactDOM.createPortal(
         <div className='modal-overlay'>
           <div className='modal-content w-1/4'>
+            <h2 className='text-center bg-slate-700 text-white mx-0 rounded-lg py-3'>Thêm khóa học</h2>
             <div className='relative z-0 w-full mb-6 group flex-col justify-center'>
               <Form
                 name='basic'
@@ -71,7 +72,7 @@ export default function CreateClassModal({ isOpen, onClose }: Props) {
                   name='class_type'
                   rules={[{ required: true, message: 'Vui lòng điền tên khóa học!' }]}
                 >
-                  <Input placeholder='VD: PS50' />
+                  <Input placeholder='VD: PS' />
                 </Form.Item>
                 <Form.Item<createClassType>
                   label='Thời gian bắt đầu:'

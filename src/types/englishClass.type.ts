@@ -15,3 +15,7 @@ export interface englishClass {
 // export interface englishCLassList {
 //   englishClassList: englishClass[]
 // }
+
+export interface deleteClassId {
+  course_id: string
+}

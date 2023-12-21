@@ -30,7 +30,11 @@ export default function () {
   useLayoutEffect(() => {
     if (job_position !== 'Teacher') {
       active.current = false
-      console.log(active)
+      console.log(job_position)
+      console.log(active.current)
+    } else {
+      active.current = true
+      console.log(active.current)
     }
   }, [job_position])
 
@@ -63,7 +67,7 @@ export default function () {
         <div className='maint-content' style={{ backgroundColor: 'white', padding: '10px' }}>
           <div className='option-employee-list' style={{ marginBottom: '10px' }}>
             <Button
-              className={`bg-gray-200 ${active ? 'text-blue-500 border-blue-500' : ''} border-2`}
+              className={`bg-gray-200 ${active.current ? 'text-blue-500 border-blue-500' : ''} border-2`}
               style={{ backgroundColor: '#E4E4E4', marginRight: '15px' }}
               onClick={() => {
                 navigate({
@@ -78,7 +82,7 @@ export default function () {
             </Button>
             <Button
               style={{ backgroundColor: '#E4E4E4' }}
-              className={`bg-gray-200 ${!active ? 'text-blue-500 border-blue-500' : ''} border-2`}
+              className={`bg-gray-200 ${active.current ? 'text-blue-500 border-blue-500' : ''} border-2`}
               onClick={() => {
                 navigate({
                   pathname: path.employeeList,

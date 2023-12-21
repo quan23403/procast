@@ -1,14 +1,16 @@
 import './ClassList.css'
 import { useState } from 'react'
 import Dropdown from './Dropdown'
-import { useQuery } from '@tanstack/react-query'
-import englishClassApi from '~/apis/englishClass.api'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import englishClassApi, { deleteCourse } from '~/apis/englishClass.api'
 import { nameLabelSeacrch, options, options1, options2, options3, options4 } from '~/constants/nameLabelSearch'
 import CreateClassModal from '~/components/CreateClassModal'
 import { englishClass } from '~/types/englishClass.type'
-import { CloseOutlined, FormOutlined } from '@ant-design/icons'
+import { ExclamationCircleOutlined, FormOutlined } from '@ant-design/icons'
 import { Link } from 'react-router-dom'
 import ModifyCourse from '~/components/MofidyCourse'
+import { Button, Modal } from 'antd'
+import { toast } from 'react-toastify'
 export default function ClassList() {
   const [selected, setSelected] = useState(nameLabelSeacrch[0])
   const [selected1, setSelected1] = useState(nameLabelSeacrch[1])
@@ -20,6 +22,9 @@ export default function ClassList() {
   const [courseId, setCourseId] = useState<number>(0)
   const [teacherName, setTeacherName] = useState<string>('')
   const [roomNumber, setRoomNumber] = useState<number>(0)
+  const [openConfirm, setOpenConfirm] = useState<boolean>(false)
+  const [deleteId, setDeleteId] = useState<number | string>(0)
+  const queryClient = useQueryClient()
   const openModal = () => {
     setModalOpen(true)
   }
@@ -35,7 +40,28 @@ export default function ClassList() {
   const closeModify = () => {
     setModifyOpen(false)
   }
-  const { data } = useQuery(['class'], () => englishClassApi.getClass())
+  const showConfirmModal = (id: string | number) => {
+    setOpenConfirm(true)
+    setDeleteId(id)
+  }
+  const handleConfirmOk = () => {
+    setOpenConfirm(false)
+    deleteCourseMutation.mutate(deleteId)
+  }
+  const handleConfirmCancel = () => {
+    setOpenConfirm(false)
+  }
+  const deleteCourseMutation = useMutation({
+    mutationFn: (id: number | string) => deleteCourse(id),
+    onSuccess: (_, id) => {
+      toast.success(`Xóa thành công lớp học id: ${id}`)
+      queryClient.invalidateQueries({ queryKey: ['course'] })
+    },
+    onError: () => {
+      toast.error('Không thể xóa lớp học')
+    }
+  })
+  const { data } = useQuery(['course'], () => englishClassApi.getClass())
   return (
     <div>
       <div className='main-content'>
@@ -96,15 +122,17 @@ export default function ClassList() {
               </thead>
               <tbody>
                 {data &&
-                  data.data.data.map((classes: englishClass) => (
-                    <tr>
+                  data.data.data.map((classes: englishClass, index) => (
+                    <tr key={index}>
                       <td>
                         <button onClick={() => openModify(classes.course_id, classes.main_teacher, classes.room)}>
                           <FormOutlined />
                         </button>
                       </td>
                       <td>
-                        <CloseOutlined />
+                        <Button type='primary' danger onClick={() => showConfirmModal(classes.course_id)}>
+                          Xóa
+                        </Button>
                       </td>
                       <td>
                         <Link
@@ -145,6 +173,24 @@ export default function ClassList() {
         teacher={teacherName}
         room={roomNumber}
       ></ModifyCourse>
+      <Modal
+        open={openConfirm}
+        title='Xác nhận xóa khỏa học'
+        onOk={handleConfirmOk}
+        onCancel={handleConfirmCancel}
+        footer={(_, { OkBtn, CancelBtn }) => (
+          <>
+            <CancelBtn />
+            <OkBtn />
+          </>
+        )}
+      >
+        <h2>
+          {' '}
+          <ExclamationCircleOutlined />
+          {` Bạn có muốn xóa khóa học: ${deleteId}`}
+        </h2>
+      </Modal>
     </div>
   )
 }
