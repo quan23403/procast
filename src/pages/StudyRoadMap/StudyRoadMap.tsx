@@ -11,6 +11,7 @@ import dayjs from 'dayjs';
 import employeeApi from '~/apis/employee.api';
 import { employeeType } from '../EmployeeList/EmployeeList';
 import { AlignType} from 'rc-table/lib/interface';
+import AssistantCheckin from './AssistantCheckin';
 
 
 // import DetailClassHeader from '~/components/DetailClassHeader';
@@ -24,12 +25,18 @@ export default function StudyRoadMap() {
         isUndefined
     )
     const { data: sessionsData } = useQuery({
-        queryKey: ['checkinData', queryConfig],
+        queryKey: ['sessionData', queryConfig],
         queryFn: () => {
             return classDetailApi.getSessionList(queryConfig)
         }
     })
 
+    const { data: checkinData } = useQuery({
+        queryKey: ["checkinData", queryConfig],
+        queryFn: () => {
+            return employeeApi.getCheckin(queryConfig);
+        },
+    });
     const { data: TAdata } = useQuery({
         queryKey: ['employee', 'TA'],
         queryFn: () => {
@@ -119,9 +126,7 @@ export default function StudyRoadMap() {
             key: 'assistance',
             render: (record: classesList) => {
                 return (
-                    record.ta?.map((ta) => (
-                        <span key={ta.value}>{ta.label}<br /></span>
-                    )) || <span></span>
+                    <AssistantCheckin record={ record} checkin= {checkinData?.data.data||[]}></AssistantCheckin>
                 );
             },
         },

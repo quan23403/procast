@@ -45,17 +45,18 @@ export default function EditModal(props: { record: classesList }) {
         mutationFn: () => classDeltailApi.updateSession(formData)
       })
       
-    const handleSubmit = (values: { date: string; shift: (string | number | Date | dayjs.Dayjs | null | undefined)[]; room: string; note: string; ta: {value: string, label: string}[]; }) => {
+    const handleSubmit = (values: { date: string; shift: (string | number | Date | dayjs.Dayjs | null | undefined)[]; room: string; note: string; ta: {value: string, label: string}[] }) => {
+        console.log("values",values)
         const edit = form.isFieldsTouched(['date', 'shift', 'ta', 'room']);
         setFormData({
             class_id: record.class_id,
             date: dayjs(values.date).format('YYYY-MM-DD'),
-            start_time: dayjs(values.shift[0]).format('HH:mm:ss'),
-            end_time: dayjs(values.shift[1]).format('HH:mm:ss'),
+            startTime: dayjs(values.shift[0]).format('HH:mm:ss'),
+            endTime: dayjs(values.shift[1]).format('HH:mm:ss'),
             room: parseInt(values.room),
             check: edit,
             note: values.note,
-            assistant: values.ta.map((item: {value: string, label: string})=>item.value)
+            assistant: values.ta.map((u)=>u.value)
         })
         // Handle the form submission logic here
         console.log("form edit", formData);
@@ -95,7 +96,7 @@ export default function EditModal(props: { record: classesList }) {
                         <TimePicker.RangePicker format={'HH:mm'} />
                     </Form.Item>
                     <Form.Item label="TA được duyệt" name="ta">
-                        <Select mode="multiple" options={TAlist}></Select>
+                        <Select mode="multiple" options={TAlist} labelInValue={true}></Select>
                     </Form.Item>
                     <Form.Item label='Phòng học' name='room'>
                         <Input type="number"/>

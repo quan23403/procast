@@ -11,15 +11,15 @@ export interface classesList {
   assistant?: string[]
   ta? : {
     label: string,
-    value: number
+    value: string
   }[]
 }
 
 export interface sessionsUpdate {
   class_id: number
   date?: string | Date
-  start_time?: string
-  end_time?: string
+  startTime?: string
+  endTime?: string
   room?:  number
   note?: string
   assistant?: string[]
