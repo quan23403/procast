@@ -1,14 +1,16 @@
 import type { RegisterOptions, UseFormGetValues } from 'react-hook-form'
-type Rules = { [key in 'email' | 'password' | 'confirm_password' | 'username' | 'fullName']?: RegisterOptions }
+type Rules = {
+  [key in 'email' | 'password' | 'confirm_password' | 'username' | 'fullName' | 'digit']?: RegisterOptions
+}
 export const getRules = (getValues?: UseFormGetValues<any>): Rules => ({
   email: {
     required: {
       value: true,
-      message: 'Email required'
+      message: 'Vui lòng điền email!'
     },
     pattern: {
       value: /^\S+@\S+\.\S+$/,
-      message: 'Invalid email'
+      message: 'Email không hợp lệ!'
     },
     maxLength: {
       value: 160,
@@ -19,10 +21,24 @@ export const getRules = (getValues?: UseFormGetValues<any>): Rules => ({
       message: 'number of characters: 5-160'
     }
   },
+  digit: {
+    required: {
+      value: true,
+      message: 'Vui lòng nhập mã!'
+    },
+    maxLength: {
+      value: 10,
+      message: 'number of characters: 1-10'
+    },
+    minLength: {
+      value: 1,
+      message: 'number of characters: 1-10'
+    }
+  },
   password: {
     required: {
       value: true,
-      message: 'password required'
+      message: 'Vui lòng điền mật khẩu!'
     },
     maxLength: {
       value: 160,
@@ -36,7 +52,7 @@ export const getRules = (getValues?: UseFormGetValues<any>): Rules => ({
   username: {
     required: {
       value: true,
-      message: 'username required'
+      message: 'Vui lòng điền username!'
     },
     maxLength: {
       value: 20,
@@ -46,7 +62,7 @@ export const getRules = (getValues?: UseFormGetValues<any>): Rules => ({
   fullName: {
     required: {
       value: true,
-      message: 'fullname required'
+      message: 'Vui lòng điền họ và tên!'
     },
     maxLength: {
       value: 30,
@@ -56,7 +72,7 @@ export const getRules = (getValues?: UseFormGetValues<any>): Rules => ({
   confirm_password: {
     required: {
       value: true,
-      message: 'Validate password required'
+      message: 'Vui lòng nhập mật khẩu xác nhận!'
     },
     maxLength: {
       value: 160,
@@ -67,8 +83,6 @@ export const getRules = (getValues?: UseFormGetValues<any>): Rules => ({
       message: 'number of characters: 6-160'
     },
     validate:
-      typeof getValues === 'function'
-        ? (value) => value === getValues('password') || 'password do not match'
-        : undefined
+      typeof getValues === 'function' ? (value) => value === getValues('password') || 'Mật khảu không khớp' : undefined
   }
 })

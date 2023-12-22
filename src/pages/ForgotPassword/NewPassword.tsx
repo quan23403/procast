@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { Link, createSearchParams, useNavigate } from 'react-router-dom'
-import { login } from '~/apis/auth.api'
+import { setNewPassword } from '~/apis/auth.api'
 import { AppConxtext } from '~/contexts/app.context'
 import { ErrorResponse } from '~/types/utils.type'
 import { getRules } from '~/utils/rules'
@@ -13,9 +13,9 @@ import useLastDayOfMonth from '~/hooks/useLastDayOfMonth'
 import path from '~/constants/path'
 interface FormData {
   email: string
-  password: string
+  newPassword: string
 }
-export default function Login() {
+export default function NewPassword() {
   const { setIsAuthenticated, setProfile } = useContext(AppConxtext)
   const navigate = useNavigate()
   const startDate = useFirstDayOfMonth()
@@ -28,11 +28,11 @@ export default function Login() {
     formState: { errors }
   } = useForm<FormData>()
   const rules = getRules(getValues)
-  const loginMutation = useMutation({
-    mutationFn: (body: FormData) => login(body)
+  const setNewPasswordMutation = useMutation({
+    mutationFn: (body: FormData) => setNewPassword(body)
   })
   const onSubmit = handleSubmit((data: FormData) => {
-    loginMutation.mutate(data, {
+    setNewPasswordMutation.mutate(data, {
       onSuccess: (data) => {
         setIsAuthenticated(true)
         setProfile(data.data.data.user)
@@ -68,12 +68,12 @@ export default function Login() {
         <div className='w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700'>
           <div className='p-6 space-y-4 md:space-y-6 sm:p-8'>
             <h1 className='text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white text-center'>
-              Đăng nhập
+              Thay mật khẩu mới
             </h1>
             <form className='space-y-4 md:space-y-6' onSubmit={onSubmit} noValidate autoComplete='off'>
               <div>
                 <label htmlFor='email' className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'>
-                  Tài khoản của bạn
+                  Email của bạn:
                 </label>
                 <input
                   type='email'
@@ -86,18 +86,16 @@ export default function Login() {
               </div>
               <div>
                 <label htmlFor='password' className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'>
-                  Mật khẩu
+                  Mật khẩu mới
                 </label>
                 <input
                   type='password'
-                  id='password'
                   placeholder='Your password'
                   className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
                   autoComplete='on'
-                  {...register('password', rules.password)}
+                  {...register('newPassword', rules.password)}
                   required
                 />
-                <div className='mt-0 text-red-600 text-xs p-2'>{errors.password?.message}</div>
               </div>
               <div className='flex items-center justify-between'>
                 <div className='flex items-start'>
@@ -126,8 +124,8 @@ export default function Login() {
               <Button
                 type='submit'
                 className='w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center flex justify-center items-center'
-                isLoading={loginMutation.isLoading}
-                disabled={loginMutation.isLoading}
+                isLoading={setNewPasswordMutation.isLoading}
+                disabled={setNewPasswordMutation.isLoading}
               >
                 Đăng nhập
               </Button>
