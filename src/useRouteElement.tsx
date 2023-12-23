@@ -20,6 +20,10 @@ import ClassDetailLayout from './layouts/ClassDetailLayout'
 import { useContext } from 'react'
 import { AppConxtext } from './contexts/app.context'
 import EmployeeList from './pages/EmployeeList'
+import InChargeCourse from './pages/InChargeCourse'
+import ForgotPassword from './pages/ForgotPassword/ForgotPassword'
+import ValidateCode from './pages/ForgotPassword/ValidateCode'
+import NewPassword from './pages/ForgotPassword/NewPassword'
 
 // const isAuthenticated = true;
 function ProtectedRoute() {
@@ -50,6 +54,30 @@ export default function useRouteElements() {
           element: (
             <RegisterLayout>
               <Register />
+            </RegisterLayout>
+          )
+        },
+        {
+          path: path.forgotPassword,
+          element: (
+            <RegisterLayout>
+              <ForgotPassword />
+            </RegisterLayout>
+          )
+        },
+        {
+          path: path.validateCode,
+          element: (
+            <RegisterLayout>
+              <ValidateCode />
+            </RegisterLayout>
+          )
+        },
+        {
+          path: path.setNewPassword,
+          element: (
+            <RegisterLayout>
+              <NewPassword />
             </RegisterLayout>
           )
         }
@@ -128,27 +156,19 @@ export default function useRouteElements() {
             </MainLayout>
           )
         },
-        // {
-        //   path: '/classlist',
-        //   element: (
-        //     <MainLayout>
-        //       <ClassList />
-        //     </MainLayout>
-        //   )
-        // },
-        // {
-        //   path: '/studentlist',
-        //   element: (
-        //     <MainLayout>
-        //       <StudentList />
-        //     </MainLayout>
-        //   )
-        // },
         {
           path: path.employeeList,
           element: (
             <MainLayout>
               <EmployeeList />
+            </MainLayout>
+          )
+        },
+        {
+          path: path.inChargeCourse,
+          element: (
+            <MainLayout>
+              <InChargeCourse />
             </MainLayout>
           )
         }

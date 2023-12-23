@@ -3,7 +3,7 @@ import { useState } from 'react'
 import Dropdown from './Dropdown'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import englishClassApi, { deleteCourse } from '~/apis/englishClass.api'
-import { nameLabelSeacrch, options, options1, options2, options3, options4 } from '~/constants/nameLabelSearch'
+import { nameLabelSeacrch, options1 } from '~/constants/nameLabelSearch'
 import CreateClassModal from '~/components/CreateClassModal'
 import { englishClass } from '~/types/englishClass.type'
 import { ExclamationCircleOutlined, FormOutlined } from '@ant-design/icons'
@@ -12,11 +12,11 @@ import ModifyCourse from '~/components/MofidyCourse'
 import { Button, Modal } from 'antd'
 import { toast } from 'react-toastify'
 export default function ClassList() {
-  const [selected, setSelected] = useState(nameLabelSeacrch[0])
+  // const [selected, setSelected] = useState(nameLabelSeacrch[0])
   const [selected1, setSelected1] = useState(nameLabelSeacrch[1])
-  const [selected2, setSelected2] = useState(nameLabelSeacrch[2])
-  const [selected3, setSelected3] = useState(nameLabelSeacrch[3])
-  const [selected4, setSelected4] = useState(nameLabelSeacrch[4])
+  // const [selected2, setSelected2] = useState(nameLabelSeacrch[2])
+  // const [selected3, setSelected3] = useState(nameLabelSeacrch[3])
+  // const [selected4, setSelected4] = useState(nameLabelSeacrch[4])
   const [isModalOpen, setModalOpen] = useState<boolean>(false)
   const [isModifyOpen, setModifyOpen] = useState<boolean>(false)
   const [courseId, setCourseId] = useState<number>(0)
@@ -62,11 +62,12 @@ export default function ClassList() {
     }
   })
   const { data } = useQuery(['course'], () => englishClassApi.getClass())
+  console.log(data?.data.data)
   return (
     <div>
       <div className='main-content'>
         <div className='page-control'>
-          <div className='pull-left title'>Lớp học</div>
+          <div className='pull-left title'>Khóa học</div>
           <div className='title pull-right'>
             <button className='yellow-btn' onClick={() => openModal()}>
               Thêm mới
@@ -86,21 +87,21 @@ export default function ClassList() {
             <label>Đến ngày</label>
             <input type='date' className='search-element'></input>
           </div>
-          <div className='container-search-element'>
+          {/* <div className='container-search-element'>
             <Dropdown selected={selected} setSelected={setSelected} options={options} />
-          </div>
+          </div> */}
           <div className='container-search-element'>
             <Dropdown selected={selected1} setSelected={setSelected1} options={options1} />
           </div>
-          <div className='container-search-element'>
+          {/* <div className='container-search-element'>
             <Dropdown selected={selected2} setSelected={setSelected2} options={options2} />
-          </div>
-          <div className='container-search-element'>
+          </div> */}
+          {/* <div className='container-search-element'>
             <Dropdown selected={selected3} setSelected={setSelected3} options={options3} />
-          </div>
-          <div className='container-search-element'>
+          </div> */}
+          {/* <div className='container-search-element'>
             <Dropdown selected={selected4} setSelected={setSelected4} options={options4} />
-          </div>
+          </div> */}
         </div>
         <div className='page-content'>
           <div className='table-content'>

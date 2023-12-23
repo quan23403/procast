@@ -115,7 +115,12 @@ export default function Profile() {
           <Input />
         </Form.Item>
 
-        <Form.Item name='gender' label='Gender' rules={[{ required: true, message: 'Please select gender!' }]}>
+        <Form.Item
+          name='gender'
+          label='Gender'
+          rules={[{ required: true, message: 'Please select gender!' }]}
+          initialValue={'Male'}
+        >
           <Select placeholder='select your gender'>
             <Option value='male'>Male</Option>
             <Option value='female'>Female</Option>

@@ -47,8 +47,12 @@ export default function MainHeader() {
       icon: <BookOutlined />,
       children: [
         {
-          label: <Link to={path.classList}>Khóa học</Link>,
+          label: <Link to={path.classList}>Danh sách khóa học</Link>,
           key: 'setting:1'
+        },
+        {
+          label: <Link to={path.inChargeCourse}>Khóa học của tôi</Link>,
+          key: 'setting:2'
         }
       ]
     },
@@ -63,11 +67,11 @@ export default function MainHeader() {
               Bảng lương TA
             </Button>
           ),
-          key: 'setting:2'
+          key: 'setting:3'
         },
         {
           label: <Link to={`/employeeList?job_position=Teacher`}>Danh sách nhân viên</Link>,
-          key: 'setting:3'
+          key: 'setting:4'
         }
       ]
     }

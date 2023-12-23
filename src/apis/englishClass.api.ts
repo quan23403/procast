@@ -17,3 +17,5 @@ const englishClassApi = {
 export default englishClassApi
 
 export const deleteCourse = (id: string | number) => http.delete(`i/v1/delete-course?course_id=${id}`)
+
+export const getMyCourse = () => http.get('i/v1/my-schedule')

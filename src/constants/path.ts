@@ -14,6 +14,10 @@ const path = {
   studyRoadmap: '/detail/id/:id/studyRoadmap',
   classAttendance: '/detail/id/:id/classAttendance',
   classList: '/edu-class',
-  employeeList: '/employeeList'
+  employeeList: '/employeeList',
+  inChargeCourse: '/my-course',
+  forgotPassword: '/forgot-password',
+  validateCode: '/validate-code',
+  setNewPassword: '/set-new-password'
 }
 export default path

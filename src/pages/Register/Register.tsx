@@ -81,7 +81,7 @@ export default function Register() {
         <div className='w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md  l:p-0 dark:bg-gray-800 dark:border-gray-700 '>
           <div className='p-6 space-y-4 md:space-y-6 sm:p-8 space-x-8 flex flex-col'>
             <h1 className='text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white text-center'>
-              Register
+              Đăng ký
             </h1>
             <form className='space-y-4 md:space-y-6 ' onSubmit={onSubmit} noValidate autoComplete='off'>
               <div>
@@ -179,12 +179,12 @@ export default function Register() {
                 isLoading={registerAccountMutation.isLoading}
                 disabled={registerAccountMutation.isLoading}
               >
-                Sign up
+                Đăng ký
               </Button>
               <p className='text-sm font-light text-gray-500 dark:text-gray-400 '>
-                Already have an account ? {'    '}
+                Đã có tài khoản ? {'    '}
                 <Link className='font-medium text-primary-600 hover:underline dark:text-primary-500' to='/login'>
-                  Sign in
+                  Đăng nhập
                 </Link>
               </p>
             </form>
