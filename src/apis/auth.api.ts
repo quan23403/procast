@@ -19,6 +19,6 @@ export const changePassword = (body: { old_password: string; new_password: strin
 
 export const validatePassword = (body: { email: string }) => http.post('e/v1/forgot-password', body)
 
-export const validateEmailCode = (body: { digit: string }) => http.post('e/v1/send-digit', body)
+export const validateEmailCode = (body: { email: string; digitCode: number }) => http.post('e/v1/send-digit', body)
 
 export const setNewPassword = (body: { email: string; newPassword: string }) => http.post('e/v1/new-password', body)
