@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios, { AxiosError, type AxiosInstance } from 'axios'
 import HttpStatusCode from '~/constants/httpStatusCode.enum'
 import { toast } from 'react-toastify'
@@ -7,16 +8,17 @@ class Http {
   instance: AxiosInstance
   private accessToken: string
   private profile: User
-  constructor() {
+  constructor(contenttype: string='application/json') {
     this.accessToken = getAccessTokenFromLS()
     this.profile = getProfileFromLS()
     this.instance = axios.create({
-      baseURL: 'http://localhost:8081',
+      baseURL: 'http://fall2324w20g6.int3306.freeddns.org/',
       timeout: 10000,
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': contenttype
       }
     })
+    // http://fall2324w20g6.int3306.freeddns.org/
     // Add a request interceptor
     this.instance.interceptors.request.use(
       (config) => {
@@ -66,3 +68,4 @@ class Http {
 const http = new Http().instance
 
 export default http
+export {Http}

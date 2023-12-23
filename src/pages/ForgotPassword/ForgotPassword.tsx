@@ -1,25 +1,17 @@
 import { useMutation } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
-import { Link, createSearchParams, useNavigate } from 'react-router-dom'
-import { login } from '~/apis/auth.api'
-import { AppConxtext } from '~/contexts/app.context'
+import { Link, useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import { validatePassword } from '~/apis/auth.api'
+import Button from '~/components/Button'
+import path from '~/constants/path'
 import { ErrorResponse } from '~/types/utils.type'
 import { getRules } from '~/utils/rules'
 import { isAxiosUnprocessableEntity } from '~/utils/utils'
-import { useContext } from 'react'
-import Button from '~/components/Button'
-import useFirstDayOfMonth from '~/hooks/useFirstDayOfMonth'
-import useLastDayOfMonth from '~/hooks/useLastDayOfMonth'
-import path from '~/constants/path'
 interface FormData {
   email: string
-  password: string
 }
-export default function Login() {
-  const { setIsAuthenticated, setProfile } = useContext(AppConxtext)
-  const navigate = useNavigate()
-  const startDate = useFirstDayOfMonth()
-  const endDate = useLastDayOfMonth()
+export default function ForgotPassword() {
   const {
     register,
     handleSubmit,
@@ -27,25 +19,20 @@ export default function Login() {
     setError,
     formState: { errors }
   } = useForm<FormData>()
+  const navigate = useNavigate()
   const rules = getRules(getValues)
-  const loginMutation = useMutation({
-    mutationFn: (body: FormData) => login(body)
+  const validateMutation = useMutation({
+    mutationFn: (body: FormData) => validatePassword(body)
   })
   const onSubmit = handleSubmit((data: FormData) => {
-    loginMutation.mutate(data, {
+    console.log(data)
+    validateMutation.mutate(data, {
       onSuccess: (data) => {
-        setIsAuthenticated(true)
-        setProfile(data.data.data.user)
-        navigate({
-          pathname: path.home,
-          search: createSearchParams({
-            fromDate: startDate,
-            toDate: endDate
-          }).toString()
-        })
+        navigate({ pathname: path.validateCode })
+        console.log(data)
       },
       onError: (error) => {
-        console.log(error)
+        toast.error('Email không tồn tại')
         if (isAxiosUnprocessableEntity<ErrorResponse<FormData>>(error)) {
           const formError = error.response?.data.data
           if (formError?.email) {
@@ -68,12 +55,12 @@ export default function Login() {
         <div className='w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700'>
           <div className='p-6 space-y-4 md:space-y-6 sm:p-8'>
             <h1 className='text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white text-center'>
-              Đăng nhập
+              Quên mật khẩu
             </h1>
             <form className='space-y-4 md:space-y-6' onSubmit={onSubmit} noValidate autoComplete='off'>
               <div>
                 <label htmlFor='email' className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'>
-                  Tài khoản của bạn
+                  Email đã đăng ký:
                 </label>
                 <input
                   type='email'
@@ -82,22 +69,7 @@ export default function Login() {
                   placeholder='youremail@gmail.com'
                   {...register('email', rules.email)}
                 />
-                <div className='mt-0 text-red-600 text-xs p-2'>{errors.email?.message}</div>
-              </div>
-              <div>
-                <label htmlFor='password' className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'>
-                  Mật khẩu
-                </label>
-                <input
-                  type='password'
-                  id='password'
-                  placeholder='Your password'
-                  className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-                  autoComplete='on'
-                  {...register('password', rules.password)}
-                  required
-                />
-                <div className='mt-0 text-red-600 text-xs p-2'>{errors.password?.message}</div>
+                <div className='mt-0 text-red-600 text-xs p-0'>{errors.email?.message}</div>
               </div>
               <div className='flex items-center justify-between'>
                 <div className='flex items-start'>
@@ -112,24 +84,24 @@ export default function Login() {
                   </div>
                   <div className='ml-3 text-sm'>
                     <label htmlFor='remember' className='text-gray-900 dark:text-white'>
-                      Duy trì đăng nhập
+                      Xác nhận
                     </label>
                   </div>
                 </div>
                 <Link
-                  to={path.forgotPassword}
+                  to={path.login}
                   className='text-sm font-medium text-primary-600 hover:underline dark:text-primary-500 text-gray-900 dark:text-white'
                 >
-                  Quên mật khẩu?
+                  Trở về đăng nhập
                 </Link>
               </div>
               <Button
                 type='submit'
-                className='w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center flex justify-center items-center'
-                isLoading={loginMutation.isLoading}
-                disabled={loginMutation.isLoading}
+                className='w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 flex justify-center items-center'
+                isLoading={validateMutation.isLoading}
+                disabled={validateMutation.isLoading}
               >
-                Đăng nhập
+                Gửi
               </Button>
               <p className='text-sm font-light text-gray-500 dark:text-gray-400'>
                 Chưa có tài khoản?{' '}

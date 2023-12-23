@@ -1,142 +1,179 @@
+// import { useMutation } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
+import { Button, Checkbox, Col, Form, Input, InputNumber, Row } from 'antd'
+// import { omit } from 'lodash'
 import ReactDOM from 'react-dom'
+import { toast } from 'react-toastify'
+import englishClassApi from '~/apis/englishClass.api'
+// import { toast } from 'react-toastify'
+// import englishClassApi from '~/apis/englishClass.api'
 
 interface Props {
   isOpen: boolean
   onClose: () => void
 }
 
+export interface createClassType {
+  class_type: string
+  start_time: string
+  end_time: string
+  start_date: string
+  teacher: string
+  room: number
+  study_date: string[]
+  location: string
+}
+
 export default function CreateClassModal({ isOpen, onClose }: Props) {
   const modalRoot = document.getElementById('root') as HTMLElement
+  const createClassMutation = useMutation({
+    mutationFn: (body: createClassType) => englishClassApi.createClass(body)
+  })
+  function onFinish(values: createClassType): void {
+    createClassMutation.mutate(values, {
+      onSuccess: (data) => {
+        toast.success('Tạo khóa thành công!')
+        setTimeout(() => onClose(), 1000)
+        console.log(data)
+        console.log(values)
+      },
+      onError: (error) => {
+        toast.error('Thêm mới khóa học không thành công ')
+        setTimeout(() => onClose(), 1000)
+        console.log(error)
+        console.log(values)
+      }
+    })
+  }
+
+  function onFinishFailed(errorInfo: any): void {
+    console.log(errorInfo)
+  }
+
   return isOpen
     ? ReactDOM.createPortal(
         <div className='modal-overlay'>
-          <form className='modal-content'>
-            <div>
-              <div className='relative z-0 w-full mb-6 group'>
-                <input
-                  className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer'
-                  required
-                />
-                <label
-                  htmlFor='floating_email'
-                  className='peer-focus:font-medium absolute text-sm text-gray-500  duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'
-                >
-                  Email address
-                </label>
-              </div>
-              <div className='relative z-0 w-full mb-6 group'>
-                <input
-                  className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-non focus:outline-none focus:ring-0 focus:border-blue-600 peer'
-                  placeholder=' '
-                  required
-                />
-                <label
-                  htmlFor='floating_password'
-                  className='peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'
-                >
-                  Password
-                </label>
-              </div>
-              <div className='relative z-0 w-full mb-6 group'>
-                <input
-                  type='password'
-                  name='repeat_password'
-                  id='floating_repeat_password'
-                  className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
-                  placeholder=' '
-                  required
-                />
-                <label
-                  htmlFor='floating_repeat_password'
-                  className='peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'
-                >
-                  Confirm password
-                </label>
-              </div>
-              <div className='grid md:grid-cols-2 md:gap-6'>
-                <div className='relative z-0 w-full mb-6 group'>
-                  <input
-                    type='text'
-                    name='floating_first_name'
-                    id='floating_first_name'
-                    className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
-                    placeholder=' '
-                    required
-                  />
-                  <label
-                    htmlFor='floating_first_name'
-                    className='peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'
-                  >
-                    First name
-                  </label>
-                </div>
-                <div className='relative z-0 w-full mb-6 group'>
-                  <input
-                    type='text'
-                    name='floating_last_name'
-                    id='floating_last_name'
-                    className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
-                    placeholder=' '
-                    required
-                  />
-                  <label
-                    htmlFor='floating_last_name'
-                    className='peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'
-                  >
-                    Last name
-                  </label>
-                </div>
-              </div>
-              <div className='grid md:grid-cols-2 md:gap-6'>
-                <div className='relative z-0 w-full mb-6 group'>
-                  <input
-                    type='tel'
-                    pattern='[0-9]{3}-[0-9]{3}-[0-9]{4}'
-                    name='floating_phone'
-                    id='floating_phone'
-                    className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
-                    placeholder=' '
-                    required
-                  />
-                  <label
-                    htmlFor='floating_phone'
-                    className='peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'
-                  >
-                    Phone number
-                  </label>
-                </div>
-                <div className='relative z-0 w-full mb-6 group'>
-                  <input
-                    type='text'
-                    name='floating_company'
-                    id='floating_company'
-                    className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
-                    placeholder=' '
-                    required
-                  />
-                  <label
-                    htmlFor='floating_company'
-                    className='peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'
-                  >
-                    Company (Ex. Google)
-                  </label>
-                </div>
-              </div>
-              <button
-                type='submit'
-                className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
+          <div className='modal-content w-1/4'>
+            <h2 className='text-center bg-slate-700 text-white mx-0 rounded-lg py-3'>Thêm khóa học</h2>
+            <div className='relative z-0 w-full mb-6 group flex-col justify-center'>
+              <Form
+                name='basic'
+                labelCol={{ span: 8 }}
+                wrapperCol={{ span: 16 }}
+                style={{ maxWidth: 15000 }}
+                initialValues={{ remember: true }}
+                onFinish={onFinish}
+                onFinishFailed={onFinishFailed}
+                autoComplete='off'
+                rootClassName='pt-4 h-full w-full'
               >
-                Submit
-              </button>
-              <button
-                type='button'
-                className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
-                onClick={() => onClose()}
-              >
-                Close
-              </button>
+                <Form.Item<createClassType>
+                  label='Tên khóa học:'
+                  name='class_type'
+                  rules={[{ required: true, message: 'Vui lòng điền tên khóa học!' }]}
+                >
+                  <Input placeholder='VD: PS' />
+                </Form.Item>
+                <Form.Item<createClassType>
+                  label='Thời gian bắt đầu:'
+                  name='start_time'
+                  rules={[{ required: true, message: 'Vui lòng điền thời gian bắt đầu!' }]}
+                >
+                  <Input placeholder='HH:MM' />
+                </Form.Item>
+                <Form.Item<createClassType>
+                  label='Thời gian kết thúc:'
+                  name='end_time'
+                  rules={[{ required: true, message: 'Vui lòng điền thời gian kết thúc!' }]}
+                >
+                  <Input placeholder='HH:MM' />
+                </Form.Item>
+                <Form.Item<createClassType>
+                  name='start_date'
+                  label='Ngày bắt đầu'
+                  rules={[{ required: true, message: 'Vui lòng điền ngày bắt đầu!' }]}
+                >
+                  <Input placeholder='YYYY-MM_DD' />
+                </Form.Item>
+
+                <Form.Item<createClassType>
+                  label='Giáo viên:'
+                  name='teacher'
+                  rules={[{ required: true, message: 'Vui lòng điền tên giáo viên!' }]}
+                >
+                  <Input placeholder='VD: Hoàng Trọng Tùng' />
+                </Form.Item>
+                <Form.Item<createClassType>
+                  label='Phòng:'
+                  name='room'
+                  rules={[{ required: true, message: 'Vui lòng điền tên phòng học!' }]}
+                >
+                  <InputNumber />
+                </Form.Item>
+                <Form.Item<createClassType>
+                  name='study_date'
+                  label='Ngày học'
+                  rules={[{ required: true, message: 'Vui lòng chọn ngày học!' }]}
+                >
+                  <Checkbox.Group>
+                    <Row>
+                      <Col span={8}>
+                        <Checkbox value='Monday' style={{ lineHeight: '32px' }}>
+                          T2
+                        </Checkbox>
+                      </Col>
+                      <Col span={8}>
+                        <Checkbox value='Tuesday' style={{ lineHeight: '32px' }}>
+                          T3
+                        </Checkbox>
+                      </Col>
+                      <Col span={8}>
+                        <Checkbox value='Wednesday' style={{ lineHeight: '32px' }}>
+                          T4
+                        </Checkbox>
+                      </Col>
+                      <Col span={8}>
+                        <Checkbox value='Thursday' style={{ lineHeight: '32px' }}>
+                          T5
+                        </Checkbox>
+                      </Col>
+                      <Col span={8}>
+                        <Checkbox value='Friday' style={{ lineHeight: '32px' }}>
+                          T6
+                        </Checkbox>
+                      </Col>
+                      <Col span={8}>
+                        <Checkbox value='Saturday' style={{ lineHeight: '32px' }}>
+                          T7
+                        </Checkbox>
+                      </Col>
+                      <Col span={8}>
+                        <Checkbox value='Sunday' style={{ lineHeight: '32px' }}>
+                          CN
+                        </Checkbox>
+                      </Col>
+                    </Row>
+                  </Checkbox.Group>
+                </Form.Item>
+                <Form.Item
+                  label='Địa điểm:'
+                  name='location'
+                  rules={[{ required: true, message: 'Vui lòng điền tên địa điểm!' }]}
+                >
+                  <Input placeholder='VD: hqv' />
+                </Form.Item>
+
+                <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                  <Button type='primary' htmlType='submit' rootClassName='bg-cyan-200'>
+                    Submit
+                  </Button>{' '}
+                  <Button type='primary' danger onClick={() => onClose()}>
+                    Close
+                  </Button>
+                </Form.Item>
+              </Form>
             </div>
-          </form>
+          </div>
         </div>,
         modalRoot
       )

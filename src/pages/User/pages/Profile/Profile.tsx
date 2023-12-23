@@ -1,11 +1,19 @@
-import { Button, Checkbox, Col, Form, Input, Row, Select } from 'antd'
-// import { useState } from 'react'
+import { Button, Checkbox, DatePicker, Form, Input, Select } from 'antd'
+import moment from 'moment'
+import { AppConxtext } from '~/contexts/app.context'
+import { useContext } from 'react'
+import { useMutation } from '@tanstack/react-query'
+import userApi from '~/apis/user.api'
+import { toast } from 'react-toastify'
+import { createSearchParams, useNavigate } from 'react-router-dom'
+import path from '~/constants/path'
 const { Option } = Select
-// interface DataNodeType {
-//   value: string
-//   label: string
-//   children?: DataNodeType[]
-// }
+export interface updateProfile {
+  email: string
+  dob: string
+  fullName: string
+  gender: string
+}
 const formItemLayout = {
   labelCol: {
     xs: { span: 24 },
@@ -29,15 +37,36 @@ const tailFormItemLayout = {
     }
   }
 }
+
 export default function Profile() {
   const [form] = Form.useForm()
-
-  const onFinish = (values: any) => {
-    console.log('Received values of form: ', values)
+  const navigate = useNavigate()
+  function handleUpdateProfile(): void {
+    navigate({
+      pathname: path.home,
+      search: createSearchParams({
+        fromDate: '2023-12-01',
+        toDate: '2023-12-31'
+      }).toString()
+    })
   }
-
-  // const [autoCompleteResult, setAutoCompleteResult] = useState<string[]>([])
-
+  const changeProfileMutation = useMutation({
+    mutationFn: (body: updateProfile) => userApi.updateProfile(body)
+  })
+  const { profile } = useContext(AppConxtext)
+  const onFinish = (values: updateProfile) => {
+    changeProfileMutation.mutate(values, {
+      onSuccess: (data) => {
+        toast.success('Đổi mật khẩu thành công!')
+        setTimeout(handleUpdateProfile, 2000)
+        console.log(data)
+      },
+      onError: (error) => {
+        toast.error('error')
+        console.log(error)
+      }
+    })
+  }
   return (
     <div className='flex justify-center  h-screen'>
       <Form
@@ -45,10 +74,10 @@ export default function Profile() {
         form={form}
         name='register'
         onFinish={onFinish}
-        initialValues={{ residence: ['zhejiang', 'hangzhou', 'xihu'], prefix: '86' }}
         style={{ maxWidth: 600 }}
         scrollToFirstError
         rootClassName='pt-4 w-3/4'
+        initialValues={{}}
       >
         <Form.Item
           name='email'
@@ -64,60 +93,34 @@ export default function Profile() {
             }
           ]}
         >
-          <Input />
+          <Input readOnly defaultValue={profile?.email} />
         </Form.Item>
-
         <Form.Item
-          name='password'
-          label='Password'
-          rules={[
-            {
-              required: true,
-              message: 'Please input your password!'
-            }
-          ]}
-          hasFeedback
+          label='Date of birth'
+          name='dob'
+          getValueFromEvent={(onChange) => moment(onChange).format('YYYY-MM-DD')}
+          getValueProps={(i) => ({ value: i === undefined ? undefined : moment(i) })}
+          rules={[{ required: true, message: 'Please input your Date of Birth' }]}
+          initialValue={profile?.dob}
         >
-          <Input.Password />
+          <DatePicker style={{ width: '100%' }} />
         </Form.Item>
-
         <Form.Item
-          name='confirm'
-          label='Confirm Password'
-          dependencies={['password']}
-          hasFeedback
-          rules={[
-            {
-              required: true,
-              message: 'Please confirm your password!'
-            },
-            ({ getFieldValue }) => ({
-              validator(_, value) {
-                if (!value || getFieldValue('password') === value) {
-                  return Promise.resolve()
-                }
-                return Promise.reject(new Error('The new password that you entered do not match!'))
-              }
-            })
-          ]}
-        >
-          <Input.Password />
-        </Form.Item>
-
-        <Form.Item
-          name='nickname'
-          label='Nickname'
-          tooltip='What do you want others to call you?'
-          rules={[{ required: true, message: 'Please input your nickname!', whitespace: true }]}
+          name='fullName'
+          label='Fullname'
+          tooltip='What is your full name?'
+          rules={[{ required: true, message: 'Please input your fullname!', whitespace: true }]}
+          initialValue={profile?.fullName}
         >
           <Input />
         </Form.Item>
 
-        <Form.Item name='intro' label='Intro' rules={[{ required: true, message: 'Please input Intro' }]}>
-          <Input.TextArea showCount maxLength={100} />
-        </Form.Item>
-
-        <Form.Item name='gender' label='Gender' rules={[{ required: true, message: 'Please select gender!' }]}>
+        <Form.Item
+          name='gender'
+          label='Gender'
+          rules={[{ required: true, message: 'Please select gender!' }]}
+          initialValue={'Male'}
+        >
           <Select placeholder='select your gender'>
             <Option value='male'>Male</Option>
             <Option value='female'>Female</Option>
@@ -125,7 +128,7 @@ export default function Profile() {
           </Select>
         </Form.Item>
 
-        <Form.Item label='Captcha' extra='We must make sure that your are a human.'>
+        {/* <Form.Item label='Captcha' extra='We must make sure that your are a human.'>
           <Row gutter={8}>
             <Col span={12}>
               <Form.Item
@@ -140,7 +143,7 @@ export default function Profile() {
               <Button>Get captcha</Button>
             </Col>
           </Row>
-        </Form.Item>
+        </Form.Item> */}
 
         <Form.Item
           name='agreement'

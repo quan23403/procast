@@ -1,17 +1,25 @@
 interface Salary {
-  payroll_id: string
-  course_type: number
+  payroll_id: number
   work_days: number
-  price_each: number
   amount: number
 }
+interface Config {
+  payroll_id: number
+  payroll_rate: number
+  course_type: string
+}
 
+export interface ModifySalaryConfiguration {
+  user_id: string
+  salary: Config[]
+}
 export interface PersonSalary {
-  userId: string
+  user_id: string
   user_name: string
   full_name: string
   gender: string
   job_position: string
+  salary_config: Config[]
   salary: Salary[]
 }
 
@@ -20,7 +28,7 @@ export interface salaryList {
 }
 
 export interface salaryListConfig {
-  name?: string | undefined
+  username?: string | undefined
   month?: string | undefined
   year?: string | undefined
 }
