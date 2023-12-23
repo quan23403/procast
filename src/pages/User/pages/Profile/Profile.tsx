@@ -92,8 +92,9 @@ export default function Profile() {
               message: 'Please input your E-mail!'
             }
           ]}
+          initialValue={profile?.email}
         >
-          <Input readOnly defaultValue={profile?.email} />
+          <Input />
         </Form.Item>
         <Form.Item
           label='Date of birth'

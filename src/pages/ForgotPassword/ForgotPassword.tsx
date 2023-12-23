@@ -24,10 +24,10 @@ export default function ForgotPassword() {
   const validateMutation = useMutation({
     mutationFn: (body: FormData) => validatePassword(body)
   })
-  const onSubmit = handleSubmit((data: FormData) => {
-    console.log(data)
-    validateMutation.mutate(data, {
+  const onSubmit = handleSubmit((formData: FormData) => {
+    validateMutation.mutate(formData, {
       onSuccess: (data) => {
+        localStorage.setItem('userEmail', formData.email)
         navigate({ pathname: path.validateCode })
         console.log(data)
       },

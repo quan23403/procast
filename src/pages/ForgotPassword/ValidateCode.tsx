@@ -7,8 +7,14 @@ import Button from '~/components/Button'
 import path from '~/constants/path'
 import { getRules } from '~/utils/rules'
 interface FormData {
-  digit: string
+  email: string
+  digitCode: string
 }
+interface submitDataType {
+  email: string
+  digitCode: number
+}
+console.log(localStorage.getItem('userEmail'))
 export default function ValidateCode() {
   const {
     register,
@@ -19,17 +25,20 @@ export default function ValidateCode() {
   const rules = getRules(getValues)
   const navigate = useNavigate()
   const validateCodeMutation = useMutation({
-    mutationFn: (body: FormData) => validateEmailCode(body)
+    mutationFn: (body: submitDataType) => validateEmailCode(body)
   })
   const onSubmit = handleSubmit((data: FormData) => {
-    console.log(data)
-    validateCodeMutation.mutate(data, {
+    const submitData = {
+      email: data.email,
+      digitCode: parseInt(data.digitCode, 10)
+    }
+    validateCodeMutation.mutate(submitData, {
       onSuccess: (data) => {
         navigate({ pathname: path.setNewPassword })
         console.log(data)
       },
       onError: (error) => {
-        toast.error('Email không tồn tại')
+        toast.error('Mã xác nhận không hợp lệ!')
         console.log(error)
       }
     })
@@ -41,6 +50,7 @@ export default function ValidateCode() {
           <img className='w-8 h-8 mr-2' src='https://cdn-icons-png.flaticon.com/128/1290/1290874.png ' alt='logo' />
           Procast
         </a>
+        <input {...register('email', { value: localStorage.getItem('userEmail')?.toString() })} className='hidden' />
         <div className='w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700'>
           <div className='p-6 space-y-4 md:space-y-6 sm:p-8'>
             <h1 className='text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white text-center'>
@@ -53,9 +63,9 @@ export default function ValidateCode() {
                 </label>
                 <input
                   className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-                  {...register('digit', rules.digit)}
+                  {...register('digitCode', rules.digitCode)}
                 />
-                <div className='mt-0 text-red-600 text-xs p-0'>{errors.digit?.message}</div>
+                <div className='mt-0 text-red-600 text-xs p-0'>{errors.digitCode?.message}</div>
               </div>
               <div className='flex items-center justify-between'>
                 <div className='flex items-start'>
