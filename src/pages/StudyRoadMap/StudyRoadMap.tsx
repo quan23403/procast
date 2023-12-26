@@ -40,7 +40,7 @@ export default function StudyRoadMap() {
     const { data: TAdata } = useQuery({
         queryKey: ['employee', 'TA'],
         queryFn: () => {
-            return employeeApi.getSalary({ job_position: 'TA' })
+            return employeeApi.getEmployees({ job_position: 'TA' })
         }
     })
 
