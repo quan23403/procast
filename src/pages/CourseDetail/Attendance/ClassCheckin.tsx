@@ -4,7 +4,7 @@ import dayjs from 'dayjs'
 import { classesList } from '~/types/classLists.type'
 import { StudentCheckin } from '~/types/student.type'
 import { AlignType, FixedType } from 'rc-table/lib/interface';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import classDeltailApi from '~/apis/classDetail.api';
 
 interface Props {
@@ -12,26 +12,28 @@ interface Props {
   studentList: StudentCheckin[]
 }
 export default function ClassCheckIn({ classesList, studentList }: Props) {
-  // const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
   const updateCheckinMutation = useMutation(
-    (params: { studentId: number; status: any; check: boolean; classId: number }) => {
+    (params: { studentId: number; status: any; check: boolean; classId: string }) => {
       const { studentId, status, check, classId } = params;
+      console.log(params)
       if (check) {
-        return classDeltailApi.updateStudentCheckin({ student_id: studentId, class_id: classId, status });
+        return classDeltailApi.updateStudentCheckin({ student_id: studentId, class_id: parseInt(classId), status });
       } else {
-        return classDeltailApi.postStudentCheckin({ student_id: studentId, class_id: classId, status });
+        return classDeltailApi.postStudentCheckin({ student_id: studentId, class_id: parseInt(classId), status });
       }
     },
     {
       onSuccess: () => {
         // Invalidate relevant queries after a successful mutation
-        // queryClient.invalidateQueries(['classDetail', queryConfig]);
+        queryClient.invalidateQueries(['checkinData']);
+        console.info("Checkin thành công!")
       },
     }
   );
 
-  const updateCheckin = async (studentId: number, status: any, check: boolean, classId: number) => {
+  const updateCheckin = async (studentId: number, status: any, check: boolean, classId: string) => {
     console.log([studentId, status, check, classId]);
 
     try {
@@ -43,25 +45,25 @@ export default function ClassCheckIn({ classesList, studentList }: Props) {
     }
   };
   const columns = [
-    { title: '#', dataIndex: 'id', key: 'id', fixed: 'left' as FixedType, width: 40 },
+    { title: '#', dataIndex: 'student_id', key: 'id', fixed: 'left' as FixedType, width: 60 },
     { title: 'Họ tên', dataIndex: 'name', key: 'name', fixed: 'left' as FixedType, width: 200 },
     { title: 'Ngày sinh', dataIndex: 'dob', key: 'dob', fixed: 'left' as FixedType, width: 120 },
     { title: 'Ghi chú', dataIndex: 'note', key: 'note', fixed: 'left' as FixedType, width: 80 },
     ...classesList.map((session) => {
       const isToday = dayjs(session.date).isSame(dayjs(), 'day');
       return {
-        title: session.name || "",
+        title: <span>{session?.name}<br/><small>{dayjs(session?.date).format('DD/MM/YY')}</small></span>,
         dataIndex: ['checkIn'],
         key: session.class_id,
-        width: 60,
+        width: 80,
         align: 'center' as AlignType,
         render: (text: any[], record: StudentCheckin) => {
-          const sessionCheck = (text || []).find((ses: classesList) => (ses.class_id == session.class_id)) || null
-          console.log({
-            a:text, b:sessionCheck, c: record
-          })      
+          const sessionCheck = (text || []).find((ses: classesList) => (ses.class_id.toString() == session.class_id.toString())) || null
+          // console.log({
+          //   a:text, b:sessionCheck, c: record
+          // })      
           return(
-          <div key={`${record.stuudent_id-session.class_id}`}>
+          <div key={`${record.student_id-session.class_id}`}>
             {isToday ?
               <Select
                 showSearch
@@ -74,7 +76,7 @@ export default function ClassCheckIn({ classesList, studentList }: Props) {
                 defaultValue={sessionCheck?.status || null}
                 onChange={(value) => {
                   const check = sessionCheck !== null
-                  updateCheckin(record.stuudent_id, value, check, session.class_id)
+                  updateCheckin(record.student_id, value, check, session.class_id.toString())
                 }}
                 popupMatchSelectWidth={false}
                 style={{

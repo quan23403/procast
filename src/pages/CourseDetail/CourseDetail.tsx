@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { omitBy, isUndefined } from 'lodash'
 import classDetailApi from '~/apis/classDetail.api'
+import dayjs from 'dayjs'
 // import DetailNavbar from './DetailNavbar/DetailNavbar'
 
 export interface Course {
@@ -14,6 +15,7 @@ export interface Course {
   note?: string | null
 }
 export default function CourseDetail() {
+  
   const { id } = useParams()
   const queryConfig = omitBy(
     {
@@ -56,7 +58,7 @@ export default function CourseDetail() {
           <div className='col'>
             <div className='field'>THÔNG TIN LỚP HỌC:</div>
             <div className='detail'>
-              {detail.course_name}-{detail.course_id}
+              {detail.course_name}
             </div>
           </div>
         </div>
@@ -78,10 +80,10 @@ export default function CourseDetail() {
           </div>
           <div className='col'>
             <div className='field'>Ca học: </div>
-            <div className='detail'>{detail.start_time}-{detail.end_time}</div>
+            <div className='detail'>{dayjs(detail.start_time?.slice(11,19), 'HH:mm:ss').format('HH:mm')}-{dayjs(detail.end_time?.slice(11,19), 'HH:mm:ss').format('HH:mm')}</div>
           </div>
         </div>
-        <div className='row'>
+        {/* <div className='row'>
           <div className='col'>
             <div className='field'>Số học viên:</div>
             <div className='detail'>{}</div>
@@ -91,7 +93,7 @@ export default function CourseDetail() {
             <div className='detail'>{}</div>
           </div>
           <div className='col' />
-        </div>
+        </div> */}
         <div className='row'>
           <div className='col'>
             <div className='field'>Địa điểm học:</div>
@@ -114,7 +116,7 @@ export default function CourseDetail() {
           </div>
           <div className='col'>
             <div className='field'>Lịch học:</div>
-            <div className='detail'>{detail.study_days}</div>
+            <div className='detail'>{detail.study_days?.split(",").map((date)=>(`${date}, `)).join("").slice(0, -2)}</div>
           </div>
           <div className='col' />
         </div>

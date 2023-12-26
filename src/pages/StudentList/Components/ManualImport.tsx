@@ -2,12 +2,17 @@
 import { Button, Form, Input } from 'antd';
 import './ManualImport.css'
 import { useParams } from 'react-router-dom';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import classDeltailApi from '~/apis/classDetail.api';
 import { useState } from 'react';
 import { StudentParam } from '~/types/student.type';
-function ManualImport() {
+interface ManualImportProps {
+  closeModal: (value: boolean) => void;
+}
+
+const ManualImport: React.FC<ManualImportProps> = ({closeModal }) => {
   const {id: course_id} = useParams()
+  const queryClient = useQueryClient()
   const [formData, setFormData] = useState<StudentParam>({
     name: '',
     courseId: 0,
@@ -22,9 +27,13 @@ function ManualImport() {
     setFormData({...values, name: values.student_name, courseId: course_id})
     console.log(formData)
     createNewStudent.mutate(undefined, {
-      onSuccess: (data) => {
-        console.log(data)
+      onSuccess: () => {
+        console.log("Thêm học viên thành công")
         form.resetFields()
+        queryClient.invalidateQueries({
+          queryKey: ['studentlistData']
+        })
+        closeModal(false)
       },
       onError: (error) => {
         console.log(error)

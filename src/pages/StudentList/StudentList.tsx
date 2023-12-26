@@ -5,7 +5,7 @@ import Modal from './Components/Modal';
 import { DeleteOutlined } from '@ant-design/icons'
 import { FormOutlined } from '@ant-design/icons'
 import { StudentsInfo } from '~/types/student.type';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Form, Input, Table } from 'antd';
 import { omitBy, isUndefined } from 'lodash';
 import { useParams } from 'react-router-dom';
@@ -16,15 +16,22 @@ import { Modal as AntdModal } from 'antd';
 export default function StudentList() {
     const [openModal, setOpenModal] = useState(false)
     const [openEditMap, setOpenEditMap] = useState<Record<number, boolean>>({});
+    const [openDeleteMap, setOpenDeleteMap] = useState<Record<number, boolean>>({});
+    const queryClient = useQueryClient()
+    const [deleteStudentId, setDeleteStudent] = useState<{ student_id: string, course_id: string }>({ student_id: "", course_id: "" })
+    const openEditModal = (studentId: number) => {
+        setOpenEditMap((prev) => ({ ...prev, [studentId]: true }));
+    };
+    const openDeleteModal = (studentId: number) => {
+        setOpenDeleteMap((prev) => ({ ...prev, [studentId]: true }));
+    };
+    const closeEditModal = (studentId: number) => {
+        setOpenEditMap((prev) => ({ ...prev, [studentId]: false }));
+    };
+    const closeDeleteModal = (studentId: number) => {
+        setOpenDeleteMap((prev) => ({ ...prev, [studentId]: false }));
+    }
 
-  const openEditModal = (studentId: number) => {
-    setOpenEditMap((prev) => ({ ...prev, [studentId]: true }));
-  };
-
-  const closeEditModal = (studentId: number) => {
-    setOpenEditMap((prev) => ({ ...prev, [studentId]: false }));
-  };
-  
     const { id } = useParams()
     const queryConfig = omitBy(
         {
@@ -33,7 +40,7 @@ export default function StudentList() {
         isUndefined
     )
     const { data: checkinData } = useQuery({
-        queryKey: ['checkinData', queryConfig],
+        queryKey: ['studentlistData', queryConfig],
         queryFn: () => {
             return classDetailApi.getStudentList(queryConfig)
         }
@@ -42,6 +49,27 @@ export default function StudentList() {
         ...item,
         dob: dayjs(item.dob).format('DD/MM/YYYY')
     }));
+
+    const deleteStudent = useMutation({
+        mutationKey: ['deleteStudent'],
+        mutationFn: () => {
+            return classDetailApi.deleteStudent(deleteStudentId)
+        }
+    })
+    const onDelete = (studentId: string) => {
+        setDeleteStudent({ student_id: studentId, course_id: id || ""})
+
+        deleteStudent.mutate(undefined, {
+            onSuccess: () => {
+                queryClient.invalidateQueries(['studentlistData', queryConfig])
+                closeDeleteModal(parseInt(studentId))
+            },
+            onError: (error) => {
+                console.log("Không thể xóa:", error)
+            }
+        })
+    }
+
     const columns = [
         {
             title: '#',
@@ -69,7 +97,7 @@ export default function StudentList() {
             title: 'Tình trạng',
             key: 'status',
             render: (record: StudentsInfo) => {
-                return record.status? <span>{record.status}</span> : <span>Đang theo học</span>  
+                return record.status ? <span>{record.status}</span> : <span>Đang theo học</span>
             }
         },
         {
@@ -79,14 +107,14 @@ export default function StudentList() {
 
                 return (
                     <div>
-                        <a onClick={()=>{openEditModal(record.student_id)}} title='Chi tiết'><FormOutlined style={{fontSize:'24px', marginRight:'20px'}}/>
+                        <a onClick={() => { openEditModal(record.student_id) }} title='Chi tiết'><FormOutlined style={{ fontSize: '24px', marginRight: '20px' }} />
                         </a>
-                        <AntdModal 
-                        centered={true}
-                        title={`Chỉnh sửa thông tin học sinh ${record.student_id}`}
-                        open={openEditMap[record.student_id] || false}
-            onCancel={() => closeEditModal(record.student_id)}
-            onOk={() => closeEditModal(record.student_id)}>
+                        <AntdModal
+                            centered={true}
+                            title={`Chi tiết thông tin học sinh ${record.student_id}`}
+                            open={openEditMap[record.student_id] || false}
+                            onCancel={() => closeEditModal(record.student_id)}
+                            onOk={() => closeEditModal(record.student_id)}>
                             <Form disabled>
                                 <Form.Item
                                     label="Họ và tên"
@@ -110,8 +138,15 @@ export default function StudentList() {
                                 </Form.Item>
                             </Form>
                         </AntdModal>
-                        <a><DeleteOutlined style={{fontSize:'24px', marginRight:'20px', color:'red'}}/>
+                        <a onClick={() => openDeleteModal(record.student_id)}><DeleteOutlined style={{ fontSize: '24px', marginRight: '20px', color: 'red' }} />
                         </a>
+                        <AntdModal open={openDeleteMap[record.student_id] || false}
+                            onCancel={() => closeDeleteModal(record.student_id)}
+                            onOk={() => onDelete(record.student_id.toString())}
+                            okText={'Xóa'}
+                            okType='danger'>
+                            <p>Bạn có chắc chắn muốn xóa học sinh này không?</p>
+                        </AntdModal>
                     </div>
                 )
             }
