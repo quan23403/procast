@@ -337,7 +337,7 @@ export default function () {
                   <Form.Item
                     label='Ngày sinh'
                     name='dob'
-                    getValueFromEvent={(dateString) => dateString}
+                    getValueFromEvent={(_, dateString) => dateString}
                     getValueProps={(value) => ({ value: value ? dayjs(value) : undefined })}
                     rules={[{ required: true, message: 'Hãy điền ngày tháng năm sinh của bạn' }]}
                   >
