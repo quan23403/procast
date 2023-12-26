@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { Button, Form, Input, InputNumber } from 'antd'
 import ReactDOM from 'react-dom'

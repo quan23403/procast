@@ -7,6 +7,7 @@ import employeeApi from "~/apis/employee.api";
 import { classesList, sessionsUpdate } from "~/types/classLists.type";
 import { employeeType } from "../EmployeeList/EmployeeList";
 import classDeltailApi from "~/apis/classDetail.api";
+import { toast } from "react-toastify";
 
 export default function EditModal(props: { record: classesList }) {
     const queryClient = useQueryClient();
@@ -64,12 +65,13 @@ export default function EditModal(props: { record: classesList }) {
         console.log("form edit", formData);
         updateSession.mutate(undefined, {
             onSuccess: () => {
-                console.log('Update successfully!')
+                toast.success('Cập nhật thành công');
                 queryClient.invalidateQueries(['sessionData']);
               closeEditModal();
             },
             onError: (error) => {
-              console.log(error)
+                toast.error('Cập nhật thất bại');
+                console.log(error);
             }
           })
         

@@ -60,7 +60,7 @@ export default function StudyRoadMap() {
         };
     });
 
-    console.log('1' in [1,2,3])
+    // console.log('1' in [1,2,3])
     const columns = [
         {
             title: 'Công cụ',

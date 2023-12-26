@@ -6,6 +6,7 @@ import { StudentCheckin } from '~/types/student.type'
 import { AlignType, FixedType } from 'rc-table/lib/interface';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import classDeltailApi from '~/apis/classDetail.api';
+import { toast } from 'react-toastify';
 
 interface Props {
   classesList: classesList[]
@@ -17,7 +18,7 @@ export default function ClassCheckIn({ classesList, studentList }: Props) {
   const updateCheckinMutation = useMutation(
     (params: { studentId: number; status: any; check: boolean; classId: string }) => {
       const { studentId, status, check, classId } = params;
-      console.log(params)
+      // console.log(params)
       if (check) {
         return classDeltailApi.updateStudentCheckin({ student_id: studentId, class_id: parseInt(classId), status });
       } else {
@@ -28,13 +29,13 @@ export default function ClassCheckIn({ classesList, studentList }: Props) {
       onSuccess: () => {
         // Invalidate relevant queries after a successful mutation
         queryClient.invalidateQueries(['checkinData']);
-        console.info("Checkin thành công!")
+        toast.success("Checkin thành công!")
       },
     }
   );
 
   const updateCheckin = async (studentId: number, status: any, check: boolean, classId: string) => {
-    console.log([studentId, status, check, classId]);
+    // console.log([studentId, status, check, classId]);
 
     try {
       // This will actually execute the mutation asynchronously

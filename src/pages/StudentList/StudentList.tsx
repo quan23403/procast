@@ -12,6 +12,7 @@ import { useParams } from 'react-router-dom';
 import classDetailApi from '~/apis/classDetail.api';
 import dayjs from 'dayjs';
 import { Modal as AntdModal } from 'antd';
+import { toast } from 'react-toastify';
 // import DetailClassHeader from '~/components/DetailClassHeader';
 export default function StudentList() {
     const [openModal, setOpenModal] = useState(false)
@@ -61,11 +62,12 @@ export default function StudentList() {
 
         deleteStudent.mutate(undefined, {
             onSuccess: () => {
+                toast.success('Xóa thành công')
                 queryClient.invalidateQueries(['studentlistData', queryConfig])
                 closeDeleteModal(parseInt(studentId))
             },
             onError: (error) => {
-                console.log("Không thể xóa:", error)
+                toast.error(`Không thể xóa: ${error}`)
             }
         })
     }
