@@ -1,9 +1,9 @@
-import { Button, Input, Space, Table } from 'antd'
+import { Button, DatePicker, Form, Input, Modal, Select, Space, Table } from 'antd'
 import type { InputRef } from 'antd'
 import employeeApi, { employeeConfig } from '~/apis/employee.api'
 import useQueryParams from '~/hooks/useQueryParams'
 import { isUndefined, omitBy } from 'lodash'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { createSearchParams, useNavigate } from 'react-router-dom'
 import path from '~/constants/path'
 import { useLayoutEffect, useRef, useState } from 'react'
@@ -11,6 +11,10 @@ import Highlighter from 'react-highlight-words'
 import { SearchOutlined } from '@ant-design/icons'
 import { FilterConfirmProps } from 'antd/es/table/interface'
 import type { ColumnType, ColumnsType } from 'antd/es/table'
+
+import { toast } from 'react-toastify'
+import dayjs from 'dayjs'
+import moment from 'moment'
 
 export interface employeeType {
   user_id: string
@@ -24,6 +28,14 @@ export interface employeeType {
   full_name: string
   gender: string
 }
+export interface addEmployeeType {
+  email: string
+  user_name: string
+  dob: string
+  gender: string
+  fullName: string
+  job_position: string
+}
 interface DataType {
   key: string
   user_name: string
@@ -31,23 +43,43 @@ interface DataType {
   gender: string
   email: string
 }
+const formItemLayout = {
+  labelCol: {
+    xs: { span: 24 },
+    sm: { span: 8 }
+  },
+  wrapperCol: {
+    xs: { span: 24 },
+    sm: { span: 16 }
+  }
+}
+
+const { Option } = Select
 type DataIndex = keyof DataType
 // eslint-disable-next-line react-refresh/only-export-components
 export default function () {
   const [searchText, setSearchText] = useState('')
   const [searchedColumn, setSearchedColumn] = useState('')
+  const [openModal, setOpenModal] = useState<boolean>(false)
+  const [jobPosition, setJobPosition] = useState<string>('')
+  const [form] = Form.useForm()
   const tableData: DataType[] = []
   const searchInput = useRef<InputRef>(null)
   const queryParams: employeeConfig = useQueryParams()
+  const queryClient = useQueryClient()
   const [active, setActive] = useState<boolean>(true)
   useLayoutEffect(() => {
     if (queryParams.job_position !== 'Teacher') {
       setActive(false)
+      setJobPosition('TA')
     } else {
       setActive(true)
+      setJobPosition('Teacher')
     }
   }, [queryParams])
-
+  const handleConfirmCancel = () => {
+    setOpenModal(false)
+  }
   const navigate = useNavigate()
   const queryConfig: employeeConfig = omitBy(
     {
@@ -58,11 +90,10 @@ export default function () {
   const { data } = useQuery({
     queryKey: ['employee', queryConfig],
     queryFn: () => {
-      return employeeApi.getSalary(queryConfig)
+      return employeeApi.getEmployees(queryConfig)
     }
   })
 
-  console.log(data?.data.data)
   data?.data.data.map((employee: employeeType, index: number) =>
     tableData.push({
       key: (index + 1).toString(),
@@ -72,7 +103,6 @@ export default function () {
       email: employee.email
     })
   )
-  console.log(tableData)
   const handleSearch = (
     selectedKeys: string[],
     confirm: (param?: FilterConfirmProps) => void,
@@ -130,7 +160,7 @@ export default function () {
               close()
             }}
           >
-            close
+            Close
           </Button>
         </Space>
       </div>
@@ -171,8 +201,7 @@ export default function () {
       title: 'Ngày sinh',
       dataIndex: 'dob',
       key: 'dob',
-      width: '20%',
-      ...getColumnSearchProps('dob')
+      width: '20%'
     },
     {
       title: 'Giới tính',
@@ -187,6 +216,30 @@ export default function () {
       ...getColumnSearchProps('email')
     }
   ]
+  const addEmployeeMutation = useMutation({
+    mutationFn: (body: addEmployeeType) => employeeApi.addEmployee(body)
+  })
+  const handleOk = () => {
+    const formValues = form.getFieldsValue()
+    console.log(formValues)
+    form.resetFields()
+    addEmployeeMutation.mutate(formValues, {
+      onSuccess: (data) => {
+        toast.success('Thêm thành công!')
+        queryClient.invalidateQueries({ queryKey: ['employee'] })
+        navigate({ pathname: path.classList })
+        form.resetFields()
+        setOpenModal(false)
+        console.log(data)
+      },
+      onError: (error) => {
+        toast.error('error')
+        console.log(error)
+      }
+    })
+    setOpenModal(false)
+  }
+
   return (
     <div className='container-employee-list font-style: normal not-italic subpixel-antialiased'>
       <div className='title-list' style={{ padding: '20px', backgroundColor: 'white', fontSize: '20px' }}>
@@ -222,10 +275,109 @@ export default function () {
               }}
             >
               Danh sách TA
-            </Button>
+            </Button>{' '}
+            <button
+              className='addNewStudent ml-4'
+              onClick={() => {
+                setOpenModal(true)
+                if (queryParams.job_position === 'TA') {
+                  setJobPosition('TA')
+                } else setJobPosition('Teacher')
+              }}
+            >
+              Thêm {queryParams.job_position}
+            </button>
           </div>
           <div className='employee-list'>
             <Table columns={columns} dataSource={tableData} />
+            <Modal
+              open={openModal}
+              title='Form thêm nhân sự'
+              onOk={handleOk}
+              onCancel={handleConfirmCancel}
+              footer={(_, { OkBtn, CancelBtn }) => (
+                <>
+                  <CancelBtn />
+                  <OkBtn />
+                </>
+              )}
+            >
+              <div className='flex justify-center'>
+                <Form
+                  form={form}
+                  {...formItemLayout}
+                  name='addEmployee'
+                  style={{ maxWidth: 600 }}
+                  scrollToFirstError
+                  rootClassName='pt-4 w-3/4'
+                >
+                  <Form.Item
+                    name='email'
+                    label='E-mail'
+                    rules={[
+                      {
+                        type: 'email',
+                        message: 'E-mail không hợp lệ!'
+                      },
+                      {
+                        required: true,
+                        message: 'Vui lòng điền E-mail!'
+                      }
+                    ]}
+                  >
+                    <Input />
+                  </Form.Item>
+                  <Form.Item
+                    name='user_name'
+                    label='Username'
+                    tooltip='username của bạn là gì?'
+                    rules={[{ required: true, message: 'Hãy điền username!', whitespace: true }]}
+                  >
+                    <Input />
+                  </Form.Item>
+                  <Form.Item
+                    label='Ngày sinh'
+                    name='dob'
+                    getValueFromEvent={(date, dateString) => dateString}
+                    getValueProps={(value) => ({ value: value ? dayjs(value) : undefined })}
+                    rules={[{ required: true, message: 'Hãy điền ngày tháng năm sinh của bạn' }]}
+                  >
+                    <DatePicker style={{ width: '100%' }} />
+                  </Form.Item>
+
+                  <Form.Item
+                    name='gender'
+                    label='Giới tính'
+                    rules={[{ required: true, message: 'Hãy chọn giới tính!' }]}
+                    initialValue={'Male'}
+                  >
+                    <Select placeholder='Hãy chọn giới tính'>
+                      <Option value='male'>Male</Option>
+                      <Option value='female'>Female</Option>
+                      <Option value='other'>Other</Option>
+                    </Select>
+                  </Form.Item>
+                  <Form.Item
+                    name='fullName'
+                    label='Họ và tên:'
+                    tooltip='Tên đầy đủ của bạn là gì?'
+                    rules={[{ required: true, message: 'Hãy điền họ và tên đầy đủ!', whitespace: true }]}
+                  >
+                    <Input />
+                  </Form.Item>
+                  <Form.Item
+                    name='job_Position'
+                    label='Vị trí làm việc:'
+                    tooltip='Tên đầy đủ của bạn là gì?'
+                    rules={[{ required: true, message: '', whitespace: true }]}
+                    className='hidden'
+                    initialValue={jobPosition}
+                  >
+                    <Input />
+                  </Form.Item>
+                </Form>
+              </div>
+            </Modal>
           </div>
         </div>
       </div>

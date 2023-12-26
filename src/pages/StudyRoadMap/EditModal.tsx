@@ -24,20 +24,20 @@ export default function EditModal(props: { record: classesList }) {
     })
     const [openEditMap, setOpenEditMap] = useState(false);
 
-    const openEditModal = () => {
-        setOpenEditMap(true);
-    };
+  const openEditModal = () => {
+    setOpenEditMap(true)
+  }
 
-    const closeEditModal = () => {
-        setOpenEditMap(false);
-    };
+  const closeEditModal = () => {
+    setOpenEditMap(false)
+  }
 
-    const { data } = useQuery({
-        queryKey: ['employee', 'TA'],
-        queryFn: () => {
-            return employeeApi.getSalary({ job_position: 'TA' })
-        }
-    })
+  const { data } = useQuery({
+    queryKey: ['employee', 'TA'],
+    queryFn: () => {
+      return employeeApi.getEmployees({ job_position: 'TA' })
+    }
+  })
 
     const TAlist: employeeType[] = (data?.data?.data || []).map((item: employeeType) => ({
         label: item.full_name,
@@ -75,43 +75,43 @@ export default function EditModal(props: { record: classesList }) {
         
     };
 
-    return (
-        <div>
-            <a onClick={() => openEditModal()} title="Tùy chỉnh">
-                <FormOutlined style={{ fontSize: '24px', marginRight: '20px' }} />
-            </a>
-            <Modal
-                open={openEditMap}
-                title="Tùy chỉnh lớp học"
-                onCancel={() => closeEditModal()}
-                onOk={() => form.submit()}
-                okText={'Cập nhật'}
-                cancelText={'Hủy'}
-            >
-                <Form form={form} initialValues={record} onFinish={handleSubmit}>
-                    <Form.Item label="Buổi học">
-                        <span>{record.name}</span>
-                    </Form.Item>
-                    <Form.Item label="Ngày" name="date">
-                        <DatePicker />
-                    </Form.Item>
-                    <Form.Item label="Ca học" name="shift" >
-                        <TimePicker.RangePicker format={'HH:mm'} />
-                    </Form.Item>
-                    <Form.Item label="TA được duyệt" name="ta">
-                        <Select mode="multiple" options={TAlist} labelInValue={true}></Select>
-                    </Form.Item>
-                    <Form.Item label='Phòng học' name='room'>
-                        <Input type="number"/>
-                    </Form.Item>
-                    <Form.Item label='Ghi chú' name='note'>
-                        <Input.TextArea />
-                    </Form.Item>
-                </Form>
-            </Modal>
-            <a title="Xóa buổi học">
-                <DeleteOutlined style={{ fontSize: '24px', marginRight: '20px', color: 'red' }} />
-            </a>
-        </div>
-    );
+  return (
+    <div>
+      <a onClick={() => openEditModal()} title='Tùy chỉnh'>
+        <FormOutlined style={{ fontSize: '24px', marginRight: '20px' }} />
+      </a>
+      <Modal
+        open={openEditMap}
+        title='Tùy chỉnh lớp học'
+        onCancel={() => closeEditModal()}
+        onOk={() => form.submit()}
+        okText={'Cập nhật'}
+        cancelText={'Hủy'}
+      >
+        <Form form={form} initialValues={record} onFinish={handleSubmit}>
+          <Form.Item label='Buổi học'>
+            <span>{record.name}</span>
+          </Form.Item>
+          <Form.Item label='Ngày' name='date'>
+            <DatePicker />
+          </Form.Item>
+          <Form.Item label='Ca học' name='shift'>
+            <TimePicker.RangePicker format={'HH:mm'} />
+          </Form.Item>
+          <Form.Item label='TA được duyệt' name='ta'>
+            <Select mode='multiple' options={TAlist} labelInValue={true}></Select>
+          </Form.Item>
+          <Form.Item label='Phòng học' name='room'>
+            <Input type='number' />
+          </Form.Item>
+          <Form.Item label='Ghi chú' name='note'>
+            <Input.TextArea />
+          </Form.Item>
+        </Form>
+      </Modal>
+      <a title='Xóa buổi học'>
+        <DeleteOutlined style={{ fontSize: '24px', marginRight: '20px', color: 'red' }} />
+      </a>
+    </div>
+  )
 }
