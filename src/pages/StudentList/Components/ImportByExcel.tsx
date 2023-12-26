@@ -5,7 +5,14 @@ import { useState } from "react";
 import classDeltailApi from "~/apis/classDetail.api";
 import { useParams } from "react-router-dom";
 import { RcFile } from "antd/es/upload";
-function ImportByExcel() {
+import { useQueryClient } from "@tanstack/react-query";
+interface ImportByExcelProps {
+  closeModal: (value: boolean) => void;
+}
+
+const ImportByExcel: React.FC<ImportByExcelProps> = ({closeModal}) => {
+  const queryClient = useQueryClient()
+
     const [fileList, setFileList] = useState<UploadFile[]>([]);
   const [uploading, setUploading] = useState(false);
     const {id} = useParams()
@@ -15,7 +22,18 @@ function ImportByExcel() {
         setUploading(true);
         console.log(fileList[0] as RcFile)
         formData.append('file', fileList[0] as RcFile)
-        classDeltailApi.importStudentExcel(formData, id).finally(()=> setUploading(false))
+        classDeltailApi.importStudentExcel(formData, id)
+        .then( () => {
+          console.log("Thêm dữ liệu thành công")
+          queryClient.invalidateQueries({
+            queryKey: ['studentlistData']
+          })
+          }
+        )
+        .finally(()=> {
+          setUploading(false)
+          closeModal(false)
+        })
     }
     
     

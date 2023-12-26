@@ -176,7 +176,7 @@ export default function MainHeader() {
               )}
             </FloatingPortal>
             <div
-              className='z-50 hidden
+              className='z-50 hidden 
                my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600'
             >
               <div className='px-4 py-3 '>
@@ -221,7 +221,9 @@ export default function MainHeader() {
               </ul>
             </div>
           </div>
-          <div>
+          <div             
+           style={{width:"30%"}}
+>
             <Menu
               onClick={onClick}
               selectedKeys={[current]}

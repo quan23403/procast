@@ -69,10 +69,10 @@ const handleClickManual = () => {
                 </div>
                 <div className='content-form-add-std'>
                     <div ref={ref} className='content-manual-import'>
-                        <ManualImport />
+                        <ManualImport closeModal={closeModal}/>
                     </div>
                     <div ref={ref1} className='content-import-by-excel'>
-                        <ImportByExcel />
+                        <ImportByExcel closeModal={closeModal}/>
                         {/* <p>Button</p> */}
                     </div>
                 </div>

@@ -16,11 +16,11 @@ const classDeltailApi = {
     return http.get<SuccessReponse<classesList[]>>('e/v1/course-sessions', {params})
   },
   postStudentCheckin(params: CheckinParam) {
-    return http.post<SuccessReponse<StudentCheckin[]>>('e/v1/check-attendance-student', {params})
+    return http.post<SuccessReponse<StudentCheckin[]>>('e/v1/check-attendance-student', params)
   },
 
   updateStudentCheckin(params: CheckinParam) {
-    return http.put<SuccessReponse<StudentCheckin[]>>('e/v1/fix-attendance-status', {params})
+    return http.put<SuccessReponse<StudentCheckin[]>>('e/v1/fix-attendance-status', params)
   },
   getStudentList(params: Dictionary<string | undefined>) {
     return http.get<SuccessReponse<StudentsInfo[]>>('e/v1/students', {params})
@@ -35,5 +35,8 @@ const classDeltailApi = {
   updateSession(params: sessionsUpdate) {
     return http.post('i/v1/note', params)
   },
+  deleteStudent(params: {student_id: string, course_id: string}) {
+    return http.delete('i/v1/delete-student', {data: params})
+  }
 }
 export default classDeltailApi

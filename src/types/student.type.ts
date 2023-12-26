@@ -1,10 +1,10 @@
 export interface StudentCheckin {
-  stuudent_id: number
+  student_id: number
   name: string
   dob: string
   note?: string
   checkIn: {
-    classId: number 
+    class_id: number 
     status: string
     date?: string
   }[]

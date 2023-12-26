@@ -1,5 +1,5 @@
 import { FormOutlined, DeleteOutlined } from "@ant-design/icons";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { DatePicker, Form, Input, Modal, Select, TimePicker } from "antd";
 import dayjs from "dayjs";
 import { useState } from "react";
@@ -9,6 +9,8 @@ import { employeeType } from "../EmployeeList/EmployeeList";
 import classDeltailApi from "~/apis/classDetail.api";
 
 export default function EditModal(props: { record: classesList }) {
+    const queryClient = useQueryClient();
+
     const record = {
         ...props.record,
         date: dayjs(props.record.date, 'DD/MM/YYYY'),
@@ -63,6 +65,7 @@ export default function EditModal(props: { record: classesList }) {
         updateSession.mutate(undefined, {
             onSuccess: () => {
                 console.log('Update successfully!')
+                queryClient.invalidateQueries(['sessionData']);
               closeEditModal();
             },
             onError: (error) => {

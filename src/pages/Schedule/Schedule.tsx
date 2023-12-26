@@ -35,6 +35,7 @@ export default function Schedule() {
     if (course_code == 'PS') {
       return '#C6FFC5'
     } else if (course_code == 'APS') return '#FFC5C5'
+    else if (course_code == 'SR') return '#ff6f6f'
     return ''
   }
   const dateCellRender = (value: Dayjs) => {
