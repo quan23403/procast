@@ -8,11 +8,11 @@ class Http {
   instance: AxiosInstance
   private accessToken: string
   private profile: User
-  constructor(contenttype: string='application/json') {
+  constructor(contenttype: string = 'application/json') {
     this.accessToken = getAccessTokenFromLS()
     this.profile = getProfileFromLS()
     this.instance = axios.create({
-      baseURL: 'http://localhost:8081/',
+      baseURL: 'http://fall2324w20g6.int3306.freeddns.org/',
       timeout: 10000,
       headers: {
         'Content-Type': contenttype
@@ -68,4 +68,4 @@ class Http {
 const http = new Http().instance
 
 export default http
-export {Http}
+export { Http }

@@ -5,8 +5,7 @@ import { useContext } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import userApi from '~/apis/user.api'
 import { toast } from 'react-toastify'
-import { createSearchParams, useNavigate } from 'react-router-dom'
-import path from '~/constants/path'
+
 const { Option } = Select
 export interface updateProfile {
   email: string
@@ -40,15 +39,9 @@ const tailFormItemLayout = {
 
 export default function Profile() {
   const [form] = Form.useForm()
-  const navigate = useNavigate()
-  function handleUpdateProfile(): void {
-    navigate({
-      pathname: path.home,
-      search: createSearchParams({
-        fromDate: '2023-12-01',
-        toDate: '2023-12-31'
-      }).toString()
-    })
+  const { reset } = useContext(AppConxtext)
+  const handleLogout = () => {
+    reset()
   }
   const changeProfileMutation = useMutation({
     mutationFn: (body: updateProfile) => userApi.updateProfile(body)
@@ -57,8 +50,8 @@ export default function Profile() {
   const onFinish = (values: updateProfile) => {
     changeProfileMutation.mutate(values, {
       onSuccess: (data) => {
-        toast.success('Đổi mật khẩu thành công!')
-        setTimeout(handleUpdateProfile, 2000)
+        toast.success('Thay đổi hồ sơ thành công!')
+        setTimeout(handleLogout, 2000)
         console.log(data)
       },
       onError: (error) => {
@@ -77,7 +70,6 @@ export default function Profile() {
         style={{ maxWidth: 600 }}
         scrollToFirstError
         rootClassName='pt-4 w-3/4'
-        initialValues={{}}
       >
         <Form.Item
           name='email'
@@ -97,20 +89,20 @@ export default function Profile() {
           <Input />
         </Form.Item>
         <Form.Item
-          label='Date of birth'
+          label='Ngày sinh'
           name='dob'
           getValueFromEvent={(onChange) => moment(onChange).format('YYYY-MM-DD')}
           getValueProps={(i) => ({ value: i === undefined ? undefined : moment(i) })}
-          rules={[{ required: true, message: 'Please input your Date of Birth' }]}
+          rules={[{ required: true, message: 'hãy điền ngày tháng năm sinh của bạn' }]}
           initialValue={profile?.dob}
         >
           <DatePicker style={{ width: '100%' }} />
         </Form.Item>
         <Form.Item
           name='fullName'
-          label='Fullname'
-          tooltip='What is your full name?'
-          rules={[{ required: true, message: 'Please input your fullname!', whitespace: true }]}
+          label='Họ và tên'
+          tooltip='Tên đầy đủ của bạn là gì?'
+          rules={[{ required: true, message: 'Hãy điền họ và tên đầy đủ!', whitespace: true }]}
           initialValue={profile?.fullName}
         >
           <Input />
@@ -118,11 +110,11 @@ export default function Profile() {
 
         <Form.Item
           name='gender'
-          label='Gender'
-          rules={[{ required: true, message: 'Please select gender!' }]}
+          label='Giới tính'
+          rules={[{ required: true, message: 'Hãy chọn giới tính!' }]}
           initialValue={'Male'}
         >
-          <Select placeholder='select your gender'>
+          <Select placeholder='Hãy chọn giới tính'>
             <Option value='male'>Male</Option>
             <Option value='female'>Female</Option>
             <Option value='other'>Other</Option>
@@ -152,14 +144,12 @@ export default function Profile() {
           rules={[
             {
               validator: (_, value) =>
-                value ? Promise.resolve() : Promise.reject(new Error('Should accept agreement'))
+                value ? Promise.resolve() : Promise.reject(new Error('Bạn nên đồng ý thay đổi'))
             }
           ]}
           {...tailFormItemLayout}
         >
-          <Checkbox>
-            I have read the <a href=''>agreement</a>
-          </Checkbox>
+          <Checkbox>Tôi đồng ý thay đổi (Logout sau khi thay đổi)</Checkbox>
         </Form.Item>
         <Form.Item {...tailFormItemLayout}>
           <Button type='primary' htmlType='submit' rootClassName='bg-cyan-200'>

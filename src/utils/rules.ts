@@ -83,6 +83,6 @@ export const getRules = (getValues?: UseFormGetValues<any>): Rules => ({
       message: 'number of characters: 6-160'
     },
     validate:
-      typeof getValues === 'function' ? (value) => value === getValues('password') || 'Mật khảu không khớp' : undefined
+      typeof getValues === 'function' ? (value) => value === getValues('password') || 'Mật khẩu không khớp' : undefined
   }
 })
