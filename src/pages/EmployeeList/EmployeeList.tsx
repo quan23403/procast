@@ -14,7 +14,6 @@ import type { ColumnType, ColumnsType } from 'antd/es/table'
 
 import { toast } from 'react-toastify'
 import dayjs from 'dayjs'
-import moment from 'moment'
 
 export interface employeeType {
   user_id: string
@@ -338,7 +337,7 @@ export default function () {
                   <Form.Item
                     label='Ngày sinh'
                     name='dob'
-                    getValueFromEvent={(date, dateString) => dateString}
+                    getValueFromEvent={(dateString) => dateString}
                     getValueProps={(value) => ({ value: value ? dayjs(value) : undefined })}
                     rules={[{ required: true, message: 'Hãy điền ngày tháng năm sinh của bạn' }]}
                   >
