@@ -11,8 +11,10 @@ import Highlighter from 'react-highlight-words'
 import { SearchOutlined } from '@ant-design/icons'
 import { FilterConfirmProps } from 'antd/es/table/interface'
 import type { ColumnType, ColumnsType } from 'antd/es/table'
-import moment from 'moment'
+
 import { toast } from 'react-toastify'
+import dayjs from 'dayjs'
+import moment from 'moment'
 
 export interface employeeType {
   user_id: string
@@ -88,7 +90,7 @@ export default function () {
   const { data } = useQuery({
     queryKey: ['employee', queryConfig],
     queryFn: () => {
-      return employeeApi.getEmployee(queryConfig)
+      return employeeApi.getEmployees(queryConfig)
     }
   })
 
@@ -336,11 +338,11 @@ export default function () {
                   <Form.Item
                     label='Ngày sinh'
                     name='dob'
-                    getValueFromEvent={(onChange) => moment(onChange).format('YYYY-MM-DD')}
-                    getValueProps={(i) => ({ value: i === undefined ? undefined : moment(i) })}
-                    rules={[{ required: true, message: 'hãy điền ngày tháng năm sinh của bạn' }]}
+                    getValueFromEvent={(date, dateString) => dateString}
+                    getValueProps={(value) => ({ value: value ? dayjs(value) : undefined })}
+                    rules={[{ required: true, message: 'Hãy điền ngày tháng năm sinh của bạn' }]}
                   >
-                    <DatePicker style={{ width: '100%' }} format='YYYY-MM-DD' />
+                    <DatePicker style={{ width: '100%' }} />
                   </Form.Item>
 
                   <Form.Item

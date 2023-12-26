@@ -18,7 +18,7 @@ export interface checkinData {
   status: string
 }
 const employeeApi = {
-  getEmployee(params: employeeConfig) {
+  getEmployees(params: employeeConfig) {
     return http.get('i/v1/sort-role', { params })
   },
   addEmployee(body: addEmployeeType) {
