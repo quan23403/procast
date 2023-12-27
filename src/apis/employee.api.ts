@@ -10,6 +10,7 @@ export interface checkinParam {
   course_id: string
   class_id: number
   course_type_id: string
+  user_id: string
 }
 export interface checkinData {
   classId: string
