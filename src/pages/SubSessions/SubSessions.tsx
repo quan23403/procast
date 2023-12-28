@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { classesList } from '~/types/classLists.type';
-import './StudyRoadMap.css'
+import './SubSession.css'
 import { Checkbox, Table } from 'antd';
 import EditModal from './EditModal';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -16,7 +16,7 @@ import { useState } from 'react';
 
 
 // import DetailClassHeader from '~/components/DetailClassHeader';
-export default function StudyRoadMap() {
+export default function SubSessions() {
     const { id } = useParams()
     const queryClient = useQueryClient();
     const [isTeacherCheckin, setIsTeacherCheckin] = useState<boolean>(false)

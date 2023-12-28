@@ -1,0 +1,44 @@
+.main-content-road-map {
+    background-color: white;
+    /* position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 64px; */
+    margin: 20px;
+}
+.container-road-map {
+    background-color: #EEE;
+    width: 100%;
+    /* padding: 15px; */
+    padding-bottom: 10px;
+}
+.road-map-table {
+    width: 100%;
+}
+.road-map-table > thead > tr > th {
+    border: solid 1px #ddd;
+}
+/* .title-road-map {
+    display: flex;
+    padding: 10px 0;
+    align-items: center;
+} */
+.btn-left {
+    margin-left: auto;
+}
+.btn-right {
+    margin-left: 10px;
+}
+.addNewRoadMap {
+    background-color: #f0db2d;
+    border-radius: 5px;
+    margin-right: 10px;
+    padding: 5px 10px;
+}
+.exportButton {
+    background-color: #ddd;
+    margin-right: 10px;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
