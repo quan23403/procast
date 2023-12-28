@@ -172,12 +172,12 @@ export default function StudyRoadMap() {
             title: "Giảng viên",
             key: "teacher",
             render: (record: classesList) => {
-                const checkin = (checkinData?.data.data || []).find((item) => item.userId === teacherInfo?.user_id && dayjs(item.checkInTime).add(7, 'hour').format('DD/MM/YYYY') === record.date);
+                const checkin = (checkinData?.data.data || []).find((item) => item.userId === teacherInfo?.user_id && item.classId === record.class_id.toString());
                 const date = dayjs(`${record.date} ${record.start_time}`, 'DD/MM/YYYY HH:mm')
-                const checkinTime = dayjs(checkin?.checkInTime).add(7, 'hour').format('DD/MM/YYYY HH:mm:ss')
+                const checkinTime = dayjs(checkin?.checkInTime).format('DD/MM/YYYY HH:mm:ss')
                 return <span><span style={{marginRight: "8px"}}>{teacherInfo?.full_name}</span>
                 {checkin ? 
-                <small><br/>Đã checkin tại {checkinTime}</small>
+                <small><br/>Đã check-in tại {checkinTime}</small>
             : (dayjs(date).diff(dayjs(), 'minute') >= -30 
             && dayjs(date).diff(dayjs(), 'minute') <= 30
             &&(<Checkbox

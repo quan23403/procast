@@ -64,7 +64,7 @@ export default function MainHeader() {
         {
           label: (
             <Button rootClassName='border-none pl-0' onClick={onSalaryListNagivate}>
-              Bảng lương TA
+              Bảng lương
             </Button>
           ),
           key: 'setting:3'

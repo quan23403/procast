@@ -66,8 +66,9 @@ export default function AssistantCheckin(props: { record: classesList, checkin: 
     return (
         <>
             {record.ta?.map((item: { label: string, value: string }) => {
-                const user = record.checkin.find((user) => (user.userId === item.value && dayjs(user.checkInTime).add(7, 'hour').format('DD/MM/YYYY') === dayjs(record.date).format('DD/MM/YYYY')))
-                const checkinTime = user?.checkInTime ? dayjs(user.checkInTime).add(7, 'hour').format('DD/MM/YYYY HH:mm:ss') : ""
+                const user = record.checkin.find((user) => (user.userId === item.value && dayjs(user.checkInTime)
+                .format('DD/MM/YYYY') === dayjs(record.date).format('DD/MM/YYYY')))
+                const checkinTime = user?.checkInTime ? dayjs(user.checkInTime).format('DD/MM/YYYY HH:mm:ss') : ""
                 return (
                     <div key={item.value}>
                         <span style={{ marginRight: "8px" }}>{item.label}</span>
