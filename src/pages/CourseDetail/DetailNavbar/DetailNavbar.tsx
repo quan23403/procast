@@ -1,3 +1,4 @@
+import dayjs from 'dayjs'
 import { MouseEvent, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 
@@ -75,7 +76,7 @@ export default function DetailNavbar({ id }: {id: string}) {
             </a>
           </li>
         </ul>
-        <div className='time-system'>Time : 23/04/2003</div>
+        <div className='time-system'>Time : {dayjs().format('DD/MM/YYYY')}</div>
       </div>
     </>
   )

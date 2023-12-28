@@ -6,6 +6,7 @@ import classDeltailApi from "~/apis/classDetail.api";
 import { useParams } from "react-router-dom";
 import { RcFile } from "antd/es/upload";
 import { useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 interface ImportByExcelProps {
   closeModal: (value: boolean) => void;
 }
@@ -24,7 +25,8 @@ const ImportByExcel: React.FC<ImportByExcelProps> = ({closeModal}) => {
         formData.append('file', fileList[0] as RcFile)
         classDeltailApi.importStudentExcel(formData, id)
         .then( () => {
-          console.log("Thêm dữ liệu thành công")
+          // console.log("Thêm dữ liệu thành công")
+          toast.success("Thêm dữ liệu thành công")
           queryClient.invalidateQueries({
             queryKey: ['studentlistData']
           })

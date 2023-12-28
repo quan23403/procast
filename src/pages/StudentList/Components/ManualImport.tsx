@@ -6,6 +6,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import classDeltailApi from '~/apis/classDetail.api';
 import { useState } from 'react';
 import { StudentParam } from '~/types/student.type';
+import { toast } from 'react-toastify';
 interface ManualImportProps {
   closeModal: (value: boolean) => void;
 }
@@ -28,7 +29,7 @@ const ManualImport: React.FC<ManualImportProps> = ({closeModal }) => {
     console.log(formData)
     createNewStudent.mutate(undefined, {
       onSuccess: () => {
-        console.log("Thêm học viên thành công")
+        toast.success('Thêm học sinh thành công')
         form.resetFields()
         queryClient.invalidateQueries({
           queryKey: ['studentlistData']
@@ -36,7 +37,7 @@ const ManualImport: React.FC<ManualImportProps> = ({closeModal }) => {
         closeModal(false)
       },
       onError: (error) => {
-        console.log(error)
+        toast.error(`Thêm học sinh thất bại ${error}`)
       }
     })
   }

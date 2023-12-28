@@ -1,9 +1,7 @@
 import './ClassList.css'
 import { useState } from 'react'
-import Dropdown from './Dropdown'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import englishClassApi, { deleteCourse } from '~/apis/englishClass.api'
-import { nameLabelSeacrch, options1 } from '~/constants/nameLabelSearch'
 import CreateClassModal from '~/components/CreateClassModal'
 import { englishClass } from '~/types/englishClass.type'
 import { ExclamationCircleOutlined, FormOutlined } from '@ant-design/icons'
@@ -13,7 +11,6 @@ import { Button, Modal } from 'antd'
 import { toast } from 'react-toastify'
 export default function ClassList() {
   // const [selected, setSelected] = useState(nameLabelSeacrch[0])
-  const [selected1, setSelected1] = useState(nameLabelSeacrch[1])
   // const [selected2, setSelected2] = useState(nameLabelSeacrch[2])
   // const [selected3, setSelected3] = useState(nameLabelSeacrch[3])
   // const [selected4, setSelected4] = useState(nameLabelSeacrch[4])
@@ -75,34 +72,7 @@ export default function ClassList() {
             <button className='purple-btn'>Xuất Excel</button>
           </div>
         </div>
-        <div className='page-search pt-3'>
-          <div className='container-search-element'>
-            <input type='text' placeholder='Từ khóa' className='search-element'></input>
-          </div>
-          <div className='container-search-element'>
-            <label>Từ Ngày</label>
-            <input type='date' className='search-element'></input>
-          </div>
-          <div className='container-search-element'>
-            <label>Đến ngày</label>
-            <input type='date' className='search-element'></input>
-          </div>
-          {/* <div className='container-search-element'>
-            <Dropdown selected={selected} setSelected={setSelected} options={options} />
-          </div> */}
-          <div className='container-search-element'>
-            <Dropdown selected={selected1} setSelected={setSelected1} options={options1} />
-          </div>
-          {/* <div className='container-search-element'>
-            <Dropdown selected={selected2} setSelected={setSelected2} options={options2} />
-          </div> */}
-          {/* <div className='container-search-element'>
-            <Dropdown selected={selected3} setSelected={setSelected3} options={options3} />
-          </div> */}
-          {/* <div className='container-search-element'>
-            <Dropdown selected={selected4} setSelected={setSelected4} options={options4} />
-          </div> */}
-        </div>
+        
         <div className='page-content'>
           <div className='table-content'>
             <table className='table-checkbox'>

@@ -1,10 +1,9 @@
-import { useMutation } from '@tanstack/react-query'
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { Button, Form, Input, InputNumber } from 'antd'
 import ReactDOM from 'react-dom'
-import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import englishClassApi from '~/apis/englishClass.api'
-import path from '~/constants/path'
 
 interface Props {
   isOpen: boolean
@@ -15,7 +14,7 @@ interface Props {
 }
 export type ModifyType = Omit<Props, 'isOpen' | 'onClose'>
 export default function ModifyCourse({ isOpen, onClose, course_id, teacher, room }: Props) {
-  const navigate = useNavigate()
+  const queryClient = useQueryClient()
   const modalRoot = document.getElementById('root') as HTMLElement
   const modifyCourseMutation = useMutation({
     mutationFn: (body: ModifyType) => englishClassApi.modifyClass(body)
@@ -25,9 +24,7 @@ export default function ModifyCourse({ isOpen, onClose, course_id, teacher, room
     modifyCourseMutation.mutate(values, {
       onSuccess: (data) => {
         toast.success('Cập nhật khóa học thành công!')
-        navigate({
-          pathname: path.classList
-        })
+        queryClient.invalidateQueries({ queryKey: ['course'] })
         console.log(data)
         console.log(values)
       },

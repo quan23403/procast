@@ -8,7 +8,7 @@ class Http {
   instance: AxiosInstance
   private accessToken: string
   private profile: User
-  constructor(contenttype: string='application/json') {
+  constructor(contenttype: string = 'application/json') {
     this.accessToken = getAccessTokenFromLS()
     this.profile = getProfileFromLS()
     this.instance = axios.create({
@@ -68,4 +68,4 @@ class Http {
 const http = new Http().instance
 
 export default http
-export {Http}
+export { Http }
