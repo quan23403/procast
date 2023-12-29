@@ -56,7 +56,7 @@ export default function AssistantCheckin(props: { record: classesList, checkin: 
             return employeeApi.updateCheckin({
                 course_id: id || "",
                 class_id: record.class_id,
-                course_type_id: record.course_type,
+                course_type_id: record.course_type || "",
                 user_id: assistant,
             });
         },
