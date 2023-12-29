@@ -79,7 +79,6 @@ export default function MainHeader() {
   const [current, setCurrent] = useState('mail')
 
   const onClick: MenuProps['onClick'] = (e) => {
-    console.log('click ', e)
     setCurrent(e.key)
   }
   const [open, setOpen] = useState(false)

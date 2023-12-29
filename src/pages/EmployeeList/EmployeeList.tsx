@@ -220,7 +220,6 @@ export default function () {
   })
   const handleOk = () => {
     const formValues = form.getFieldsValue()
-    console.log(formValues)
     form.resetFields()
     addEmployeeMutation.mutate(formValues, {
       onSuccess: (data) => {

@@ -18,7 +18,6 @@ export default function ClassDetailLayout() {
       return classDetailApi.getClassDetail(queryConfig)
     }
   })
-  console.log(data)
   return (
     <div>
       <div className='course-label'>

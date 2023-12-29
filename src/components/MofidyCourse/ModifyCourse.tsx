@@ -26,13 +26,11 @@ export default function ModifyCourse({ isOpen, onClose, course_id, teacher, room
         toast.success('Cập nhật khóa học thành công!')
         queryClient.invalidateQueries({ queryKey: ['course'] })
         console.log(data)
-        console.log(values)
       },
       onError: (error) => {
         toast.error('Cập nhật khóa học không thành công ')
         setTimeout(() => onClose(), 1000)
         console.log(error)
-        console.log(values)
       }
     })
   }

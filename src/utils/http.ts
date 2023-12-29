@@ -24,7 +24,6 @@ class Http {
       (config) => {
         if (this.accessToken) {
           config.headers.Authorization = this.accessToken
-          console.log(config)
           return config
         }
         return config

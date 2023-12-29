@@ -26,7 +26,6 @@ const ManualImport: React.FC<ManualImportProps> = ({closeModal }) => {
   })
   const onFinish = (values: any) => {
     setFormData({...values, name: values.student_name, courseId: course_id})
-    console.log(formData)
     createNewStudent.mutate(undefined, {
       onSuccess: () => {
         toast.success('Thêm học sinh thành công')

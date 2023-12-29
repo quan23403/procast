@@ -49,7 +49,6 @@ export default function EditModal(props: { record: classesList }) {
       })
       
     const handleSubmit = (values: { date: string; shift: (string | number | Date | dayjs.Dayjs | null | undefined)[]; room: string; note: string; ta: {value: string, label: string}[] }) => {
-        console.log("values",values)
         const edit = form.isFieldsTouched(['date', 'shift', 'ta', 'room']);
         setFormData({
             class_id: record.class_id,
@@ -62,7 +61,6 @@ export default function EditModal(props: { record: classesList }) {
             assistant: values.ta.map((u)=>u.value)
         })
         // Handle the form submission logic here
-        console.log("form edit", formData);
         updateSession.mutate(undefined, {
             onSuccess: () => {
                 toast.success('Cập nhật thành công');

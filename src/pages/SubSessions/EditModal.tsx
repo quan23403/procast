@@ -4,26 +4,33 @@ import { DatePicker, Form, Input, Modal, Select, TimePicker } from "antd";
 import dayjs from "dayjs";
 import { useState } from "react";
 import employeeApi from "~/apis/employee.api";
-import { classesList, sessionsUpdate } from "~/types/classLists.type";
+import {  sessionsUpdate } from "~/types/classLists.type";
 import { employeeType } from "../EmployeeList/EmployeeList";
-import classDeltailApi from "~/apis/classDetail.api";
+import classDeltailApi, { subsessionsResponse } from "~/apis/classDetail.api";
 import { toast } from "react-toastify";
 
-export default function EditModal(props: { record: classesList }) {
-    const queryClient = useQueryClient();
+export default function EditModal(props: { record: subsessionsResponse }) {
+  const queryClient = useQueryClient();
+  const [openDeleteMap, setOpenDeleteMap] = useState(false);
+  const openDeleteModal = () => {
+    setOpenDeleteMap(true)
+  }
+  const closeDeleteModal = () => {
+    setOpenDeleteMap(false)
+  }
 
-    const record = {
-        ...props.record,
-        date: dayjs(props.record.date, 'DD/MM/YYYY'),
-        start_time: dayjs(props.record.start_time, 'HH:mm'),
-        end_time: dayjs(props.record.end_time, 'HH:mm'),
-        shift: [dayjs(props.record.start_time, 'HH:mm'), dayjs(props.record.end_time, 'HH:mm')]
-    };
-    const [form] = Form.useForm();
-    const [formData, setFormData] = useState<sessionsUpdate>({
-        class_id: record.class_id
-    })
-    const [openEditMap, setOpenEditMap] = useState(false);
+  const record = {
+    ...props.record,
+    date: dayjs(props.record.date, 'DD/MM/YYYY'),
+    start_time: dayjs(props.record.start_time, 'HH:mm'),
+    end_time: dayjs(props.record.end_time, 'HH:mm'),
+    shift: [dayjs(props.record.start_time, 'HH:mm'), dayjs(props.record.end_time, 'HH:mm')]
+  };
+  const [form] = Form.useForm();
+  const [formData, setFormData] = useState<sessionsUpdate>({
+    class_id: parseInt(record.class_id)
+  })
+  const [openEditMap, setOpenEditMap] = useState(false);
 
   const openEditModal = () => {
     setOpenEditMap(true)
@@ -40,42 +47,56 @@ export default function EditModal(props: { record: classesList }) {
     }
   })
 
-    const TAlist: employeeType[] = (data?.data?.data || []).map((item: employeeType) => ({
-        label: item.full_name,
-        value: item.user_id
-    }))
-    const updateSession = useMutation({
-        mutationFn: () => classDeltailApi.updateSession(formData)
-      })
-      
-    const handleSubmit = (values: { date: string; shift: (string | number | Date | dayjs.Dayjs | null | undefined)[]; room: string; note: string; ta: {value: string, label: string}[] }) => {
-        console.log("values",values)
-        const edit = form.isFieldsTouched(['date', 'shift', 'ta', 'room']);
-        setFormData({
-            class_id: record.class_id,
-            date: dayjs(values.date).format('YYYY-MM-DD'),
-            startTime: dayjs(values.shift[0]).format('HH:mm:ss'),
-            endTime: dayjs(values.shift[1]).format('HH:mm:ss'),
-            room: parseInt(values.room),
-            check: edit,
-            note: values.note,
-            assistant: values.ta.map((u)=>u.value)
-        })
-        // Handle the form submission logic here
-        console.log("form edit", formData);
-        updateSession.mutate(undefined, {
-            onSuccess: () => {
-                toast.success('Cập nhật thành công');
-                queryClient.invalidateQueries(['sessionData']);
-              closeEditModal();
-            },
-            onError: (error) => {
-                toast.error('Cập nhật thất bại');
-                console.log(error);
-            }
-          })
-        
-    };
+  const TAlist: employeeType[] = (data?.data?.data || []).map((item: employeeType) => ({
+    label: item.full_name,
+    value: item.user_id
+  }))
+  const updateSession = useMutation({
+    mutationFn: () => classDeltailApi.updateSession(formData)
+  })
+  const deleteSession = useMutation({
+    mutationFn: () => classDeltailApi.deleteSubsession({ class_id: record.class_id.toString() })
+  })
+  const handleDelete = () => {
+    deleteSession.mutate(undefined, {
+      onSuccess: () => {
+        toast.success('Xóa thành công');
+        queryClient.invalidateQueries(['sessionData']);
+        setOpenDeleteMap(false);
+      },
+      onError: (error) => {
+        toast.error('Xóa thất bại');
+        console.log(error);
+      }
+    })
+  }
+
+  const handleSubmit = (values: { date: string; shift: (string | number | Date | dayjs.Dayjs | null | undefined)[]; room: string; note: string; ta: { value: string, label: string }[] }) => {
+    const edit = form.isFieldsTouched(['date', 'shift', 'ta', 'room']);
+    setFormData({
+      class_id: record.class_id,
+      date: dayjs(values.date).format('YYYY-MM-DD'),
+      startTime: dayjs(values.shift[0]).format('HH:mm:ss'),
+      endTime: dayjs(values.shift[1]).format('HH:mm:ss'),
+      room: parseInt(values.room),
+      check: edit,
+      note: values.note,
+      assistant: [values.ta[0].value.toString()]
+    })
+    // Handle the form submission logic here
+    updateSession.mutate(undefined, {
+      onSuccess: () => {
+        toast.success('Cập nhật thành công');
+        queryClient.invalidateQueries(['sessionData']);
+        closeEditModal();
+      },
+      onError: (error) => {
+        toast.error('Cập nhật thất bại');
+        console.log(error);
+      }
+    })
+
+  };
 
   return (
     <div>
@@ -101,7 +122,7 @@ export default function EditModal(props: { record: classesList }) {
             <TimePicker.RangePicker format={'HH:mm'} />
           </Form.Item>
           <Form.Item label='TA được duyệt' name='ta'>
-            <Select mode='multiple' options={TAlist} labelInValue={true}></Select>
+            <Select options={TAlist} labelInValue={true}></Select>
           </Form.Item>
           <Form.Item label='Phòng học' name='room'>
             <Input type='number' />
@@ -111,9 +132,20 @@ export default function EditModal(props: { record: classesList }) {
           </Form.Item>
         </Form>
       </Modal>
-      <a title='Xóa buổi học'>
+      <a title='Xóa buổi học' onClick={openDeleteModal}>
         <DeleteOutlined style={{ fontSize: '24px', marginRight: '20px', color: 'red' }} />
+        
       </a>
+      <Modal
+          title='Xác nhận xóa buổi học'
+          open={openDeleteMap}
+          onOk={() => handleDelete()}
+          onCancel={() => closeDeleteModal()}
+          okText='Xóa'
+          cancelText='Hủy'
+        >
+          <p>Bạn có chắc chắn muốn xóa buổi học này?</p>
+        </Modal>
     </div>
   )
 }

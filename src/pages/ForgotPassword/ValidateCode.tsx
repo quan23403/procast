@@ -14,7 +14,6 @@ interface submitDataType {
   email: string
   digitCode: number
 }
-console.log(localStorage.getItem('userEmail'))
 export default function ValidateCode() {
   const {
     register,

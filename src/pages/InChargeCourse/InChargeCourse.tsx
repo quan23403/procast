@@ -33,7 +33,6 @@ export default function InChargeCourse() {
   const tableData: DataType[] = []
   const searchInput = useRef<InputRef>(null)
   const { data } = useQuery(['my-course'], () => getMyCourse())
-  console.log(data?.data.data)
   data?.data.data.map((classes: InChargeCourse, index: number) =>
     tableData.push({
       key: (index + 1).toString(),
@@ -44,7 +43,6 @@ export default function InChargeCourse() {
       location: classes.location
     })
   )
-  console.log(tableData)
   const handleSearch = (
     selectedKeys: string[],
     confirm: (param?: FilterConfirmProps) => void,

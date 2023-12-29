@@ -106,7 +106,6 @@ export default function StudyRoadMap() {
         };
     });
 
-    console.log(sessionsList.find((item)=> item.date === dayjs().format('DD/MM/YYYY')))
     
     const columns = [
         {

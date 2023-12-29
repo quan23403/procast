@@ -20,7 +20,6 @@ export default function UserSideNav() {
   const [current, setCurrent] = useState('profile')
 
   const onClick: MenuProps['onClick'] = (e) => {
-    console.log('click ', e)
     setCurrent(e.key)
   }
   return <Menu onClick={onClick} selectedKeys={[current]} mode='horizontal' items={items} rootClassName='mx-auto' />

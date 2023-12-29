@@ -59,7 +59,6 @@ export default function ClassList() {
     }
   })
   const { data } = useQuery(['course'], () => englishClassApi.getClass())
-  console.log(data?.data.data)
   return (
     <div>
       <div className='main-content'>

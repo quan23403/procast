@@ -8,7 +8,7 @@ export interface employeeConfig {
 }
 export interface checkinParam {
   course_id: string
-  class_id: number
+  class_id: number | string
   course_type_id: string
   user_id: string
 }

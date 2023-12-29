@@ -21,7 +21,6 @@ const ImportByExcel: React.FC<ImportByExcelProps> = ({closeModal}) => {
     const formData = new FormData();
     if(fileList.length === 1) {
         setUploading(true);
-        console.log(fileList[0] as RcFile)
         formData.append('file', fileList[0] as RcFile)
         classDeltailApi.importStudentExcel(formData, id)
         .then( () => {

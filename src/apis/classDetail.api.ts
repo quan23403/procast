@@ -1,10 +1,19 @@
 import { Dictionary } from 'lodash'
-import { classesList, sessionsUpdate } from '~/types/classLists.type'
+import { classesList, sessionsUpdate, subsessionsParam } from '~/types/classLists.type'
 import { englishClass } from '~/types/englishClass.type'
 import { CheckinParam, StudentCheckin, StudentParam, StudentsInfo} from '~/types/student.type'
 import { SuccessReponse } from '~/types/utils.type'
 import http, {Http} from '~/utils/http'
-
+export interface subsessionsResponse {
+  class_id: string;
+  start_time: string;
+  end_time: string;
+  date: string;
+  room: string;
+  ta_id: string;
+  name?: string;
+  ta?: {value: string, label: string}[];
+}
 const classDeltailApi = {
   getClassDetail(params: Dictionary<string | undefined>) {
     return http.get<SuccessReponse<englishClass>>('e/v1/class-info', { params })
@@ -37,6 +46,15 @@ const classDeltailApi = {
   },
   deleteStudent(params: {student_id: string, course_id: string}) {
     return http.delete('i/v1/delete-student', {data: params})
+  },
+  getSubsessionList(params: Dictionary<string | undefined>) {
+    return http.get<SuccessReponse<subsessionsResponse[]>>('e/v1/get-sub-class', {params})
+  },
+  addNewSubsession(params: subsessionsParam) {
+    return http.post('i/v1/add-sub-class', params)
+  },
+  deleteSubsession(params: {class_id: string}) {
+    return http.delete('i/v1/delete-sub-class', {data: params})
   }
 }
 export default classDeltailApi

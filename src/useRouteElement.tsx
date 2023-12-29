@@ -24,6 +24,7 @@ import InChargeCourse from './pages/InChargeCourse'
 import ForgotPassword from './pages/ForgotPassword/ForgotPassword'
 import ValidateCode from './pages/ForgotPassword/ValidateCode'
 import NewPassword from './pages/ForgotPassword/NewPassword'
+import SubSessions from './pages/SubSessions'
 
 // const isAuthenticated = true;
 function ProtectedRoute() {
@@ -145,6 +146,10 @@ export default function useRouteElements() {
             {
               path: path.classAttendance,
               element: <Attendance />
+            },
+            {
+              path: path.subsessions,
+              element: <SubSessions />
             }
           ]
         },

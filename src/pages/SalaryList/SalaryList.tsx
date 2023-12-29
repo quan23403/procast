@@ -77,7 +77,6 @@ export default function SalaryList() {
       return salaryApi.getSalary(queryConfig)
     }
   })
-  console.log(data)
   const courseTypes = Array.from(
     new Set(data?.data.data.flatMap((user) => user.salary_config.map((config) => config.course_type)))
   )

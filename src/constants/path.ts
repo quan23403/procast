@@ -18,6 +18,7 @@ const path = {
   inChargeCourse: '/my-course',
   forgotPassword: '/forgot-password',
   validateCode: '/validate-code',
-  setNewPassword: '/set-new-password'
+  setNewPassword: '/set-new-password',
+  subsessions: '/detail/id/:id/subsessions',
 }
 export default path

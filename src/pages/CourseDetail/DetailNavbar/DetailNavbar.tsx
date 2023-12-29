@@ -1,13 +1,7 @@
 import dayjs from 'dayjs'
-import { MouseEvent, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 
 export default function DetailNavbar({ id }: {id: string}) {
-  const [activeLink, setActiveLink] = useState('')
-  const handleClick = (id: string, event: MouseEvent<HTMLAnchorElement, globalThis.MouseEvent>) => {
-    event.preventDefault()
-    setActiveLink(id)
-  }
 
   return (
     <>
@@ -66,14 +60,18 @@ export default function DetailNavbar({ id }: {id: string}) {
             </NavLink>
           </li>
           <li>
-            <a
+            <NavLink
               id='sup-class'
-              className={activeLink === 'sup-class' ? 'active' : ''}
-              onClick={(e) => handleClick('sup-class', e)}
-              href=''
+              to={`/detail/id/${id.toString()}/subsessions`}
+              className='block bg-gray-300 mr-4 px-4 h-9 leading-9 rounded-md text-black hover:bg-slate-900'
+              style={({ isActive }) => {
+                return {
+                  backgroundColor: isActive ? 'yellow' : ''
+                }
+              }}
             >
               Bổ trợ
-            </a>
+            </NavLink>
           </li>
         </ul>
         <div className='time-system'>Time : {dayjs().format('DD/MM/YYYY')}</div>
