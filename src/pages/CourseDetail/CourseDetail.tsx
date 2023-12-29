@@ -7,6 +7,8 @@ import { useQuery } from '@tanstack/react-query'
 import { omitBy, isUndefined } from 'lodash'
 import classDetailApi from '~/apis/classDetail.api'
 import dayjs from 'dayjs'
+import employeeApi from '~/apis/employee.api'
+import { employeeType } from '../EmployeeList/EmployeeList'
 // import DetailNavbar from './DetailNavbar/DetailNavbar'
 
 export interface Course {
@@ -30,6 +32,13 @@ export default function CourseDetail() {
     }
   })
   const note: string | null = null
+  const { data: teacherdata } = useQuery({
+    queryKey: ['employee', 'Teacher'],
+    queryFn: () => {
+        return employeeApi.getEmployees({ job_position: 'Teacher' })
+    }
+})
+const teacherInfo:employeeType = (teacherdata?.data?.data || []).find((item: employeeType) => (item.user_name === data?.data.data.main_teacher));
   const detail = data?.data?.data || {
     course_id: null,
     course_name: null,
@@ -106,7 +115,7 @@ export default function CourseDetail() {
           <div className='col'>
             <div className='field'>Giảng viên:</div>
             {/* dùng for và el<br/> */}
-            <div className='detail'>{detail.main_teacher}</div>
+            <div className='detail'>{teacherInfo.full_name}</div>
           </div>
         </div>
         <div className='row'>
