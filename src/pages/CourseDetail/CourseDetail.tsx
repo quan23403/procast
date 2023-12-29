@@ -38,11 +38,12 @@ export default function CourseDetail() {
         return employeeApi.getEmployees({ job_position: 'Teacher' })
     }
 })
-const teacherInfo:employeeType = (teacherdata?.data?.data || []).find((item: employeeType) => (item.user_name === data?.data.data.main_teacher));
+const teacherInfo: employeeType = (teacherdata?.data?.data || []).find((item: employeeType) => (item.user_name === data?.data.data.main_teacher));
+
   const detail = data?.data?.data || {
     course_id: null,
     course_name: null,
-    main_teacher: null,
+    main_teacher: "",
     room: null,
     start_date: null,
     end_date: null,
@@ -115,7 +116,7 @@ const teacherInfo:employeeType = (teacherdata?.data?.data || []).find((item: emp
           <div className='col'>
             <div className='field'>Giảng viên:</div>
             {/* dùng for và el<br/> */}
-            <div className='detail'>{teacherInfo.full_name}</div>
+            <div className='detail'>{teacherInfo?.full_name}</div>
           </div>
         </div>
         <div className='row'>
