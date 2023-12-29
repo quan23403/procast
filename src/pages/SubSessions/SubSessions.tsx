@@ -195,16 +195,16 @@ export default function SubSessions() {
                 >
                     <Form
                         form={newSubForm}>
-                        <Form.Item label="Ngày" name="date">
-                            <DatePicker />
+                        <Form.Item label="Ngày" name="date" rules={[{ required: true, message: 'Yêu cầu nhập ngày' }]}>
+                            <DatePicker/>
                         </Form.Item>
-                        <Form.Item label="Ca học" name="shift">
+                        <Form.Item label="Ca học" name="shift" rules={[{required: true, message: 'Yêu cầu nhập ca học'}]}>
                             <TimePicker.RangePicker format={'HH:mm'} />
                         </Form.Item>
-                        <Form.Item label="Phòng học" name="room">
+                        <Form.Item label="Phòng học" name="room" rules={[{required: true, message: 'Yêu cầu nhập phòng học'}]}>
                             <Input type='number' />
                         </Form.Item>
-                        <Form.Item label="TA đứng lớp" name="ta">
+                        <Form.Item label="TA đứng lớp" name="ta" rules={[{required: true, message: 'Yêu cầu chọn TA'}]}>
                             <Select options={TAlist}></Select>
                         </Form.Item>
                     </Form>
