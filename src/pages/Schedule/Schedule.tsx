@@ -112,6 +112,7 @@ console.log(todayCourse)
                 backgroundColor: 'rgba(255, 255, 255, 0)',
               }}
             >
+              
               <Carousel autoplay>
                 {todayCourse.map((item) => (
                   <div style={{
@@ -133,6 +134,7 @@ console.log(todayCourse)
                       margin: '10px',
                     }}
                   >
+                    <h2 style={{ fontWeight: 'bold', fontSize: '20px' }}>Lớp hôm nay</h2>
                     <h2 style={{ fontWeight: 'bold', fontSize: '20px' }}>{item.course_name}</h2>
                     <p style={{ fontWeight: 'bold', fontSize: '16px' }}>{item.start_time.slice(0, 5)}-{item.end_time.slice(0, 5)}</p>
                     <Link to={`/detail/id/${item.course_id}/index`}>
