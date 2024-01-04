@@ -174,9 +174,8 @@ export default function StudyRoadMap() {
         {
             title: "Giảng viên",
             key: "teacher",
-            dataIndex: "teacher",
-            render: (_: any, record: classesList) => {
-                const checkin = (checkinData?.data.data || []).find((item) => item.userId === teacherInfo?.user_id && item.classId === record.class_id.toString());
+            render: (record: classesList) => {
+                const checkin = (checkinData?.data.data || []).find((item) => item.userId === teacherInfo?.user_id && item.classId.toString() === record.class_id.toString());
                 const date = dayjs(`${record.date} ${record.start_time}`, 'DD/MM/YYYY HH:mm')
                 const checkinTime = dayjs(checkin?.checkInTime).format('DD/MM/YYYY HH:mm:ss')
                 return <span><span style={{marginRight: "8px"}}>{teacherInfo?.full_name}</span>
