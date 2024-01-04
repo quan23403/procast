@@ -15,6 +15,7 @@ import { AlignType } from 'rc-table/lib/interface';
 import AssistantCheckin from './AssistantCheckin';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
+import { Excel } from 'antd-table-saveas-excel';
 
 
 // import DetailClassHeader from '~/components/DetailClassHeader';
@@ -94,6 +95,7 @@ export default function SubSessions() {
             end_time: item.end_time.slice(0, 5),
             name: `Buổi ${index + 1}`,
             ta: assistantInfo,
+            assistance: assistantInfo.map((item) => item.label).join(', ')
         };
     });
 
@@ -153,8 +155,9 @@ export default function SubSessions() {
         },
         {   
             title: 'TA đã được duyệt',
+            dataIndex: 'assistance',
             key: 'assistance',
-            render: (record: subsessionsResponse) => {
+            render: (_:any, record: subsessionsResponse) => {
                 return (
                     <AssistantCheckin record={record} checkin={checkinData?.data.data || []}></AssistantCheckin>
                 );
@@ -167,6 +170,33 @@ export default function SubSessions() {
         }
     ];
 
+    const exportExcel = () => {
+        const excel = new Excel();
+        const excelColumns = columns
+        .filter((column)=>column.dataIndex !== undefined)
+        .map(column => ({ ...column, dataIndex: column.dataIndex || '', align: 'left', render: (text: any) => (text || '').toString() }))
+        excelColumns.push({
+            dataIndex: 'start_time',
+            key: 'start_time',
+            title: 'Thời gian bắt đầu học',
+            width: 120,
+            align: 'left',
+            render: (text: any) => (text || '').toString(),
+        },
+        {
+            dataIndex: 'end_time',
+            key: 'end_time',
+            title: 'Thời gian kết thúc học',
+            width: 120,
+            align: 'left',
+            render: (text: any) => (text || '').toString(),
+        });
+        console.log(excelColumns)
+        excel.addSheet("Sheet1")
+        .addColumns(excelColumns.map(column => ({ ...column, align: "left" })))
+        .addDataSource(sessionsList)
+        .saveAs(`Danh sách lớp bổ trợ lớp ${id} .xlsx`)
+    }
 
     return (
         <div className="container-road-map">
@@ -176,10 +206,18 @@ export default function SubSessions() {
                     <h2 style={{ paddingLeft: "10px", fontWeight: "bold" }}>Danh sách lớp bổ trợ</h2>
                     <div className="items" style={{ padding: "15px", marginLeft: "auto" }}>
                         <Button
-                            className='addButton'
+                            className='addButton addNewStudent'
+                            style={{
+                                backgroundColor: '#f0db2d',
+                                fontFamily: 'inherit',
+                                fontSize: '100%',
+                                fontWeight: 'inherit',
+                                border: 'none',
+                                borderRadius: '5px',
+                            }}
                             onClick={() => openCreateModal()}
                         >Thêm mới</Button>
-                        <button className='exportButton'>Xuất Excel</button>
+                        <button onClick={exportExcel} className='exportButton'>Xuất Excel</button>
                     </div>
                 </div>
 

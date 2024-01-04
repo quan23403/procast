@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { classesList } from '~/types/classLists.type';
 import './StudyRoadMap.css'
@@ -13,6 +14,7 @@ import { employeeType } from '../EmployeeList/EmployeeList';
 import { AlignType} from 'rc-table/lib/interface';
 import AssistantCheckin from './AssistantCheckin';
 import { useState } from 'react';
+import { Excel } from 'antd-table-saveas-excel';
 
 
 // import DetailClassHeader from '~/components/DetailClassHeader';
@@ -103,6 +105,8 @@ export default function StudyRoadMap() {
             end_time: item.end_time.slice(0, 5),
             name: `Buổi ${index + 1}`,
             ta: assistants,
+            assistant: assistants.map((item: any) => item.label).join(', '),
+            teacher: teacherInfo?.full_name,
         };
     });
 
@@ -170,7 +174,8 @@ export default function StudyRoadMap() {
         {
             title: "Giảng viên",
             key: "teacher",
-            render: (record: classesList) => {
+            dataIndex: "teacher",
+            render: (_: any, record: classesList) => {
                 const checkin = (checkinData?.data.data || []).find((item) => item.userId === teacherInfo?.user_id && item.classId === record.class_id.toString());
                 const date = dayjs(`${record.date} ${record.start_time}`, 'DD/MM/YYYY HH:mm')
                 const checkinTime = dayjs(checkin?.checkInTime).format('DD/MM/YYYY HH:mm:ss')
@@ -189,8 +194,9 @@ export default function StudyRoadMap() {
         },
         {
             title: 'TA đã được duyệt',
+            dataIndex: 'assistant',
             key: 'assistance',
-            render: (record: classesList) => {
+            render: (_text:any, record: classesList) => {
                 return (
                     <AssistantCheckin record={ record} checkin= {checkinData?.data.data||[]}></AssistantCheckin>
                 );
@@ -203,6 +209,50 @@ export default function StudyRoadMap() {
         }
     ];
 
+    const exportExcel = () => {
+        const excel = new Excel();
+        const excelColumns = columns
+        .filter((column)=>column.dataIndex !== undefined)
+        .map(column => ({ ...column, dataIndex: column.dataIndex || '', align: 'left', render: (text: any) => (text || '').toString() }))
+        excelColumns.push({
+            dataIndex: 'start_time',
+            key: 'start_time',
+            title: 'Thời gian bắt đầu học',
+            width: 120,
+            align: 'left',
+            render: (text: any) => (text || '').toString(),
+        },
+        {
+            dataIndex: 'end_time',
+            key: 'end_time',
+            title: 'Thời gian kết thúc học',
+            width: 120,
+            align: 'left',
+            render: (text: any) => (text || '').toString(),
+        },
+        {
+            dataIndex: 'type_class',
+            key: 'type_class',
+            title: 'Nội dung',
+            width: 120,
+            align: 'left',
+            render: (text: any) => {
+                switch(text) {
+                    case "1":
+                        return "Học chính"
+                    case "2":
+                        return "Buổi bổ trợ"
+                    case "3": 
+                        return "Kiểm tra"
+                }
+            }   
+        });
+        console.log(excelColumns)
+        excel.addSheet("Sheet1")
+        .addColumns(excelColumns.map(column => ({ ...column, align: "left" })))
+        .addDataSource(sessionsList)
+        .saveAs(`Lộ trình học lớp ${id}.xlsx`);
+    }
 
     return (
         <div className="container-road-map">
@@ -211,7 +261,7 @@ export default function StudyRoadMap() {
                 <div className='title-road-list' style={{ display: "flex", alignItems: "center" }}>
                     <h2 style={{ paddingLeft: "10px", fontWeight: "bold" }}>Lộ trình học</h2>
                     <div className="items" style={{ padding: "15px", marginLeft: "auto" }}>
-                        <button className='exportButton'>Xuất Excel</button>
+                        <button onClick={exportExcel} className='exportButton'>Xuất Excel</button>
                     </div>
                 </div>
 

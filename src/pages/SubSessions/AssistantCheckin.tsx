@@ -18,7 +18,7 @@ export default function AssistantCheckin(props: { record: subsessionsResponse, c
         class_id: props.record.class_id,
         ta: props.record.ta,
         date: dayjs(`${props.record.date} ${props.record.start_time}`, 'DD/MM/YYYY HH:mm'),
-        checkin: props.checkin.filter((ses) => ses.classId == props.record.class_id.toString()),
+        checkin: props.checkin.filter((ses) => ses.classId == props.record.class_id?.toString()),
         course_type: "3"
     }
     const { profile } = useContext(AppConxtext)

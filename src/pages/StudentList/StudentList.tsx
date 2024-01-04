@@ -13,6 +13,8 @@ import classDetailApi from '~/apis/classDetail.api';
 import dayjs from 'dayjs';
 import { Modal as AntdModal } from 'antd';
 import { toast } from 'react-toastify';
+import { Excel } from "antd-table-saveas-excel";
+
 // import DetailClassHeader from '~/components/DetailClassHeader';
 export default function StudentList() {
     const [openModal, setOpenModal] = useState(false)
@@ -98,8 +100,8 @@ export default function StudentList() {
         }, {
             title: 'Tình trạng',
             key: 'status',
-            render: (record: StudentsInfo) => {
-                return record.status ? <span>{record.status}</span> : <span>Đang theo học</span>
+            render: () => {
+                return  <span>Đang theo học</span>
             }
         },
         {
@@ -154,6 +156,18 @@ export default function StudentList() {
             }
         }
     ]
+
+    const exportExcel = () => {
+        console.log("export excel")
+        const excel = new Excel();
+        excel.addSheet("Sheet1")
+            .addColumns(columns.filter(column => column.key !== 'action').map(column => ({ ...column, dataIndex: column.dataIndex || '' })))
+            .addDataSource(studentList)
+            .setTBodyStyle({fontSize: 11})
+            .setTHeadStyle({ fontSize: 11})
+            .saveAs(`Danh sách học sinh lớp ${id}.xlsx`);
+    }
+
     return (
         <div className="container-student-list">
             {/* <DetailClassHeader></DetailClassHeader> */}
@@ -163,7 +177,7 @@ export default function StudentList() {
                     <div className="items" style={{ padding: "15px", marginLeft: "auto" }}>
                         <button className='addNewStudent' onClick={() => { setOpenModal(true); }}>Thêm học viên</button>
                         {openModal && <Modal closeModal={setOpenModal} />}
-                        <button className='exportButton'>Xuất Excel</button>
+                        <button onClick={exportExcel} className='exportButton'>Xuất Excel</button>
                     </div>
                 </div>
                 <Table

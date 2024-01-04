@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom'
 import ModifyCourse from '~/components/MofidyCourse'
 import { Button, Modal } from 'antd'
 import { toast } from 'react-toastify'
+import { Excel } from 'antd-table-saveas-excel'
 export default function ClassList() {
   // const [selected, setSelected] = useState(nameLabelSeacrch[0])
   // const [selected2, setSelected2] = useState(nameLabelSeacrch[2])
@@ -59,6 +60,25 @@ export default function ClassList() {
     }
   })
   const { data } = useQuery(['course'], () => englishClassApi.getClass())
+
+  const exportExcel = () => {
+    const columns = [
+      {dataIndex: 'course_id', title: 'Mã lớp', key: 'course_id', width: 60},
+      {dataIndex: 'course_name', title: 'Khóa học', key: 'course_name', width: 80},
+      {dataIndex: 'main_teacher', title: 'Giáo viên', key: 'main_teacher'},
+      {dataIndex: 'room', title: 'Phòng học', key: 'room', width: 100},
+      {dataIndex: 'start_date', title: 'Ngày khai giảng', key: 'start_date'},
+      {dataIndex: 'end_date', title: 'Ngày kết thúc', key: 'end_date'},
+      {dataIndex: 'course_status', title: 'Tình trạng lớp học', key: 'course_status'},
+      {dataIndex: 'total_sessions', title: 'Số buổi học', key: 'total_sessions'},
+    ]
+    const dataSource = (data && data.data.data) || []
+    const excel = new Excel()
+    excel.addSheet('Sheet 1')
+    .addColumns(columns)
+    .addDataSource(dataSource)
+    .saveAs('Danh sách lớp học.xlsx')
+  }
   return (
     <div>
       <div className='main-content'>
@@ -68,7 +88,7 @@ export default function ClassList() {
             <button className='yellow-btn' onClick={() => openModal()}>
               Thêm mới
             </button>
-            <button className='purple-btn'>Xuất Excel</button>
+            <button onClick={exportExcel} className='purple-btn'>Xuất Excel</button>
           </div>
         </div>
         
