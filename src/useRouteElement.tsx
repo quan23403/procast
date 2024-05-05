@@ -25,15 +25,16 @@ import ForgotPassword from './pages/ForgotPassword/ForgotPassword'
 import ValidateCode from './pages/ForgotPassword/ValidateCode'
 import NewPassword from './pages/ForgotPassword/NewPassword'
 import SubSessions from './pages/SubSessions'
+import TuitionPayment from './pages/TuitionPayment'
 
-// const isAuthenticated = true;
+const isAuthenticated = true;
 function ProtectedRoute() {
-  const { isAuthenticated } = useContext(AppConxtext)
+  // const { isAuthenticated } = useContext(AppConxtext)
   // console.log(isAuthenticated)
   return isAuthenticated ? <Outlet /> : <Navigate to='/login' />
 }
 function RejectedRoute() {
-  const { isAuthenticated } = useContext(AppConxtext)
+  // const { isAuthenticated } = useContext(AppConxtext)
   return !isAuthenticated ? <Outlet /> : <Navigate to='/home' />
 }
 export default function useRouteElements() {
@@ -150,6 +151,10 @@ export default function useRouteElements() {
             {
               path: path.subsessions,
               element: <SubSessions />
+            },
+            {
+              path: path.tuitionPayment,
+              element: <TuitionPayment />
             }
           ]
         },

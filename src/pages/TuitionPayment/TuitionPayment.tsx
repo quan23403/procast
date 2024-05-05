@@ -1,10 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from 'react';
-import './StudentList.css'
-import Modal from './Components/Modal';
+// import './StudentList.css'
+// import Modal from ''''
 import { DeleteOutlined } from '@ant-design/icons'
 import { FormOutlined } from '@ant-design/icons'
-import { StudentsInfo } from '~/types/student.type';
+import { StudentsInfo, TuitionPaymentStatus } from '~/types/student.type';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Form, Input, Table } from 'antd';
 import { omitBy, isUndefined } from 'lodash';
@@ -14,9 +13,9 @@ import dayjs from 'dayjs';
 import { Modal as AntdModal } from 'antd';
 import { toast } from 'react-toastify';
 import { Excel } from "antd-table-saveas-excel";
+import Modal from '../StudentList/Components/Modal';
 
-// import DetailClassHeader from '~/components/DetailClassHeader';
-export default function StudentList() {
+export default function TuitionPayment() {
     const [openModal, setOpenModal] = useState(false)
     const [openEditMap, setOpenEditMap] = useState<Record<number, boolean>>({});
     const [openDeleteMap, setOpenDeleteMap] = useState<Record<number, boolean>>({});
@@ -45,12 +44,17 @@ export default function StudentList() {
     const { data: checkinData } = useQuery({
         queryKey: ['studentlistData', queryConfig],
         queryFn: () => {
-            return classDetailApi.getStudentList(queryConfig)
+            // return classDetailApi.getTuitionPayment(queryConfig)
+            return classDetailApi.getTuitionPayment();
+
         }
     })
-    const studentList: StudentsInfo[] = [...(checkinData?.data?.data ?? [])].map((item) => ({
+    // const studentList: StudentsInfo[] = [...(checkinData?.data?.data ?? [])].map((item) => ({
+    //     ...item,
+    //     dob: dayjs(item.dob).format('DD/MM/YYYY')
+    // }));
+    const tuitionPaymentList: TuitionPaymentStatus[] = [...(checkinData?.data ?? [])].map((item) => ({
         ...item,
-        dob: dayjs(item.dob).format('DD/MM/YYYY')
     }));
 
     const deleteStudent = useMutation({
@@ -60,7 +64,7 @@ export default function StudentList() {
         }
     })
     const onDelete = (studentId: string) => {
-        setDeleteStudent({ student_id: studentId, course_id: id || ""})
+        setDeleteStudent({ student_id: studentId, course_id: id || "" })
 
         deleteStudent.mutate(undefined, {
             onSuccess: () => {
@@ -76,8 +80,8 @@ export default function StudentList() {
 
     const columns = [
         {
-            title: '#', 
-            dataIndex: 'student_id',
+            title: '#',
+            dataIndex: 'studentId',
             key: 'id',
             width: 40
         },
@@ -98,13 +102,17 @@ export default function StudentList() {
             dataIndex: 'phone_number',
             key: 'phone',
         }, {
-            title: 'Tình trạng',
+            title: 'Tình trạng học phí',
             key: 'status',
-            render: () => {
-                return  <span>Đang theo học</span>
-            }
-        },
-        {
+            dataIndex: 'paymentStatus',
+            // render: () => {
+            //     return  <span>Đang theo học</span>
+            // }
+        }, {
+            title: 'Số tiền còn nợ',
+            key: 'remain',
+            dataIndex: 'remain',
+        }, {
             title: 'Công cụ',
             key: 'action',
             render: (record: StudentsInfo) => {
@@ -162,9 +170,9 @@ export default function StudentList() {
         const excel = new Excel();
         excel.addSheet("Sheet1")
             .addColumns(columns.filter(column => column.key !== 'action').map(column => ({ ...column, dataIndex: column.dataIndex || '' })))
-            .addDataSource(studentList)
-            .setTBodyStyle({fontSize: 11})
-            .setTHeadStyle({ fontSize: 11})
+            .addDataSource(tuitionPaymentList)
+            .setTBodyStyle({ fontSize: 11 })
+            .setTHeadStyle({ fontSize: 11 })
             .saveAs(`Danh sách học sinh lớp ${id}.xlsx`);
     }
 
@@ -181,7 +189,7 @@ export default function StudentList() {
                     </div>
                 </div>
                 <Table
-                    dataSource={studentList}
+                    dataSource={tuitionPaymentList}
                     columns={columns}
                     bordered={true}
                 ></Table>

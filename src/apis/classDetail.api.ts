@@ -14,6 +14,31 @@ export interface subsessionsResponse {
   name?: string;
   ta?: {value: string, label: string}[];
 }
+
+const fakeData = {
+  "data": [
+      {
+          "courseManagerId": 6,
+          "studentId": 12,
+          "remain": 99,
+          "paymentStatus": "NOT DONE"
+      },
+      {
+          "courseManagerId": 3,
+          "studentId": 7,
+          "remain": 2,
+          "paymentStatus": "NOT DONE"
+      },
+      {
+          "courseManagerId": 5,
+          "studentId": 11,
+          "remain": 0,
+          "paymentStatus": "DONE"
+      }
+  ],
+  "message": "Successful getting student payment status by course Id"
+} 
+
 const classDeltailApi = {
   getClassDetail(params: Dictionary<string | undefined>) {
     return http.get<SuccessReponse<englishClass>>('e/v1/class-info', { params })
@@ -55,6 +80,9 @@ const classDeltailApi = {
   },
   deleteSubsession(params: {class_id: string}) {
     return http.delete('i/v1/delete-sub-class', {data: params})
+  },
+  getTuitionPayment() {
+    return fakeData;
   }
 }
 export default classDeltailApi
