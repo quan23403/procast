@@ -9,7 +9,7 @@ import { Form, Input, Table } from 'antd';
 import { omitBy, isUndefined } from 'lodash';
 import { useParams } from 'react-router-dom';
 import classDetailApi from '~/apis/classDetail.api';
-import dayjs from 'dayjs';
+// import dayjs from 'dayjs';
 import { Modal as AntdModal } from 'antd';
 import { toast } from 'react-toastify';
 import { Excel } from "antd-table-saveas-excel";
