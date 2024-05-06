@@ -14,6 +14,7 @@ import { Modal as AntdModal } from 'antd';
 import { toast } from 'react-toastify';
 import { Excel } from "antd-table-saveas-excel";
 import Modal from '../StudentList/Components/Modal';
+import dayjs from 'dayjs';
 
 export default function TuitionPayment() {
     const [openModal, setOpenModal] = useState(false)
@@ -41,21 +42,44 @@ export default function TuitionPayment() {
         },
         isUndefined
     )
-    const { data: checkinData } = useQuery({
-        queryKey: ['studentlistData', queryConfig],
-        queryFn: () => {
-            // return classDetailApi.getTuitionPayment(queryConfig)
-            return classDetailApi.getTuitionPayment();
 
-        }
-    })
+    // const { data: checkinData } = useQuery({
+    //     queryKey: ['studentlistData', queryConfig],
+    //     queryFn: () => {
+    //         // return classDetailApi.getStudentList(queryConfig)
+    //         return classDetailApi.getStudentList(queryConfig)
+    //     }
+    // })
     // const studentList: StudentsInfo[] = [...(checkinData?.data?.data ?? [])].map((item) => ({
     //     ...item,
     //     dob: dayjs(item.dob).format('DD/MM/YYYY')
     // }));
-    const tuitionPaymentList: TuitionPaymentStatus[] = [...(checkinData?.data ?? [])].map((item) => ({
+
+    const { data: tuitionData } = useQuery({
+        queryKey: ['studentlistData', queryConfig],
+        queryFn: () => {
+            // return classDetailApi.getTuitionPayment(queryConfig)
+            return classDetailApi.getTuitionPayment();
+        }
+    })
+
+    const studentsInfo = [
+        { student_id: 1, student_name: 'Tong Duc Minh', email: 'tdm@123', phone: "0123456", dob: '123456' },
+        { student_id: 2, student_name: 'Tong Duc Minh 1', email: 'tdm@123', phone: "0123456", dob: '123456' },
+        { student_id: 3, student_name: 'Tong Duc Minh 2', email: 'tdm@123', phone: "0123456", dob: '123456' },
+        { student_id: 4, student_name: 'Tong Duc Minh 3', email: 'tdm@123', phone: "0123456", dob: '123456' }
+    ]
+
+    const tuitionPaymentList: TuitionPaymentStatus[] = [...(tuitionData?.data ?? [])].map((item) => ({
         ...item,
     }));
+
+    const mapList2 = new Map(tuitionPaymentList.map(item => [item.studentId, item]));
+    const mergedList = studentsInfo.map(item => ({
+        ...item,
+        ...mapList2.get(item.student_id) // Lấy đối tượng từ list2 theo trường key
+    }));
+
 
     const deleteStudent = useMutation({
         mutationKey: ['deleteStudent'],
@@ -81,7 +105,7 @@ export default function TuitionPayment() {
     const columns = [
         {
             title: '#',
-            dataIndex: 'studentId',
+            dataIndex: 'student_id',
             key: 'id',
             width: 40
         },
@@ -189,7 +213,7 @@ export default function TuitionPayment() {
                     </div>
                 </div>
                 <Table
-                    dataSource={tuitionPaymentList}
+                    dataSource={mergedList}
                     columns={columns}
                     bordered={true}
                 ></Table>
