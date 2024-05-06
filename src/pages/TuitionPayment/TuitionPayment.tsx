@@ -14,7 +14,7 @@ import { Modal as AntdModal } from 'antd';
 import { toast } from 'react-toastify';
 import { Excel } from "antd-table-saveas-excel";
 import Modal from '../StudentList/Components/Modal';
-import dayjs from 'dayjs';
+// import dayjs from 'dayjs';
 
 export default function TuitionPayment() {
     const [openModal, setOpenModal] = useState(false)
