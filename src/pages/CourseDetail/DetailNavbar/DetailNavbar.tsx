@@ -1,7 +1,7 @@
 import dayjs from 'dayjs'
 import { NavLink } from 'react-router-dom'
 
-export default function DetailNavbar({ id }: {id: string}) {
+export default function DetailNavbar({ id }: { id: string }) {
 
   return (
     <>
@@ -71,6 +71,20 @@ export default function DetailNavbar({ id }: {id: string}) {
               }}
             >
               Bổ trợ
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              id='sup-class'
+              to={`/detail/id/${id.toString()}/tuitionPayment`}
+              className='block bg-gray-300 mr-4 px-4 h-9 leading-9 rounded-md text-black hover:bg-slate-900'
+              style={({ isActive }) => {
+                return {
+                  backgroundColor: isActive ? 'yellow' : ''
+                }
+              }}
+            >
+              Tình trạng học phí
             </NavLink>
           </li>
         </ul>

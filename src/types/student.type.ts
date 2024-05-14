@@ -4,7 +4,7 @@ export interface StudentCheckin {
   dob: string
   note?: string
   checkIn: {
-    class_id: number 
+    class_id: number
     status: string
     date?: string
   }[]
@@ -20,8 +20,8 @@ export interface StudentsInfo {
   student_id: number
   student_name: string
   dob: string
-  email? : string
-  phone_number? : string
+  email?: string
+  phone_number?: string
   status?: string
 }
 
@@ -31,4 +31,11 @@ export interface StudentParam {
   dob: string,
   email: string,
   phone: string
+}
+
+export interface TuitionPaymentStatus {
+  courseManagerId: number,
+  studentId: number,
+  remain: number,
+  paymentStatus: string
 }
