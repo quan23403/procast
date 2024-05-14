@@ -10,7 +10,7 @@ export const resgisterAccount = (body: {
   password: string
 }) => http.post<AuthResponse>('/e/v1/register', body)
 
-export const login = (body: { email: string; password: string }) => http.post<AuthResponse>('/e/v1/login', body)
+export const login = () => http.get<AuthResponse>('/e/v1/login-third-party')
 
 export const logout = () => http.post('/logout')
 
