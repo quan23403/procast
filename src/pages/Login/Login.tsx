@@ -1,63 +1,83 @@
-import { useMutation } from '@tanstack/react-query'
-import { useForm } from 'react-hook-form'
-import { Link, createSearchParams, useNavigate } from 'react-router-dom'
+// import { useMutation, useQuery } from '@tanstack/react-query'
+// import { useForm } from 'react-hook-form'
+import { createSearchParams, useNavigate } from 'react-router-dom'
 import { login } from '~/apis/auth.api'
 import { AppConxtext } from '~/contexts/app.context'
-import { ErrorResponse } from '~/types/utils.type'
-import { getRules } from '~/utils/rules'
-import { isAxiosUnprocessableEntity } from '~/utils/utils'
+// import { ErrorResponse } from '~/types/utils.type'
+// import { getRules } from '~/utils/rules'
+// import { isAxiosUnprocessableEntity } from '~/utils/utils'
 import { useContext } from 'react'
-import Button from '~/components/Button'
+// import Button from '~/components/Button'
 import useFirstDayOfMonth from '~/hooks/useFirstDayOfMonth'
 import useLastDayOfMonth from '~/hooks/useLastDayOfMonth'
 import path from '~/constants/path'
-interface FormData {
-  email: string
-  password: string
-}
+import { Button } from "antd";
+import { useQuery } from '@tanstack/react-query'
+// interface FormData {
+//   email: string
+//   password: string
+// }
 export default function Login() {
   const { setIsAuthenticated, setProfile } = useContext(AppConxtext)
   const navigate = useNavigate()
   const startDate = useFirstDayOfMonth()
   const endDate = useLastDayOfMonth()
-  const {
-    register,
-    handleSubmit,
-    getValues,
-    setError,
-    formState: { errors }
-  } = useForm<FormData>()
-  const rules = getRules(getValues)
-  const loginMutation = useMutation({
-    mutationFn: (body: FormData) => login(body)
+  // const {
+  //   register,
+  //   handleSubmit,
+  //   getValues,
+  //   setError,
+  //   formState: { errors }
+  // } = useForm<FormData>()
+  // const rules = getRules(getValues)
+  // const loginMutation = useMutation({
+  //   mutationFn: () => login()
+  // })
+  // const loginMutation = useMutation(() => login());
+
+  const { data } = useQuery({
+    queryKey: ['salary'],
+    queryFn: () => login()
   })
-  const onSubmit = handleSubmit((data: FormData) => {
-    loginMutation.mutate(data, {
-      onSuccess: (data) => {
-        setIsAuthenticated(true)
-        setProfile(data.data.data.user)
-        navigate({
-          pathname: path.home,
-          search: createSearchParams({
-            fromDate: startDate,
-            toDate: endDate
-          }).toString()
-        })
-      },
-      onError: (error) => {
-        console.log(error)
-        if (isAxiosUnprocessableEntity<ErrorResponse<FormData>>(error)) {
-          const formError = error.response?.data.data
-          if (formError?.email) {
-            setError('email', {
-              message: formError.email,
-              type: 'server'
-            })
-          }
-        }
-      }
+  if (data) {
+    setIsAuthenticated(true)
+    setProfile(data.data.data.user)
+    navigate({
+      pathname: path.home,
+      search: createSearchParams({
+        fromDate: startDate,
+        toDate: endDate
+      }).toString()
     })
-  })
+  }
+  
+  // const onClick = () => {
+  //   // const requestData = null;{
+  //       onSuccess: (data) => {
+  //       setIsAuthenticated(true)
+  //       setProfile(data.data.data.user)
+  //       navigate({
+  //         pathname: path.home,
+  //         search: createSearchParams({
+  //           fromDate: startDate,
+  //           toDate: endDate
+  //         }).toString()
+  //       })
+  //     },
+  //     onError: (error) => {
+  //       console.log(error)
+  //       if (isAxiosUnprocessableEntity<ErrorResponse<FormData>>(error)) {
+  //         const formError = error.response?.data.data
+  //         if (formError?.email) {
+  //           setError('email', {
+  //             message: formError.email,
+  //             type: 'server'
+  //           })
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
   return (
     <div>
       <div className='flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 bg-slate-900 min-h-screen'>
@@ -68,9 +88,14 @@ export default function Login() {
         <div className='w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700'>
           <div className='p-6 space-y-4 md:space-y-6 sm:p-8'>
             <h1 className='text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white text-center'>
-              Đăng nhập
+              Welcome to our website
             </h1>
-            <form className='space-y-4 md:space-y-6' onSubmit={onSubmit} noValidate autoComplete='off'>
+            <div className='flex  justify-center align=center'>
+              <Button type="primary" href="http://localhost:8081/e/v1/login-third-party" target='blank' className='w-3/4 h-auto text-lg
+'>Sign In</Button>
+            </div>
+
+            {/* <form className='space-y-4 md:space-y-6' onSubmit={onSubmit} noValidate autoComplete='off'>
               <div>
                 <label htmlFor='email' className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'>
                   Tài khoản của bạn
@@ -137,7 +162,7 @@ export default function Login() {
                   Tạo tài khoản
                 </Link>
               </p>
-            </form>
+            </form> */}
           </div>
         </div>
       </div>

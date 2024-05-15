@@ -20,6 +20,7 @@ const path = {
   validateCode: '/validate-code',
   setNewPassword: '/set-new-password',
   subsessions: '/detail/id/:id/subsessions',
-  tuitionPayment: '/detail/id/:id/tuitionPayment' 
+  tuitionPayment: '/detail/id/:id/tuitionPayment',
+  report: '/report'
 }
 export default path

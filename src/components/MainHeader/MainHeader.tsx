@@ -3,7 +3,7 @@ import { useFloating, FloatingPortal } from '@floating-ui/react-dom-interactions
 import { AppConxtext } from '~/contexts/app.context'
 import { Link, createSearchParams, useNavigate } from 'react-router-dom'
 import { Button, Menu, type MenuProps } from 'antd'
-import { HomeOutlined, BookOutlined, TeamOutlined } from '@ant-design/icons'
+import { HomeOutlined, BookOutlined, TeamOutlined, PieChartOutlined } from '@ant-design/icons'
 import path from '~/constants/path'
 import useCurrentMonthYear from '~/hooks/useCurrentMonthYear'
 import useFirstDayOfMonth from '~/hooks/useFirstDayOfMonth'
@@ -74,6 +74,11 @@ export default function MainHeader() {
           key: 'setting:4'
         }
       ]
+    },
+    {
+      label: <Link to={path.report}>Báo cáo</Link>,
+      key: 'Report',
+      icon: <PieChartOutlined />
     }
   ]
   const [current, setCurrent] = useState('mail')
@@ -134,7 +139,7 @@ export default function MainHeader() {
                 >
                   <div
                     className='z-50 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600'
-                    // id='user-dropdown'
+                  // id='user-dropdown'
                   >
                     <div className='px-4 py-3 '>
                       <span className='block text-sm text-gray-900 dark:text-white'>
@@ -220,9 +225,9 @@ export default function MainHeader() {
               </ul>
             </div>
           </div>
-          <div             
-           style={{width:"30%"}}
->
+          <div
+            style={{ width: "30%" }}
+          >
             <Menu
               onClick={onClick}
               selectedKeys={[current]}

@@ -17,8 +17,8 @@ import Attendance from './pages/CourseDetail/Attendance'
 import StudentList from './pages/StudentList'
 import StudyRoadMap from './pages/StudyRoadMap'
 import ClassDetailLayout from './layouts/ClassDetailLayout'
-import { useContext } from 'react'
-import { AppConxtext } from './contexts/app.context'
+// import { useContext } from 'react'
+// import { AppConxtext } from './contexts/app.context'
 import EmployeeList from './pages/EmployeeList'
 import InChargeCourse from './pages/InChargeCourse'
 import ForgotPassword from './pages/ForgotPassword/ForgotPassword'
@@ -26,7 +26,7 @@ import ValidateCode from './pages/ForgotPassword/ValidateCode'
 import NewPassword from './pages/ForgotPassword/NewPassword'
 import SubSessions from './pages/SubSessions'
 import TuitionPayment from './pages/TuitionPayment'
-
+import Report from './pages/Report'
 const isAuthenticated = true;
 function ProtectedRoute() {
   // const { isAuthenticated } = useContext(AppConxtext)
@@ -34,7 +34,7 @@ function ProtectedRoute() {
   return isAuthenticated ? <Outlet /> : <Navigate to='/login' />
 }
 function RejectedRoute() {
-  // const { isAuthenticated } = useContext(AppConxtext)
+    // const { isAuthenticated } = useContext(AppConxtext)
   return !isAuthenticated ? <Outlet /> : <Navigate to='/home' />
 }
 export default function useRouteElements() {
@@ -103,6 +103,14 @@ export default function useRouteElements() {
           element: (
             <MainLayout>
               <Schedule />
+            </MainLayout>
+          )
+        },
+        {
+          path: path.report,
+          element:(
+            <MainLayout>
+              <Report />
             </MainLayout>
           )
         },
