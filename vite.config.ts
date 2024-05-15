@@ -5,9 +5,9 @@ import path from 'path'
 export default defineConfig({
   base: '/web/',
   plugins: [react()],
-  server: {
-    port: 3000
-  },
+  // server: {
+  //   port: 3000
+  // },
   css: {
     devSourcemap: true
   },
@@ -15,5 +15,24 @@ export default defineConfig({
     alias: {
       '~': path.resolve(__dirname, './src')
     }
+  },
+  build: {
+    // Ensure that the build target is set to 'esnext' or 'esnext' for modern browsers
+    target: 'esnext',
+    // Ensure that assets are correctly resolved
+    assetsInlineLimit: 0,
   }
 })
+
+
+// function reactRefresh(): import("vite").PluginOption {
+//   throw new Error('Function not implemented.')
+// }
+// vite.config.js
+
+// import { defineConfig } from 'vite';
+
+// export default defineConfig({
+//   plugins: [reactRefresh()],
+
+// });
