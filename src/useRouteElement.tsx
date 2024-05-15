@@ -30,12 +30,12 @@ import Report from './pages/Report'
 import Loading from './pages/Loading/Loading'
 const isAuthenticated = true;
 function ProtectedRoute() {
-  const { isAuthenticated } = useContext(AppConxtext)
+  // const { isAuthenticated } = useContext(AppConxtext)
   // console.log(isAuthenticated)
   return isAuthenticated ? <Outlet /> : <Navigate to='/login' />
 }
 function RejectedRoute() {
-    const { isAuthenticated } = useContext(AppConxtext)
+    // const { isAuthenticated } = useContext(AppConxtext)
   return !isAuthenticated ? <Outlet /> : <Navigate to='/home' />
 }
 export default function useRouteElements() {
